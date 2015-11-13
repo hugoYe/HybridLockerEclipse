@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config version="1.0">
+<app className="com.coco.lock2.app.Pee.InsideLockActivity" >
+	    <viewWrap className="com.coco.lock2.app.Pee.ViewWrap" />
+	     <reflection value="true"/>
+    <thumb path="thumb.png" />
+    <preview path="preview" />
+   
+    <setting className="" />
+    <author name="cooee" />
+    <updatetime value="2013-01-07" />
+    <introduction>前方有火光，森林很危险！小宝宝挺身而出，向远方抛出一道美丽的弧线，火终于熄灭了，森林又恢复了往日的宁静。</introduction>
+        <introductionEn>
+In front of the fire, the forest is very dangerous! Baby 
+to come forward, throws a beautiful arc to the distance, 
+the fire was finally extinguished, the forest and restore 
+the tranquility of the past.
+</introductionEn>
+    </app>
+</config>

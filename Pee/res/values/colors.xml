@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <color name="transparent">#0000</color>
+ <color name="app_separator">#747474</color>
+ <color name="prompt_color">#C5C5C5</color>
+ 
+</resources>
+
+

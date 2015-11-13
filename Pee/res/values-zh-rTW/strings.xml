@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">撒尿小孩</string>
+     <string name="app_name1">撒尿小孩</string>
+	<string name="download_title">下載CoCo鎖屏</string>
+    <string name="download_info">提示：當前系統沒有安裝CoCo鎖屏，是否立即安裝？</string>
+    <string name="download">下載</string>
+    <string name="download_later">稍後下載</string>
+    <string name="downloading">正在下載</string>
+    <string name="download_cancel">取消</string>
+    <string name="server_download_file_name">CoCo鎖屏</string>
+    
+    <string name="server_begin_download">開始鎖屏</string>
+	<string name="server_download_finish">下載完成，點擊安裝</string>
+	<string name="server_download_fail">下載失敗</string>
+	<string name="server_downloading">正在下載</string>
+	<string name="timeformat">MM月dd日</string>
+	<string name="shuzi">日一二三四五六</string>
+	<string name="date">月日周</string>
+
+	
+</resources>

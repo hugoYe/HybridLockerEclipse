@@ -1,0 +1,898 @@
+android.annotation.SuppressLint
+android.annotation.TargetApi
+android.support.annotation.AnimRes
+android.support.annotation.AnimatorRes
+android.support.annotation.AnyRes
+android.support.annotation.ArrayRes
+android.support.annotation.AttrRes
+android.support.annotation.BoolRes
+android.support.annotation.ColorRes
+android.support.annotation.DimenRes
+android.support.annotation.DrawableRes
+android.support.annotation.FractionRes
+android.support.annotation.IdRes
+android.support.annotation.IntDef
+android.support.annotation.IntegerRes
+android.support.annotation.InterpolatorRes
+android.support.annotation.LayoutRes
+android.support.annotation.MenuRes
+android.support.annotation.NonNull
+android.support.annotation.Nullable
+android.support.annotation.PluralsRes
+android.support.annotation.RawRes
+android.support.annotation.StringDef
+android.support.annotation.StringRes
+android.support.annotation.StyleRes
+android.support.annotation.StyleableRes
+android.support.annotation.XmlRes
+android.support.v4.accessibilityservice.AccessibilityServiceInfoCompat:
+    public static final int CAPABILITY_CAN_RETRIEVE_WINDOW_CONTENT
+    public static final int CAPABILITY_CAN_REQUEST_TOUCH_EXPLORATION
+    public static final int CAPABILITY_CAN_REQUEST_ENHANCED_WEB_ACCESSIBILITY
+    public static final int CAPABILITY_CAN_FILTER_KEY_EVENTS
+    public static final int FEEDBACK_BRAILLE
+    public static final int FEEDBACK_ALL_MASK
+    public static final int DEFAULT
+    public static final int FLAG_INCLUDE_NOT_IMPORTANT_VIEWS
+    public static final int FLAG_REQUEST_TOUCH_EXPLORATION_MODE
+    public static final int FLAG_REQUEST_ENHANCED_WEB_ACCESSIBILITY
+    public static final int FLAG_REPORT_VIEW_IDS
+    public static final int FLAG_REQUEST_FILTER_KEY_EVENTS
+android.support.v4.app.ActionBarDrawerToggle:
+    private static final float TOGGLE_DRAWABLE_OFFSET
+    private static final int ID_HOME
+android.support.v4.app.ActionBarDrawerToggleHoneycomb:
+    private static final java.lang.String TAG
+android.support.v4.app.ActionBarDrawerToggleJellybeanMR2:
+    private static final java.lang.String TAG
+android.support.v4.app.ActivityCompatHoneycomb:
+    34:35:static void dump(android.app.Activity,java.lang.String,java.io.FileDescriptor,java.io.PrintWriter,java.lang.String[])
+android.support.v4.app.BackStackRecord:
+    static final java.lang.String TAG
+    static final int OP_NULL
+    static final int OP_ADD
+    static final int OP_REPLACE
+    static final int OP_REMOVE
+    static final int OP_HIDE
+    static final int OP_SHOW
+    static final int OP_DETACH
+    static final int OP_ATTACH
+android.support.v4.app.DialogFragment:
+    public static final int STYLE_NORMAL
+    public static final int STYLE_NO_TITLE
+    public static final int STYLE_NO_FRAME
+    public static final int STYLE_NO_INPUT
+    private static final java.lang.String SAVED_DIALOG_STATE_TAG
+    private static final java.lang.String SAVED_STYLE
+    private static final java.lang.String SAVED_THEME
+    private static final java.lang.String SAVED_CANCELABLE
+    private static final java.lang.String SAVED_SHOWS_DIALOG
+    private static final java.lang.String SAVED_BACK_STACK_ID
+android.support.v4.app.Fragment:
+    static final int INITIALIZING
+    static final int CREATED
+    static final int ACTIVITY_CREATED
+    static final int STOPPED
+    static final int STARTED
+    static final int RESUMED
+android.support.v4.app.FragmentActivity:
+    private static final java.lang.String TAG
+    static final java.lang.String FRAGMENTS_TAG
+    private static final int HONEYCOMB
+    static final int MSG_REALLY_STOPPED
+    static final int MSG_RESUME_PENDING
+android.support.v4.app.FragmentActivity$FragmentTag:
+    public static final int Fragment_id
+    public static final int Fragment_name
+    public static final int Fragment_tag
+android.support.v4.app.FragmentManager:
+    public static final int POP_BACK_STACK_INCLUSIVE
+android.support.v4.app.FragmentManagerImpl:
+    static final java.lang.String TAG
+    static final java.lang.String TARGET_REQUEST_CODE_STATE_TAG
+    static final java.lang.String TARGET_STATE_TAG
+    static final java.lang.String VIEW_STATE_TAG
+    static final java.lang.String USER_VISIBLE_HINT_TAG
+    static final int ANIM_DUR
+    public static final int ANIM_STYLE_OPEN_ENTER
+    public static final int ANIM_STYLE_OPEN_EXIT
+    public static final int ANIM_STYLE_CLOSE_ENTER
+    public static final int ANIM_STYLE_CLOSE_EXIT
+    public static final int ANIM_STYLE_FADE_ENTER
+    public static final int ANIM_STYLE_FADE_EXIT
+android.support.v4.app.FragmentPagerAdapter:
+    private static final java.lang.String TAG
+    private static final boolean DEBUG
+android.support.v4.app.FragmentStatePagerAdapter:
+    private static final java.lang.String TAG
+    private static final boolean DEBUG
+android.support.v4.app.FragmentTransaction:
+    public static final int TRANSIT_ENTER_MASK
+    public static final int TRANSIT_EXIT_MASK
+    public static final int TRANSIT_UNSET
+    public static final int TRANSIT_NONE
+    public static final int TRANSIT_FRAGMENT_OPEN
+    public static final int TRANSIT_FRAGMENT_CLOSE
+    public static final int TRANSIT_FRAGMENT_FADE
+android.support.v4.app.INotificationSideChannel$Stub:
+    private static final java.lang.String DESCRIPTOR
+    static final int TRANSACTION_notify
+    static final int TRANSACTION_cancel
+    static final int TRANSACTION_cancelAll
+android.support.v4.app.ListFragment:
+    static final int INTERNAL_EMPTY_ID
+    static final int INTERNAL_PROGRESS_CONTAINER_ID
+    static final int INTERNAL_LIST_CONTAINER_ID
+android.support.v4.app.LoaderManagerImpl:
+    static final java.lang.String TAG
+    boolean mRetainingStarted
+android.support.v4.app.NavUtils:
+    private static final java.lang.String TAG
+    public static final java.lang.String PARENT_ACTIVITY
+android.support.v4.app.NotificationCompat:
+    public static final int DEFAULT_ALL
+    public static final int DEFAULT_SOUND
+    public static final int DEFAULT_VIBRATE
+    public static final int DEFAULT_LIGHTS
+    public static final int STREAM_DEFAULT
+    public static final int FLAG_SHOW_LIGHTS
+    public static final int FLAG_ONGOING_EVENT
+    public static final int FLAG_INSISTENT
+    public static final int FLAG_ONLY_ALERT_ONCE
+    public static final int FLAG_AUTO_CANCEL
+    public static final int FLAG_NO_CLEAR
+    public static final int FLAG_FOREGROUND_SERVICE
+    public static final int FLAG_HIGH_PRIORITY
+    public static final int FLAG_LOCAL_ONLY
+    public static final int FLAG_GROUP_SUMMARY
+    public static final int PRIORITY_DEFAULT
+    public static final int PRIORITY_LOW
+    public static final int PRIORITY_MIN
+    public static final int PRIORITY_HIGH
+    public static final int PRIORITY_MAX
+    public static final java.lang.String EXTRA_TITLE
+    public static final java.lang.String EXTRA_TITLE_BIG
+    public static final java.lang.String EXTRA_TEXT
+    public static final java.lang.String EXTRA_SUB_TEXT
+    public static final java.lang.String EXTRA_INFO_TEXT
+    public static final java.lang.String EXTRA_SUMMARY_TEXT
+    public static final java.lang.String EXTRA_SMALL_ICON
+    public static final java.lang.String EXTRA_LARGE_ICON
+    public static final java.lang.String EXTRA_LARGE_ICON_BIG
+    public static final java.lang.String EXTRA_PROGRESS
+    public static final java.lang.String EXTRA_PROGRESS_MAX
+    public static final java.lang.String EXTRA_PROGRESS_INDETERMINATE
+    public static final java.lang.String EXTRA_SHOW_CHRONOMETER
+    public static final java.lang.String EXTRA_PICTURE
+    public static final java.lang.String EXTRA_TEXT_LINES
+    public static final java.lang.String EXTRA_PEOPLE
+android.support.v4.app.NotificationCompat$Action$WearableExtender:
+    private static final java.lang.String EXTRA_WEARABLE_EXTENSIONS
+    private static final java.lang.String KEY_FLAGS
+    private static final int FLAG_AVAILABLE_OFFLINE
+    private static final int DEFAULT_FLAGS
+android.support.v4.app.NotificationCompat$WearableExtender:
+    public static final int UNSET_ACTION_INDEX
+    public static final int SIZE_DEFAULT
+    public static final int SIZE_XSMALL
+    public static final int SIZE_SMALL
+    public static final int SIZE_MEDIUM
+    public static final int SIZE_LARGE
+    public static final int SIZE_FULL_SCREEN
+    private static final java.lang.String EXTRA_WEARABLE_EXTENSIONS
+    private static final java.lang.String KEY_ACTIONS
+    private static final java.lang.String KEY_FLAGS
+    private static final java.lang.String KEY_DISPLAY_INTENT
+    private static final java.lang.String KEY_PAGES
+    private static final java.lang.String KEY_BACKGROUND
+    private static final java.lang.String KEY_CONTENT_ICON
+    private static final java.lang.String KEY_CONTENT_ICON_GRAVITY
+    private static final java.lang.String KEY_CONTENT_ACTION_INDEX
+    private static final java.lang.String KEY_CUSTOM_SIZE_PRESET
+    private static final java.lang.String KEY_CUSTOM_CONTENT_HEIGHT
+    private static final java.lang.String KEY_GRAVITY
+    private static final int FLAG_CONTENT_INTENT_AVAILABLE_OFFLINE
+    private static final int FLAG_HINT_HIDE_ICON
+    private static final int FLAG_HINT_SHOW_BACKGROUND_ONLY
+    private static final int FLAG_START_SCROLL_BOTTOM
+    private static final int DEFAULT_FLAGS
+    private static final int DEFAULT_CONTENT_ICON_GRAVITY
+    private static final int DEFAULT_GRAVITY
+android.support.v4.app.NotificationCompatExtras:
+    public static final java.lang.String EXTRA_LOCAL_ONLY
+    public static final java.lang.String EXTRA_GROUP_KEY
+    public static final java.lang.String EXTRA_GROUP_SUMMARY
+    public static final java.lang.String EXTRA_SORT_KEY
+    public static final java.lang.String EXTRA_ACTION_EXTRAS
+    public static final java.lang.String EXTRA_REMOTE_INPUTS
+android.support.v4.app.NotificationCompatJellybean:
+    public static final java.lang.String TAG
+    static final java.lang.String EXTRA_LOCAL_ONLY
+    static final java.lang.String EXTRA_ACTION_EXTRAS
+    static final java.lang.String EXTRA_REMOTE_INPUTS
+    static final java.lang.String EXTRA_GROUP_KEY
+    static final java.lang.String EXTRA_GROUP_SUMMARY
+    static final java.lang.String EXTRA_SORT_KEY
+    static final java.lang.String EXTRA_USE_SIDE_CHANNEL
+    private static final java.lang.String KEY_ICON
+    private static final java.lang.String KEY_TITLE
+    private static final java.lang.String KEY_ACTION_INTENT
+    private static final java.lang.String KEY_EXTRAS
+    private static final java.lang.String KEY_REMOTE_INPUTS
+android.support.v4.app.NotificationCompatSideChannelService:
+    private static final int BUILD_VERSION_CODE_KITKAT_WATCH
+android.support.v4.app.NotificationManagerCompat:
+    private static final java.lang.String TAG
+    public static final java.lang.String EXTRA_USE_SIDE_CHANNEL
+    public static final java.lang.String ACTION_BIND_SIDE_CHANNEL
+    private static final int SIDE_CHANNEL_RETRY_BASE_INTERVAL_MS
+    private static final int SIDE_CHANNEL_RETRY_MAX_COUNT
+    private static final java.lang.String SETTING_ENABLED_NOTIFICATION_LISTENERS
+android.support.v4.app.NotificationManagerCompat$SideChannelManager:
+    private static final int MSG_QUEUE_TASK
+    private static final int MSG_SERVICE_CONNECTED
+    private static final int MSG_SERVICE_DISCONNECTED
+    private static final int MSG_RETRY_LISTENER_QUEUE
+    private static final java.lang.String KEY_BINDER
+android.support.v4.app.NotificationManagerCompatIceCreamSandwich:
+    static final int SIDE_CHANNEL_BIND_FLAGS
+android.support.v4.app.RemoteInput:
+    private static final java.lang.String TAG
+    public static final java.lang.String RESULTS_CLIP_LABEL
+    public static final java.lang.String EXTRA_RESULTS_DATA
+android.support.v4.app.RemoteInputCompatJellybean:
+    public static final java.lang.String RESULTS_CLIP_LABEL
+    public static final java.lang.String EXTRA_RESULTS_DATA
+    private static final java.lang.String KEY_RESULT_KEY
+    private static final java.lang.String KEY_LABEL
+    private static final java.lang.String KEY_CHOICES
+    private static final java.lang.String KEY_ALLOW_FREE_FORM_INPUT
+    private static final java.lang.String KEY_EXTRAS
+android.support.v4.app.ServiceCompat:
+    public static final int START_STICKY
+android.support.v4.app.ShareCompat:
+    public static final java.lang.String EXTRA_CALLING_PACKAGE
+    public static final java.lang.String EXTRA_CALLING_ACTIVITY
+android.support.v4.app.ShareCompat$IntentReader:
+    private static final java.lang.String TAG
+android.support.v4.app.ShareCompatICS:
+    private static final java.lang.String HISTORY_FILENAME_PREFIX
+android.support.v4.app.TaskStackBuilder:
+    private static final java.lang.String TAG
+android.support.v4.content.AsyncTaskLoader:
+    static final java.lang.String TAG
+    static final boolean DEBUG
+android.support.v4.content.ContextCompat:
+    private static final java.lang.String DIR_ANDROID
+    private static final java.lang.String DIR_DATA
+    private static final java.lang.String DIR_OBB
+    private static final java.lang.String DIR_FILES
+    private static final java.lang.String DIR_CACHE
+android.support.v4.content.FileProvider:
+    private static final java.lang.String META_DATA_FILE_PROVIDER_PATHS
+    private static final java.lang.String TAG_ROOT_PATH
+    private static final java.lang.String TAG_FILES_PATH
+    private static final java.lang.String TAG_CACHE_PATH
+    private static final java.lang.String TAG_EXTERNAL
+    private static final java.lang.String ATTR_NAME
+    private static final java.lang.String ATTR_PATH
+android.support.v4.content.IntentCompat:
+    public static final java.lang.String ACTION_EXTERNAL_APPLICATIONS_AVAILABLE
+    public static final java.lang.String ACTION_EXTERNAL_APPLICATIONS_UNAVAILABLE
+    public static final java.lang.String EXTRA_CHANGED_PACKAGE_LIST
+    public static final java.lang.String EXTRA_CHANGED_UID_LIST
+    public static final java.lang.String EXTRA_HTML_TEXT
+    public static final int FLAG_ACTIVITY_TASK_ON_HOME
+    public static final int FLAG_ACTIVITY_CLEAR_TASK
+android.support.v4.content.LocalBroadcastManager:
+    private static final java.lang.String TAG
+    private static final boolean DEBUG
+    static final int MSG_EXEC_PENDING_BROADCASTS
+android.support.v4.content.ModernAsyncTask:
+    private static final java.lang.String LOG_TAG
+    private static final int CORE_POOL_SIZE
+    private static final int MAXIMUM_POOL_SIZE
+    private static final int KEEP_ALIVE
+    private static final int MESSAGE_POST_RESULT
+    private static final int MESSAGE_POST_PROGRESS
+    451:455:protected final varargs void publishProgress(java.lang.Object[])
+android.support.v4.content.WakefulBroadcastReceiver:
+    private static final java.lang.String EXTRA_WAKE_LOCK_ID
+android.support.v4.content.pm.ActivityInfoCompat:
+    public static final int CONFIG_UI_MODE
+android.support.v4.hardware.display.DisplayManagerCompat:
+    public static final java.lang.String DISPLAY_CATEGORY_PRESENTATION
+android.support.v4.internal.view.SupportMenu:
+    public static final int USER_MASK
+    public static final int USER_SHIFT
+    public static final int CATEGORY_MASK
+    public static final int CATEGORY_SHIFT
+android.support.v4.internal.view.SupportMenuItem:
+    public static final int SHOW_AS_ACTION_NEVER
+    public static final int SHOW_AS_ACTION_IF_ROOM
+    public static final int SHOW_AS_ACTION_ALWAYS
+    public static final int SHOW_AS_ACTION_WITH_TEXT
+    public static final int SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+android.support.v4.media.TransportMediator:
+    public static final int KEYCODE_MEDIA_PLAY
+    public static final int KEYCODE_MEDIA_PAUSE
+    public static final int KEYCODE_MEDIA_RECORD
+    public static final int FLAG_KEY_MEDIA_PREVIOUS
+    public static final int FLAG_KEY_MEDIA_REWIND
+    public static final int FLAG_KEY_MEDIA_PLAY
+    public static final int FLAG_KEY_MEDIA_PLAY_PAUSE
+    public static final int FLAG_KEY_MEDIA_PAUSE
+    public static final int FLAG_KEY_MEDIA_STOP
+    public static final int FLAG_KEY_MEDIA_FAST_FORWARD
+    public static final int FLAG_KEY_MEDIA_NEXT
+android.support.v4.media.TransportPerformer:
+    static final int AUDIOFOCUS_GAIN
+    static final int AUDIOFOCUS_GAIN_TRANSIENT
+    static final int AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
+    static final int AUDIOFOCUS_LOSS
+    static final int AUDIOFOCUS_LOSS_TRANSIENT
+    static final int AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
+android.support.v4.os.EnvironmentCompat:
+    private static final java.lang.String TAG
+    public static final java.lang.String MEDIA_UNKNOWN
+android.support.v4.print.PrintHelper:
+    public static final int SCALE_MODE_FIT
+    public static final int SCALE_MODE_FILL
+    public static final int COLOR_MODE_MONOCHROME
+    public static final int COLOR_MODE_COLOR
+    public static final int ORIENTATION_LANDSCAPE
+    public static final int ORIENTATION_PORTRAIT
+android.support.v4.print.PrintHelperKitkat:
+    private static final java.lang.String LOG_TAG
+    private static final int MAX_PRINT_SIZE
+    public static final int SCALE_MODE_FIT
+    public static final int SCALE_MODE_FILL
+    public static final int ORIENTATION_LANDSCAPE
+    public static final int ORIENTATION_PORTRAIT
+    public static final int COLOR_MODE_MONOCHROME
+    public static final int COLOR_MODE_COLOR
+android.support.v4.text.BidiFormatter:
+    private static final char LRE
+    private static final char RLE
+    private static final char PDF
+    private static final char LRM
+    private static final char RLM
+    private static final java.lang.String EMPTY_STRING
+    private static final int FLAG_STEREO_RESET
+    private static final int DEFAULT_FLAGS
+    private static final int DIR_LTR
+    private static final int DIR_UNKNOWN
+    private static final int DIR_RTL
+android.support.v4.text.BidiFormatter$DirectionalityEstimator:
+    private static final int DIR_TYPE_CACHE_SIZE
+android.support.v4.text.ICUCompatIcs:
+    private static final java.lang.String TAG
+android.support.v4.text.TextDirectionHeuristicsCompat:
+    private static final int STATE_TRUE
+    private static final int STATE_FALSE
+    private static final int STATE_UNKNOWN
+android.support.v4.util.SimpleArrayMap:
+    private static final boolean DEBUG
+    private static final java.lang.String TAG
+    private static final int BASE_SIZE
+    private static final int CACHE_SIZE
+android.support.v4.util.TimeUtils:
+    public static final int HUNDRED_DAY_FIELD_LEN
+    private static final int SECONDS_PER_MINUTE
+    private static final int SECONDS_PER_HOUR
+    private static final int SECONDS_PER_DAY
+android.support.v4.view.ActionProvider:
+    private static final java.lang.String TAG
+android.support.v4.view.GestureDetectorCompat$GestureDetectorCompatImplBase:
+    private static final int SHOW_PRESS
+    private static final int LONG_PRESS
+    private static final int TAP
+android.support.v4.view.GravityCompat:
+    public static final int RELATIVE_LAYOUT_DIRECTION
+    public static final int START
+    public static final int END
+    public static final int RELATIVE_HORIZONTAL_GRAVITY_MASK
+android.support.v4.view.KeyEventCompat$BaseKeyEventVersionImpl:
+    private static final int META_MODIFIER_MASK
+    private static final int META_ALL_MASK
+android.support.v4.view.MenuItemCompat:
+    private static final java.lang.String TAG
+    public static final int SHOW_AS_ACTION_NEVER
+    public static final int SHOW_AS_ACTION_IF_ROOM
+    public static final int SHOW_AS_ACTION_ALWAYS
+    public static final int SHOW_AS_ACTION_WITH_TEXT
+    public static final int SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+android.support.v4.view.MotionEventCompat:
+    public static final int ACTION_MASK
+    public static final int ACTION_POINTER_DOWN
+    public static final int ACTION_POINTER_UP
+    public static final int ACTION_HOVER_MOVE
+    public static final int ACTION_SCROLL
+    public static final int ACTION_POINTER_INDEX_MASK
+    public static final int ACTION_POINTER_INDEX_SHIFT
+    public static final int ACTION_HOVER_ENTER
+    public static final int ACTION_HOVER_EXIT
+android.support.v4.view.PagerAdapter:
+    public static final int POSITION_UNCHANGED
+    public static final int POSITION_NONE
+android.support.v4.view.PagerTabStrip:
+    private static final java.lang.String TAG
+    private static final int INDICATOR_HEIGHT
+    private static final int MIN_PADDING_BOTTOM
+    private static final int TAB_PADDING
+    private static final int TAB_SPACING
+    private static final int MIN_TEXT_SPACING
+    private static final int FULL_UNDERLINE_HEIGHT
+    private static final int MIN_STRIP_HEIGHT
+android.support.v4.view.PagerTitleStrip:
+    private static final java.lang.String TAG
+    private static final float SIDE_ALPHA
+    private static final int TEXT_SPACING
+android.support.v4.view.PagerTitleStripIcs$SingleLineAllCapsTransform:
+    private static final java.lang.String TAG
+android.support.v4.view.ViewCompat:
+    private static final java.lang.String TAG
+    public static final int OVER_SCROLL_ALWAYS
+    public static final int OVER_SCROLL_IF_CONTENT_SCROLLS
+    public static final int OVER_SCROLL_NEVER
+    private static final long FAKE_FRAME_TIME
+    public static final int IMPORTANT_FOR_ACCESSIBILITY_AUTO
+    public static final int IMPORTANT_FOR_ACCESSIBILITY_YES
+    public static final int IMPORTANT_FOR_ACCESSIBILITY_NO
+    public static final int IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+    public static final int ACCESSIBILITY_LIVE_REGION_NONE
+    public static final int ACCESSIBILITY_LIVE_REGION_POLITE
+    public static final int ACCESSIBILITY_LIVE_REGION_ASSERTIVE
+    public static final int LAYER_TYPE_NONE
+    public static final int LAYER_TYPE_SOFTWARE
+    public static final int LAYER_TYPE_HARDWARE
+    public static final int LAYOUT_DIRECTION_LTR
+    public static final int LAYOUT_DIRECTION_RTL
+    public static final int LAYOUT_DIRECTION_INHERIT
+    public static final int LAYOUT_DIRECTION_LOCALE
+    public static final int MEASURED_SIZE_MASK
+    public static final int MEASURED_STATE_MASK
+    public static final int MEASURED_HEIGHT_STATE_SHIFT
+    public static final int MEASURED_STATE_TOO_SMALL
+android.support.v4.view.ViewGroupCompat:
+    public static final int LAYOUT_MODE_CLIP_BOUNDS
+    public static final int LAYOUT_MODE_OPTICAL_BOUNDS
+android.support.v4.view.ViewPager:
+    private static final java.lang.String TAG
+    private static final boolean DEBUG
+    private static final boolean USE_CACHE
+    private static final int DEFAULT_OFFSCREEN_PAGES
+    private static final int MAX_SETTLE_DURATION
+    private static final int MIN_DISTANCE_FOR_FLING
+    private static final int DEFAULT_GUTTER_SIZE
+    private static final int MIN_FLING_VELOCITY
+    private boolean mIgnoreGutter
+    private static final int INVALID_POINTER
+    private static final int CLOSE_ENOUGH
+    private static final int DRAW_ORDER_DEFAULT
+    private static final int DRAW_ORDER_FORWARD
+    private static final int DRAW_ORDER_REVERSE
+    public static final int SCROLL_STATE_IDLE
+    public static final int SCROLL_STATE_DRAGGING
+    public static final int SCROLL_STATE_SETTLING
+    783:784:void smoothScrollTo(int,int)
+android.support.v4.view.ViewPropertyAnimatorCompat:
+    private static final java.lang.String TAG
+android.support.v4.view.WindowCompat:
+    public static final int FEATURE_ACTION_BAR
+    public static final int FEATURE_ACTION_BAR_OVERLAY
+    public static final int FEATURE_ACTION_MODE_OVERLAY
+android.support.v4.view.accessibility.AccessibilityEventCompat:
+    public static final int TYPE_VIEW_HOVER_ENTER
+    public static final int TYPE_VIEW_HOVER_EXIT
+    public static final int TYPE_TOUCH_EXPLORATION_GESTURE_START
+    public static final int TYPE_TOUCH_EXPLORATION_GESTURE_END
+    public static final int TYPE_WINDOW_CONTENT_CHANGED
+    public static final int TYPE_VIEW_SCROLLED
+    public static final int TYPE_VIEW_TEXT_SELECTION_CHANGED
+    public static final int TYPE_ANNOUNCEMENT
+    public static final int TYPE_VIEW_ACCESSIBILITY_FOCUSED
+    public static final int TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED
+    public static final int TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY
+    public static final int TYPE_GESTURE_DETECTION_START
+    public static final int TYPE_GESTURE_DETECTION_END
+    public static final int TYPE_TOUCH_INTERACTION_START
+    public static final int TYPE_TOUCH_INTERACTION_END
+    public static final int TYPES_ALL_MASK
+android.support.v4.view.accessibility.AccessibilityNodeInfoCompat:
+    public static final int ACTION_FOCUS
+    public static final int ACTION_CLEAR_FOCUS
+    public static final int ACTION_SELECT
+    public static final int ACTION_CLEAR_SELECTION
+    public static final int ACTION_CLICK
+    public static final int ACTION_LONG_CLICK
+    public static final int ACTION_ACCESSIBILITY_FOCUS
+    public static final int ACTION_CLEAR_ACCESSIBILITY_FOCUS
+    public static final int ACTION_NEXT_AT_MOVEMENT_GRANULARITY
+    public static final int ACTION_PREVIOUS_AT_MOVEMENT_GRANULARITY
+    public static final int ACTION_NEXT_HTML_ELEMENT
+    public static final int ACTION_PREVIOUS_HTML_ELEMENT
+    public static final int ACTION_SCROLL_FORWARD
+    public static final int ACTION_SCROLL_BACKWARD
+    public static final int ACTION_COPY
+    public static final int ACTION_PASTE
+    public static final int ACTION_CUT
+    public static final int ACTION_SET_SELECTION
+    public static final java.lang.String ACTION_ARGUMENT_MOVEMENT_GRANULARITY_INT
+    public static final java.lang.String ACTION_ARGUMENT_HTML_ELEMENT_STRING
+    public static final java.lang.String ACTION_ARGUMENT_EXTEND_SELECTION_BOOLEAN
+    public static final java.lang.String ACTION_ARGUMENT_SELECTION_START_INT
+    public static final java.lang.String ACTION_ARGUMENT_SELECTION_END_INT
+    public static final int FOCUS_INPUT
+    public static final int FOCUS_ACCESSIBILITY
+    public static final int MOVEMENT_GRANULARITY_CHARACTER
+    public static final int MOVEMENT_GRANULARITY_WORD
+    public static final int MOVEMENT_GRANULARITY_LINE
+    public static final int MOVEMENT_GRANULARITY_PARAGRAPH
+    public static final int MOVEMENT_GRANULARITY_PAGE
+android.support.v4.widget.AutoScrollHelper:
+    public static final float RELATIVE_UNSPECIFIED
+    public static final float NO_MAX
+    public static final float NO_MIN
+    public static final int EDGE_TYPE_INSIDE
+    public static final int EDGE_TYPE_INSIDE_EXTEND
+    public static final int EDGE_TYPE_OUTSIDE
+    private static final int HORIZONTAL
+    private static final int VERTICAL
+    private static final int DEFAULT_EDGE_TYPE
+    private static final int DEFAULT_MINIMUM_VELOCITY_DIPS
+    private static final int DEFAULT_MAXIMUM_VELOCITY_DIPS
+    private static final float DEFAULT_MAXIMUM_EDGE
+    private static final float DEFAULT_RELATIVE_EDGE
+    private static final float DEFAULT_RELATIVE_VELOCITY
+    private static final int DEFAULT_RAMP_UP_DURATION
+    private static final int DEFAULT_RAMP_DOWN_DURATION
+android.support.v4.widget.ContentLoadingProgressBar:
+    private static final int MIN_SHOW_TIME
+    private static final int MIN_DELAY
+android.support.v4.widget.CursorAdapter:
+    public static final int FLAG_AUTO_REQUERY
+    public static final int FLAG_REGISTER_CONTENT_OBSERVER
+    160:161:protected void init(android.content.Context,android.database.Cursor,boolean)
+android.support.v4.widget.DrawerLayout:
+    private static final java.lang.String TAG
+    public static final int STATE_IDLE
+    public static final int STATE_DRAGGING
+    public static final int STATE_SETTLING
+    public static final int LOCK_MODE_UNLOCKED
+    public static final int LOCK_MODE_LOCKED_CLOSED
+    public static final int LOCK_MODE_LOCKED_OPEN
+    private static final int MIN_DRAWER_MARGIN
+    private static final int DEFAULT_SCRIM_COLOR
+    private static final int PEEK_DELAY
+    private static final int MIN_FLING_VELOCITY
+    private static final boolean ALLOW_EDGE_LOCK
+    private static final boolean CHILDREN_DISALLOW_INTERCEPT
+    private static final float TOUCH_SLOP_SENSITIVITY
+    651:660:void moveDrawerToOffset(android.view.View,float)
+android.support.v4.widget.ExploreByTouchHelper:
+    public static final int INVALID_ID
+android.support.v4.widget.ScrollerCompat:
+    private static final java.lang.String TAG
+    static final int CHASE_FRAME_TIME
+android.support.v4.widget.SearchViewCompat:
+    264:266:private SearchViewCompat(android.content.Context)
+android.support.v4.widget.SlidingPaneLayout:
+    private static final java.lang.String TAG
+    private static final int DEFAULT_OVERHANG_SIZE
+    private static final int DEFAULT_FADE_COLOR
+    private static final int MIN_FLING_VELOCITY
+    1221:1240:protected boolean canScroll(android.view.View,boolean,int,int,int)
+android.support.v4.widget.SwipeProgressBar:
+    private static final int COLOR1
+    private static final int COLOR2
+    private static final int COLOR3
+    private static final int COLOR4
+    private static final int ANIMATION_DURATION_MS
+    private static final int FINISH_ANIMATION_DURATION_MS
+    133:133:boolean isRunning()
+android.support.v4.widget.SwipeRefreshLayout:
+    private static final long RETURN_TO_ORIGINAL_POSITION_TIMEOUT
+    private static final float ACCELERATE_INTERPOLATION_FACTOR
+    private static final float DECELERATE_INTERPOLATION_FACTOR
+    private static final float PROGRESS_BAR_HEIGHT
+    private static final float MAX_SWIPE_DISTANCE_FACTOR
+    private static final int REFRESH_TRIGGER_DISTANCE
+    private static final int INVALID_POINTER
+android.support.v4.widget.ViewDragHelper:
+    private static final java.lang.String TAG
+    public static final int INVALID_POINTER
+    public static final int STATE_IDLE
+    public static final int STATE_DRAGGING
+    public static final int STATE_SETTLING
+    public static final int EDGE_LEFT
+    public static final int EDGE_RIGHT
+    public static final int EDGE_TOP
+    public static final int EDGE_BOTTOM
+    public static final int EDGE_ALL
+    public static final int DIRECTION_HORIZONTAL
+    public static final int DIRECTION_VERTICAL
+    public static final int DIRECTION_ALL
+    private static final int EDGE_SIZE
+    private static final int BASE_SETTLE_DURATION
+    private static final int MAX_SETTLE_DURATION
+    908:927:protected boolean canScroll(android.view.View,boolean,int,int,int,int)
+com.coco.lock2.app.Pee.BuildConfig
+com.coco.lock2.app.Pee.Child:
+    private static final java.lang.String TAG
+    private static final int space1
+    private static final int space2
+    private static final int DELAYTIME
+com.coco.lock2.app.Pee.Fire:
+    private static final int DELAYTIME
+    private static final int space1
+    private static final int space2
+com.coco.lock2.app.Pee.Lock4Screen:
+    private static final java.lang.String TAG
+    private android.media.SoundPool soundPool
+    private java.util.HashMap soundPoolMap
+    private static final int DELAYTIME
+    89:103:private void delayhandle()
+com.coco.lock2.app.Pee.Lock4Screen$3
+com.coco.lock2.app.Pee.Note:
+    private static final int DELAYTIME
+com.coco.lock2.app.Pee.Prompt:
+    private static final java.lang.String TAG
+    private static final int DELAYTIME
+    private static final int EXPAND_X
+    private static final int EXPAND_Y
+    public static final int LEVEL
+com.coco.lock2.app.Pee.R
+com.coco.lock2.app.Pee.R$attr
+com.coco.lock2.app.Pee.R$color
+com.coco.lock2.app.Pee.R$dimen
+com.coco.lock2.app.Pee.R$drawable
+com.coco.lock2.app.Pee.R$id
+com.coco.lock2.app.Pee.R$layout
+com.coco.lock2.app.Pee.R$menu
+com.coco.lock2.app.Pee.R$raw
+com.coco.lock2.app.Pee.R$string
+com.coco.lock2.app.Pee.R$style
+com.coco.lock2.app.Pee.R$xml
+com.coco.lock2.app.Pee.TimeShow:
+    private static final int space1
+    private static final int space2
+    private static final int DELAYTIME
+com.coco.lock2.app.Pee.ViewWrap:
+    private static final java.lang.String LOG_TAG
+com.coco.lock2.app.Pee.common.BaseView:
+    98:101:protected void gotoDialog()
+    104:108:protected void gotoMSG()
+    111:117:protected void gotoCamera()
+    120:126:protected void gotoBrowser()
+com.coco.lock2.app.Pee.common.DownloadService:
+    public static final java.lang.String DOWNLOAD_URL_KEY
+    public static final java.lang.String DOWNLOAD_FILE_NAME
+com.coco.lock2.app.Pee.common.LockSetting:
+    private static final java.lang.String LOG_TAG
+    public static final java.lang.String FIELD_TIMESTYLE
+    public static final java.lang.String FIELD_SOUND
+    public static final java.lang.String FIELD_VIBRATE
+com.coco.lock2.app.Pee.common.StaticClass:
+    public static final java.lang.String LOCKBOX_PACKAGE_NAME
+    public static final java.lang.String ACTION_CHECK_ICON
+com.coco.lock2.local.app.base.DeviceUtils:
+    private static final java.lang.String TAG
+com.coco.lock2.local.app.base.IWrap:
+    public static final int KERNEL_EXIT
+    public static final int KERNEL_RESET_LIGHT
+    public static final int REQUEST_KERNEL_SEND_SIMCARD_NAME
+    public static final int APP_LOGINFO
+    public static final int APP_REMOTE_CONTEXT
+    public static final int NOTIFY_APP_SIMCARD_NAME
+    public static final int APP_SETZORDER
+    public static final int NOTIFY_APP_SETKEYGUARDDONE
+    public static final int REQUEST_SCREEN_BITMAP
+    public static final int NOTITY_APP_SCREEN_BITMAP
+    public static final int NOTITY_APP_NOTIFICATION
+    public static final int REQUEST_FRAMEWORK_VERSION
+    public static final int NOTITY_APP_FRAMEWORK_VERSION
+    public static final int APP_FRAMEWORK_VERSION
+com.coco.lock2.local.app.base.LockViewContainer:
+    private static final int MSG_COPY_FILE_SUCCESS
+    private static final java.lang.String SP_KEY_COPY_FILE_SUCCESS
+    private static final java.lang.String SP_HTML_FILES_ROOT_DIR
+    private static final java.lang.String HTML_FILES_ROOT_DIR
+    private static final java.lang.String HTML_FILES_ROOT_DIR_NEW
+com.coco.lock2.local.app.base.LockWrapBase:
+    private static final java.lang.String LOG_TAG
+com.coco.lock2.local.app.base.Tools:
+    private static final int NUM_BUTTONS
+    private static final int MAX_RECENT_TASKS
+com.cooee.app.simple.store.R
+com.cooee.app.simple.store.R$color
+com.cooee.app.simple.store.R$dimen
+com.cooee.app.simple.store.R$drawable
+com.cooee.app.simple.store.R$id
+com.cooee.app.simple.store.R$layout
+com.cooee.app.simple.store.R$menu
+com.cooee.app.simple.store.R$string
+com.cooee.control.center.module.R
+com.cooee.control.center.module.R$color
+com.cooee.control.center.module.R$dimen
+com.cooee.control.center.module.R$drawable
+com.cooee.control.center.module.R$id
+com.cooee.control.center.module.R$layout
+com.cooee.control.center.module.R$menu
+com.cooee.control.center.module.R$string
+com.cooee.control.center.module.R$xml
+com.cooee.control.center.module.update.UpdateService:
+    static final java.lang.String ACTION_DOWN_FINISH
+com.cooee.lock.statistics.Assets:
+    public static final java.lang.String CONFIG_FILE_NAME
+    public static final java.lang.String PREFERENCE_KEY_CONFIG
+    public static final java.lang.String PREFERENCE_KEY_CONFIG_DOMAIN
+    public static final java.lang.String PREFERENCE_KEY_CONFIG_SERIALNO
+    public static final java.lang.String PREFERENCE_KEY_CONFIG_APPID
+    public static final java.lang.String PREFERENCE_KEY_CONFIG_TEMPLATEID
+    public static final java.lang.String PREFERENCE_KEY_CONFIG_CHANNELID
+com.cooee.lock.statistics.Dbhelp:
+    private static final int VERSION
+com.cooee.shell.checkupdate.CheckCallback
+com.cooee.shell.checkupdate.CheckUpdateData
+com.cooee.shell.moduleupdate.MpduleUpdateTask
+com.cooee.shell.moduleupdate.RijndaelCrypt:
+    public static final java.lang.String TAG
+com.cooee.shell.moduleupdate.UpdateCompleteCb
+com.cooee.shell.moduleupdate.a
+com.cooee.shell.moduleupdate.c
+com.cooee.shell.moduleupdate.d
+com.cooee.shell.pay.CooeeModule
+com.cooee.shell.pay.CooeePayment
+com.cooee.shell.pay.CooeePaymentInfo
+com.cooee.shell.pay.CooeePaymentResultNotify
+com.cooee.shell.pay.a
+com.cooee.shell.pay.b
+com.cooee.shell.pay.c
+com.cooee.shell.pay.d
+com.cooee.shell.pay.e
+com.cooee.shell.pay.g
+com.cooee.shell.pay.h
+com.cooee.shell.pay.i
+com.cooee.shell.pay.j
+com.cooee.shell.sdk.AppNameXml:
+    private static final java.lang.String fileName
+    private static final java.lang.String TAG_APP_LIST
+    private static final java.lang.String TAG_APP
+    private static final java.lang.String TAG_APP_NAME
+    private static final java.lang.String TAG_PACKAGE_NAME
+    private static final java.lang.String TAG_VERSION_NAME
+    private static final java.lang.String TAG_VERSION_CODE
+    private static final java.lang.String TAG_APP_P04
+com.cooee.shell.sdk.CooeeLog:
+    public static final java.lang.String TAG_DEFAULT
+    private static final java.lang.String LEVEL_FILE_NAME
+    public static final int LEVEL_NONE
+    public static final int LEVEL_ERROR
+    public static final int LEVEL_VERBOSE
+    public static final int LEVEL_DEBUG
+    public static final int LEVEL_INFO
+    public static final int LEVEL_WARN
+    private CooeeLog()
+com.cooee.shell.sdk.CooeeSdk:
+    public static final java.lang.String CONFIGFILE_NAME
+    public static final java.lang.String UPDATEFILE_NAME
+com.cooee.shell.sdk.ExceptionLog:
+    public static final java.lang.String SHELL_EXCEPTION_LOG
+    public static final java.lang.String SHELL_EXCEPTION_XML
+    public static final java.lang.String SHELL_EXCEPTION_TIME
+    public static final java.lang.String TYPE_MD5_ERR
+    public static final java.lang.String TYPE_XML_ERR
+    public static final java.lang.String TYPE_VER_LOW
+    public static final java.lang.String TYPE_CPY_ERR
+    public static final java.lang.String TYPE_NET_NON_200
+    public static final java.lang.String TYPE_TSK_FILE_ERR
+    public static final java.lang.String SHELL_UPDATE_EXCEPTION_FILE
+com.cooee.shell.sdk.ExitCallback
+com.cooee.shell.sdk.JarFileUtils:
+    public static final java.lang.String SHELL_JAR_NAME
+    public static final java.lang.String PAY_JAR_NAME
+    public static final java.lang.String SDK_JAR_DIR
+    public static final int VER_SMALL
+    public static final int VER_EQUAL
+    public static final int VER_BIG
+com.cooee.shell.sdk.SdkClassUtils:
+    public static final java.lang.String SHELL_SERVICE_HULL_NAME
+com.cooee.shell.sdk.SdkPathUtils:
+    protected static final java.lang.String SHELL_MODULE
+    protected static final java.lang.String PAY_MODULE
+    protected static final java.lang.String SDK_DIR
+    protected static final java.lang.String MODULE_DIR
+    protected static final java.lang.String SHELL_DIR
+    protected static final java.lang.String PAY_DIR
+    protected static final java.lang.String DOWNLOAD_DIR
+com.cooee.shell.shell.SdkActivityHullV5:
+    public static final java.lang.String META_FEATURE_LOGO
+    public static final java.lang.String META_FEATURE_DOWN
+    public static final java.lang.String META_FEATURE_EXIT
+    public static final java.lang.String ACTION_PREFIX
+    public static final java.lang.String ACTION_EXIT_SCREEN
+    public static final java.lang.String ACTION_DOWNLOADING_SCREEN
+    public static final int COMPAT_STATE_NORMAL
+    public static final int COMPAT_STATE_FINISH
+    public static final int COMPAT_STATE_GOTO_GAME
+com.iLoong.launcher.MList.ApkMangerActivity$DownLoadCallBack:
+    private com.iLoong.launcher.MList.DownloadApkItem DownLoadCallBack
+cool.sdk.MicroEntry.MicroEntry:
+    public static final int h12
+    public static final java.lang.String h13
+cool.sdk.MicroEntry.MicroEntryHelper:
+    public static final java.lang.String First
+    public static final java.lang.String Second
+    public static final java.lang.String Three
+    public static final java.lang.String Fourth
+cool.sdk.MicroEntry.MicroEntryLog:
+    private static final java.lang.String ACTION_ACTIVE
+    private static final java.lang.String ACTION_DELETE
+cool.sdk.MicroEntry.MicroEntryUpdate:
+    static final float CONST_SUCCESS_RATE
+    private static final java.lang.String ACTION_FOLDER_REQUEST
+    public static final int PLAFORM_VERSION
+    private static final java.lang.String DEFAULT_VERSION
+cool.sdk.MicroEntry.MicroEntryUpdate$1:
+    static final float successRate
+cool.sdk.common.Compress:
+    private static final int BUFFER_LENGTH
+    public static final int BYTE_MIN_LENGTH
+    public static final byte FLAG_GBK_STRING_UNCOMPRESSED_BYTEARRAY
+    public static final byte FLAG_GBK_STRING_COMPRESSED_BYTEARRAY
+    public static final byte FLAG_UTF8_STRING_COMPRESSED_BYTEARRAY
+    public static final byte FLAG_NO_UPDATE_INFO
+cool.sdk.common.CoolHttpClient:
+    private static final java.lang.String CHARSET
+    public static final java.lang.String DEFAULT_KEY
+    static final int COMPRESS_MIN_SIZE
+    static final short HEADER_SIZE
+    static final short RECV_HEADER_SIZE
+cool.sdk.common.DES:
+    private static final java.lang.String ALGORITHM_CBCDES
+    private static final java.lang.String ALGORITHM_ECBDES
+cool.sdk.common.PathUtil
+cool.sdk.download.CoolDLMgr:
+    private static final java.lang.String ACTION_DOWNLOAD
+    private static final java.lang.String ACTION_GET_ICON
+    private static final int RES_TYPE_ICON
+    private static final java.lang.String KEY_TASK_isStart
+    public static final java.lang.String ICON_xhdpi
+    public static final java.lang.String ICON_hdpi
+    public static final java.lang.String ICON_mdpi
+    public static final java.lang.String ICON_ldpi
+    public static final java.lang.String ICON_default
+    public static final java.lang.String default_cb_name
+cool.sdk.download.manager.DlMethod:
+    public static final int ConnectTimeout
+    public static final int ReadTimeout
+cool.sdk.download.manager.dl_db:
+    private static final java.lang.String DB_NAME
+    private static final java.lang.String TBL_NAME
+    private static final java.lang.String CREATE_TBL
+cool.sdk.download.manager.dl_manager:
+    static final int MsgOnFail
+    static final int MsgOnDoing
+    static final int MsgOnSuccess
+    static final int MsgOnStart
+cool.sdk.log.LogDB:
+    public static final java.lang.String jsonListKey
+cool.sdk.log.LogHelper:
+    public static final java.lang.String ACTION_DOWNLOAD_SUCCESS
+    public static final java.lang.String ACTION_DOWNLOAD_FAIL
+    public static final java.lang.String ACTION_INSTALL
+    public static final java.lang.String ACTION_UNINSTALL
+cool.sdk.statistics.Statistics
+cool.sdk.statistics.StatisticsUpdate:
+    private static final java.lang.String ACTION_LOG_LIST_REQUEST
+cool.sdk.update.UpdateApp
+cool.sdk.update.manager.UpdateHelper:
+    private static final java.lang.String FLAG_UPDATE_LAST_MINUTES
+    private static final java.lang.String FLAG_UPDATE_GAP_MINUTES
+    private static final java.lang.String FLAG_UPDATE_LAST_SUCCESS_MINUTES
+    private static final int retrySleepTime
+    private static final java.lang.String UPDATE_ONEDAY_FILE_EXT
+org.apache.cordova.CoreAndroid:
+    public static final java.lang.String PLUGIN_NAME
+    protected static final java.lang.String TAG

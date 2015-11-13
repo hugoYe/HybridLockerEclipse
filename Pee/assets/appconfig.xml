@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AppConfig>
+
+    <!-- default_lockscreen_package 默认解锁的包名 -->
+
+    <item
+        name="default_lockscreen_package"
+        value="com.coco.lock2.app.Pee"/>
+
+    <!-- default_lockscreen_class 默认解锁的类名 -->
+
+    <item
+        name="default_lockscreen_class"
+        value="com.coco.lock2.app.Pee.InsideLockActivity"/>
+
+    <!-- default_lockscreen_wrap 默认解锁的反射名 -->
+
+    <item
+        name="default_lockscreen_wrap"
+        value="com.coco.lock2.app.Pee.ViewWrap"/>
+
+    <!-- timeX 解锁时间坐标移动位置    默认0 -->
+
+    <item
+        name="timeX"
+        value="0"/>
+    <!-- timeY 解锁时间坐标移动位置    默认0 -->
+
+    <item
+        name="timeY"
+        value="0"/>
+
+    <!-- wddxX  未读短信坐标x移动位置    默认0 -->
+
+    <item
+        name="wddxX"
+        value="0"/>
+    <!-- wddxY 未读电话坐标y移动位置    默认0 -->
+
+    <item
+        name="wddxY"
+        value="0"/>
+
+    <!-- wjdhX 未接电话坐标x移动位置    默认0 -->
+
+    <item
+        name="wjdhX"
+        value="0"/>
+    <!-- wjdhY 未接电话坐标y移动位置    默认0 -->
+
+    <item
+        name="wjdhY"
+        value="0"/>
+
+    <!-- wdxxfontsize 未读信息字体大小   数值越大 字体越大  默认为30 -->
+
+    <item
+        name="wdxxfontsize"
+        value="20"/>
+
+    <!-- dataX 解锁日期坐标移动位置    默认0 -->
+
+    <item
+        name="dataX"
+        value="0"/>
+    <!-- dataY 解锁日期坐标移动位置    默认0 -->
+
+    <item
+        name="dataY"
+        value="0"/>
+
+    <!-- powerX 用来调节充电提示X坐标位置，负数是左移。默认为0 -->
+
+    <item
+        name="powerX"
+        value="0"/>
+
+    <!-- powerY 用来调节充电提示的Y坐标位置，负数是上移。默认为0 -->
+
+    <item
+        name="powerY"
+        value="0"/>
+
+    <!-- Powerfontsize 电量字体大小   数值越大 字体越大  默认为30 -->
+
+    <item
+        name="Powerfontsize"
+        value="32"/>
+
+    <!-- timefontsize 时间字体大小   数值越大 字体越大  默认为50 调整字后有可能需要调整坐标位置 -->
+
+    <item
+        name="timefontsize"
+        value="50"/>
+    <!-- datefontsize 日期字体大小   数值越大 字体越大  默认为32 -->
+
+    <item
+        name="datefontsize"
+        value="32"/>
+    <!-- systemWallpaper 解锁是否使用系统壁纸    使用/true  不使�?false  默认为false -->
+
+    <item
+        name="systemWallpaper"
+        value="true"/>
+
+    <!-- weatherImgX 用来调节天气图片的x坐标位置，负数为左移    默认为0 -->
+
+    <item
+        name="weatherImgX"
+        value="0"/>
+    <!-- weatherImgY 用来调节天气图片的y坐标位置，负数为上移    默认为0 -->
+
+    <item
+        name="weatherImgY"
+        value="0"/>
+
+    <!-- weatherStrX  用来调节天气字体的x坐标位置，负数为左移    默认为0 -->
+
+    <item
+        name="weatherStrX"
+        value="0"/>
+    <!-- weatherStrY 用来调节天气字体的y坐标位置，负数为上移      默认为0 -->
+
+    <item
+        name="weatherStrY"
+        value="0"/>
+
+    <!-- cityX  用来调节城市的x坐标位置，负数为左移    默认为0 -->
+
+    <item
+        name="cityX"
+        value="0"/>
+    <!-- cityY 用来调节城市的y坐标位置，负数为上移      默认为0 -->
+
+    <item
+        name="cityY"
+        value="0"/>
+    <!-- weatherStrfontSize 用来调节天气字体的大小 默认为36 -->
+
+    <item
+        name="weatherStrfontSize"
+        value="32"/>
+    <!-- cityfontSize  用来调节城市字体的大小 默认为36 -->
+
+    <item
+        name="cityfontSize"
+        value="32"/>
+    <!-- statusbarupdate 是否发广播给状态栏 不给为false   默认true -->
+    <item
+        name="statusbarupdate"
+        value="true"/>
+</AppConfig>

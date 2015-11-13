@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pee</string>
+    <string name="app_name1">Pee</string>
+  
+	<string name="download_title">Download the cooee unlock box</string>
+    <string name="download_info">Tip: The current system does not have to install the the cooee unlock box, whether immediately install?</string>
+    <string name="download">Download</string>
+    <string name="download_later">Download Later</string>
+    <string name="downloading">Downloading</string>
+    <string name="download_cancel">Cancel</string>
+    <string name="server_download_file_name">Cooee Lock Screen</string>
+    
+    <string name="server_begin_download">Start the download</string>
+	<string name="server_download_finish">The download is complete, click the Install</string>
+	<string name="server_download_fail">Download failed</string>
+	<string name="server_downloading">Downloading</string>
+	<string name="timeformat">MM月dd日</string>
+	<string name="shuzi">日一二三四五六</string>
+	<string name="date">月日周</string>
+	
+</resources>

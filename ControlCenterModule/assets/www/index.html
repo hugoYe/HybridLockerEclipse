@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <!-- cordova demo begin -->
+        <!--
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready  网址导航</p>
+            </div>
+        </div>
+        -->
+        <!-- cordova demo end -->
+
+        <!--背景-->
+        <div id="background">
+        </div>
+        <!--半透明滑动块-->
+
+        <div id="slide">
+            <!--点击区域,点击后触发滑动事件-->
+            <div class="touch_item">
+                <img src="res/arrow.png"  class="touch" alt="arrow"/>
+            </div>
+            <div>
+                <!--状态栏-->
+                <ul id="state">
+                    <li class="state_item">
+                        <div>
+                            <img id="state_wifi" src="res/shortcut_wifi_off.png" alt=""/>
+                        </div>
+                    </li>
+                    <li class="state_item">
+                        <div>
+                            <img id="state_mobiledata" src="res/shortcut_net_off.png" alt=""/>
+                        </div>
+                    </li>
+                    <li class="state_item">
+                        <div>
+                            <img id="state_bluetooth" src="res/shortcut_blue_off.png" alt=""/>
+                        </div>
+                    </li>
+                    <li class="state_item">
+                        <div>
+                            <img id="state_light" src="res/shortcut_light_off.png" alt=""/>
+                        </div>
+                    </li>
+                    <li class="state_item last">
+                        <div>
+                            <img id="state_camera" src="res/shortcut_camera_off.png" alt=""/>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--分隔线-->
+            <div class="divider"></div>
+            <div>
+                <!--app区域-->
+                <ul id="app">
+                </ul>
+                <div class="divider2"></div>
+                <ul id="link">
+                    <li class="link_item">
+                        <a href="http://m.hao123.com/j.php?z=2&from=1014166a&level=1&page=index_h5&ver=2_android&pos=cydhwt_n2&category=cydhwt_n2%7C1%7Css&qt=tz&url=http%3A%2F%2Fm.baidu.com%2F%3Ffrom%3D381a_cp_mz&key=aac0ec3c9952d46e23c1150b485bc8b6">
+                            <img src="res/baidu.png" alt=""/>
+                            <p>百度</p>
+                        </a>
+                    </li>
+                    <li class="link_item">
+                        <a href="http://m.hao123.com/j.php?z=2&from=1014166a&level=1&page=index_h5&ver=2_android&pos=cydhwt_n2&category=cydhwt_n2%7C2%7Czhzx&qt=tz&url=http%3A%2F%2Fsina.cn%2F&key=0d28a8393841c9899ba5a095d68c1ff9">
+                            <img src="res/sina.png" alt=""/>
+                            <p>新浪</p>
+                        </a>
+                    </li>
+                    <li class="link_item">
+                        <a href="http://m.hao123.com/j.php?z=2&from=1014166a&level=1&page=index_h5&ver=2_android&pos=cydhwt_n2&category=cydhwt_n2%7C5%7Czhzx&qt=tz&url=http%3A%2F%2F3g.163.com%2F&key=12deef7d5404d1dec2904052fa0f01f1">
+                            <img src="res/wangyi.png" alt=""/>
+                            <p>网易</p>
+                        </a>
+                    </li>
+                    <li class="link_item">
+                        <a href="http://m.hao123.com/j.php?z=2&from=1014166a&level=1&page=index_h5&ver=2_android&pos=cydhwt_n2&category=cydhwt_n2%7C6%7Czhzx&qt=tz&url=http%3A%2F%2Fi.ifeng.com%2F&key=bd72f6ebfc3040a364e4949771279e53">
+                            <img src="res/fenghuang.png" alt=""/>
+                            <p>凤凰</p>
+                        </a>
+                    </li>
+                    <li class="link_item last">
+                        <a href="http://m.hao123.com/j.php?z=2&from=1014166a&level=1&page=index_h5&ver=2_android&pos=cydhwt_n2&category=cydhwt_n2%7C9%7Cshfw&s=1&qt=tz&url=http%3A%2F%2Fjump.luna.58.com%2Fs%3Fspm%3Db-31580022738699-me-f-822%26ch%3Dhao123mz&key=9187f22bbec1ab2a03490f8b88420db9">
+                            <img src="res/58.png" alt=""/>
+                            <p>58同城</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <table class="link_table">
+                <tr>
+                    <td><a href="http://m.hao123.com/j.php?z=2&from=1014166a&level=1&page=index_h5&ver=2_android&pos=cydhwt_n2&category=cydhwt_n2%7C14%7Cgw&s=1&qt=tz&url=http%3A%2F%2Fclick.union.jd.com%2FJdClick%2F%3FunionId%3D35%26siteid%3Dhao123_mmz%26to%3Dhttp%3A%2F%2Fm.jd.com&key=7419185b004a7c5077722940e7d93f25">京东商城</a></td>
+                    <td>
+                        <a href="http://m.hao123.com/j.php?z=2&from=1014166a&level=1&page=index_h5&ver=2_android&pos=cydh_n2&category=cydh_n2%7C4%7Cgw&s=1&qt=tz&url=http%3A%2F%2Fm.yhd.com%2F%3Ffrom%3D123333%26tracker_u%3D10939579768&key=d64c23628556a972db5462c7b42923b4">一号店</a>
+                        <img src="res/hot.png" alt="" class="hot"/>
+                    </td>
+                    <td class="last_td">
+                        <a href="http://m.hao123.com/j.php?z=2&from=1014166a&level=1&page=index_h5&ver=2_android&pos=cydhwt_n2&category=cydhwt_n2%7C7%7Cgw&qt=tz&url=http%3A%2F%2Fm.taobao.com%2F&key=769885b30d332ff92ee01b52d6b39bbd">淘宝</a>
+                        <img src="res/hot.png" alt="" class="hot"/>
+                    </td>
+                </tr>
+                <tr class="last_tr">
+                    <td><a href="http://m.hao123.com/j.php?z=2&from=1014166a&level=1&page=index_h5&ver=2_android&pos=cydhwt_n2&category=cydhwt_n2%7C4%7Czhzx&qt=tz&url=http%3A%2F%2Fm.sohu.com%2F%3F_trans_%3D000019_hao123_dh&key=867c55b0231d7bb4f37ab35a47b19eb6">搜狐</a></td>
+                    <td><a href="http://m.hao123.com/j.php?z=2&level=1&page=index_h5&ver=2_android&pos=cydhwt_n2&category=cydhwt_n2%7C15%7Cgw&s=1&qt=tz&url=http%3A%2F%2Fclick.union.vip.com%2Fredirect.php%3Furl%3DeyJjaGFuIjoibWhhbzEyMzEiLCJzY2hlbWVjb2RlIjoiYWw4MHNzZ3AiLCJkZXN0dXJsIjoiaHR0cDpcL1wvbS52aXAuY29tXC8%2FZj1taGFvMTIzMSIsInVjb2RlIjoiZDVrdWZ2ZXMifQ%3D%3D&key=ee66a96e60ad02a3e85da6f6612ce25a">唯品会</a></td>
+                    <td id="game" class="last_td">
+	                    <a href="http://open.egret.com/gamecenter/?channelId=18464">节操游戏</a>
+	                    <img src="res/game.png" alt="节操游戏"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="button_th">
+            <img src="res/ICON.png" alt="button_th"/>
+        </div>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>

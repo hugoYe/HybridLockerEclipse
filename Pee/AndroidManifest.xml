@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.coco.lock2.app.Pee"
+    android:installLocation="internalOnly"
+    android:versionCode="13"
+    android:versionName="1.0.36844" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="8" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.autofocus" />
+
+    <!-- shell 注册权限开始 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- <uses-permission android:name="android.permission.SEND_SMS" /> -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- shell 注册权限结束 -->
+    <!-- ME_RTFSC  start -->
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <!-- ME_RTFSC  end -->
+    <!-- kepush start -->
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity
+            android:name="com.coco.lock2.app.Pee.InsideLockActivity"
+            android:exported="true"
+            android:label="@string/app_name1"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter>
+                <action android:name="com.coco.lock.action.VIEW" />
+
+                <category android:name="android.intent.category.INFO" />
+
+                <!-- -->
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                
+
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.cooee.statistics.StatisticsServiceNew"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name="com.cooee.lock.statistics.StaticClass"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name="com.cooee.control.center.module.update.UpdateService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name="com.iLoong.launcher.MList.ApkMangerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.iLoong.launcher.MList.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.cooee.Launcher.main.icon" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.iLoong.launcher.MList.MEServiceActivity"
+            android:clearTaskOnLaunch="true"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name="com.iLoong.launcher.MList.Main_FirstActivity"
+            android:clearTaskOnLaunch="true"
+            android:enabled="false"
+            android:icon="@drawable/cool_ml_wonderful_game"
+            android:label="@string/cool_ml_app_name1"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.cooee.Launcher.small.icon" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.iLoong.launcher.MList.Main_SecondActivity"
+            android:clearTaskOnLaunch="true"
+            android:enabled="false"
+            android:icon="@drawable/cool_ml_software"
+            android:label="@string/cool_ml_app_name2"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.cooee.Launcher.big.icon" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.iLoong.launcher.MList.Main_ThreeActivity"
+            android:clearTaskOnLaunch="true"
+            android:enabled="false"
+            android:icon="@drawable/cool_ml_ku_store"
+            android:label="@string/cool_ml_app_name3"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.cooee.Launcher.biger.icon" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.iLoong.launcher.MList.Main_FourthActicity"
+            android:clearTaskOnLaunch="true"
+            android:enabled="false"
+            android:icon="@drawable/cool_ml_know"
+            android:label="@string/cool_ml_app_name4"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.cooee.Launcher.bigest.icon" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name="com.iLoong.launcher.MList.MyReceiver" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter android:priority="1000" >
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- shell start -->
+        <service
+            android:name="com.cooee.shell.shell.SdkServiceHullV5"
+            android:process="com.platform.shell.sdk" >
+            <intent-filter android:priority="250" >
+                <action android:name="com.cooee.shell.action.SdkServiceV5" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.cooee.shell.pay.PayServiceHullV5"
+            android:process="com.platform.shell.pay" >
+            <intent-filter android:priority="250" >
+                <action android:name="com.cooee.shell.action.PayServiceV5" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="com.cooee.shell.shell.SdkActivityHullV5"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:color/transparent" >
+        </activity>
+        <activity
+            android:name="com.cooee.shell.pay.PayActivityHullV5"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cooee.shell.download.DownloaderActivityHullV5"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
+        </activity>
+
+        <receiver android:name="com.cooee.shell.shell.SdkReceiverHullV5" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="cool.sdk.update.manager.UpdateReceiver" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter android:priority="1000" >
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- gaominghui  add start -->
+        <!-- 锁屏加push需要的服务和广播 -->
+        <service
+            android:name="com.kpsh.sdk.KpshService"
+            android:process="com.kpsh.kpshservice" >
+            <intent-filter android:priority="250" >
+                <action android:name="com.kpsh.sdk.action.KpshService" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.kpsh.sdk.KpshReceiver" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.USER_CLEARNOTIFY" />
+                <action android:name="android.intent.action.SEND_TO_KPSH" />
+                <action android:name="android.intent.action.CHECK_RECEIVER" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.kpsh.sdk.KpshActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:taskAffinity="com.kpsh.sdk.callScreen"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <!-- gaominghui  add end -->
+    </application>
+
+</manifest>
