@@ -4,25 +4,26 @@ import android.content.Context;
 import android.os.Handler.Callback;
 import android.util.Log;
 import android.view.View;
-import com.coco.lock2.local.app.base.LockWrapBase;
 
-public class ViewWrap extends LockWrapBase {
+import com.cooee.control.center.module.api.LockWrapApi;
+
+public class ViewWrap extends LockWrapApi {
 
 	private static final String LOG_TAG = "DirectorWrap";
 
 	private Lock4Screen lockView = null;
 
 	public ViewWrap(Context context) {
-		super( context );
+		super(context);
 	}
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 	}
 
 	@Override
-	public void onDestroy() {	
+	public void onDestroy() {
 		Log.d(LOG_TAG, "onDestroy");
 		super.onDestroy();
 	}
@@ -36,17 +37,17 @@ public class ViewWrap extends LockWrapBase {
 	public void onPause() {
 		Log.d(LOG_TAG, "onPause");
 		super.onPause();
-		
+
 	}
 
 	@Override
-	public View getView() {		
+	public View getView() {
 		return super.getView();
 	}
 
 	@Override
 	public void setKernelCallback(Callback callback) {
-		super.setKernelCallback( callback );
+		super.setKernelCallback(callback);
 	}
 
 	@Override
@@ -54,17 +55,15 @@ public class ViewWrap extends LockWrapBase {
 		return super.getAppService();
 	}
 
-
 	@Override
-	public View createLockView()
-	{
+	public View createLockView() {
 		Log.d(LOG_TAG, "onCreate,t=1.0.5");
 		lockView = new Lock4Screen(context);
 		lockView.setWrap(this);
 		lockView.setExitFunction(new Runnable() {
 			@Override
 			public void run() {
-				unLock();
+				onUnlock();
 				Log.d(LOG_TAG, "Exit");
 			}
 		});

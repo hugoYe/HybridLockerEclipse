@@ -1,19 +1,21 @@
 package com.cooee.cordova.plugins;
 
-import android.bluetooth.BluetoothAdapter;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.util.Log;
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.provider.Settings;
+import android.util.Log;
 
 public class BluetoothStatus extends CordovaPlugin {
 	private static CordovaWebView mwebView;
@@ -22,6 +24,13 @@ public class BluetoothStatus extends CordovaPlugin {
 	private static final String LOG_TAG = "BluetoothStatusPlugin";
 	private BluetoothAdapter bluetoothAdapter;
 	private CallbackContext callbackContext;
+	private Context mContext;
+
+	private static UnlockListener sUnlockListener;
+
+	public static void setOnUnlockListener(UnlockListener unlockListener) {
+		sUnlockListener = unlockListener;
+	}
 
 	@Override
 	public boolean execute(String action, JSONArray args,
@@ -43,6 +52,9 @@ public class BluetoothStatus extends CordovaPlugin {
 		} else if (action.equals("isBlueEnabled")) {
 			isBlueEnabled(callbackContext);
 			return true;
+		} else if (action.equals("entryBluetoothSettings")) {
+			entryBluetoothSettings();
+			return true;
 		}
 		return false;
 	}
@@ -51,11 +63,8 @@ public class BluetoothStatus extends CordovaPlugin {
 	public void onDestroy() {
 		super.onDestroy();
 
-		if (mcordova.getActivity() != null) {
-			mcordova.getActivity().unregisterReceiver(mReceiver);
-		} else if (mcordova.getContext() != null) {
-			mcordova.getContext().unregisterReceiver(mReceiver);
-		}
+		mContext.unregisterReceiver(mReceiver);
+
 	}
 
 	@Override
@@ -71,10 +80,11 @@ public class BluetoothStatus extends CordovaPlugin {
 		IntentFilter filter = new IntentFilter(
 				BluetoothAdapter.ACTION_STATE_CHANGED);
 		if (mcordova.getActivity() != null) {
-			mcordova.getActivity().registerReceiver(mReceiver, filter);
+			mContext = mcordova.getActivity();
 		} else if (mcordova.getContext() != null) {
-			mcordova.getContext().registerReceiver(mReceiver, filter);
+			mContext = mcordova.getContext();
 		}
+		mContext.registerReceiver(mReceiver, filter);
 	}
 
 	private void enableBT() {
@@ -101,14 +111,36 @@ public class BluetoothStatus extends CordovaPlugin {
 		return isEnabled;
 	}
 
+	public void entryBluetoothSettings() {
+		try {
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.setComponent(new ComponentName("com.android.settings",
+					"com.android.settings.Settings$BluetoothSettingsActivity"));
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+					| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			if (mContext != null) {
+				mContext.startActivity(intent);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (mContext != null) {
+				mContext.startActivity(new Intent(
+						Settings.ACTION_BLUETOOTH_SETTINGS));
+			}
+		}
+
+		if (sUnlockListener != null) {
+			sUnlockListener.onUnlock();
+		}
+
+	}
+
 	private void promptForBT() {
 		// prompt user for enabling bluetooth
 		Intent enableBTIntent = new Intent(
 				BluetoothAdapter.ACTION_REQUEST_ENABLE);
-		if (mcordova.getActivity() != null) {
-			mcordova.getActivity().startActivity(enableBTIntent);
-		} else if (mcordova.getContext() != null) {
-			mcordova.getContext().startActivity(enableBTIntent);
+		if (mContext != null) {
+			mContext.startActivity(enableBTIntent);
 		}
 	}
 

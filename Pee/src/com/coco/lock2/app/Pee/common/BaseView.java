@@ -1,34 +1,24 @@
 package com.coco.lock2.app.Pee.common;
 
-
-
-
-import com.coco.lock2.app.Pee.ViewWrap;
-import com.coco.lock2.local.app.base.IBaseView;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class BaseView extends View implements IBaseView{
+import com.coco.lock2.app.Pee.ViewWrap;
+import com.cooee.control.center.module.base.IBaseView;
+
+public class BaseView extends View implements IBaseView {
 
 	protected final String LOG_TAG = "BaseView";
 
-	protected LockSetting settings;
-
 	public BaseView(Context context) {
 		super(context);
-
-		settings = new LockSetting();
-		settings.loadSetting(context);
 	}
 
 	@Override
@@ -40,34 +30,31 @@ public class BaseView extends View implements IBaseView{
 	public boolean onTouchEvent(MotionEvent event) {
 		return super.onTouchEvent(event);
 	}
+
 	protected ViewWrap wrap;
+
 	public void setWrap(ViewWrap w) {
 		this.wrap = w;
 	}
+
 	private Runnable mExitFunc = null;
+
 	public void setExitFunction(Runnable run) {
 		mExitFunc = run;
 	}
-	protected void exitLock() {
-		if (mExitFunc!=null) {
+
+	public void exitLock() {
+		if (mExitFunc != null) {
 			Log.d(LOG_TAG, "mExitFunc!=null");
 			mExitFunc.run();
 		} else {
 			Context context = getContext();
 			Log.d(LOG_TAG, "mExitFunc ==null");
 			if (context instanceof Activity) {
-				((Activity)context).finish();
+				((Activity) context).finish();
 			}
 		}
 	}
-//	protected void exitLock() {
-//		Context context = getContext();
-//		Log.d(LOG_TAG, "BaseView.exitLock");
-//		Intent intent = new Intent();
-//		intent.setAction("com.coco.action.DISABLE_SYSLOCK");
-//		((Activity) context).sendBroadcast(intent);
-//		((Activity) getContext()).finish();
-//	}
 
 	public void onViewCreate() {
 		Log.d(LOG_TAG, "BaseView.onViewCreate");
@@ -115,7 +102,7 @@ public class BaseView extends View implements IBaseView{
 		getContext().sendBroadcast(cameraIntent);
 		exitLock();
 	}
-	
+
 	protected void gotoBrowser() {
 		Intent intent1 = new Intent();
 		intent1.setAction("android.intent.action.VIEW");

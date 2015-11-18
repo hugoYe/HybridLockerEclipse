@@ -9,15 +9,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
+import android.webkit.WebView;
+import android.widget.Toast;
 
-import com.coco.lock2.local.app.base.AppInfo;
-import com.coco.lock2.local.app.base.Tools;
+import com.cooee.control.center.module.R;
+import com.cooee.control.center.module.base.AppInfo;
+import com.cooee.control.center.module.base.Tools;
 
 public class AppsApi extends CordovaPlugin {
 
@@ -104,7 +110,7 @@ public class AppsApi extends CordovaPlugin {
 							Uri uri = Uri.parse(method);
 							intent.setData(uri);
 						}
-						cordova.getActivity().startActivity(intent);
+						startActivitySafely(cordova.getActivity(), intent);
 						if (sUnlockListener != null) {
 							sUnlockListener.onUnlock();
 						}
@@ -139,7 +145,7 @@ public class AppsApi extends CordovaPlugin {
 							Uri uri = Uri.parse(method);
 							intent.setData(uri);
 						}
-						cordova.getContext().startActivity(intent);
+						startActivitySafely(cordova.getContext(), intent);
 						if (sUnlockListener != null) {
 							sUnlockListener.onUnlock();
 						}
@@ -226,12 +232,12 @@ public class AppsApi extends CordovaPlugin {
 				}
 				if (context != null) {
 					Log.e(TAG, "######## createAppShortCut");
-					createAppShortCut(context, intent, title, icon);
+					createSystemShortCut(context, intent, title, icon);
 				}
 			}
 
 			if (context != null) {
-				context.startActivity(intent);
+				startActivitySafely(context, intent);
 			}
 
 			if (sUnlockListener != null) {
@@ -314,12 +320,17 @@ public class AppsApi extends CordovaPlugin {
 				}
 
 				if (context != null) {
-					createSystemSwitcherShortCut(context, intent, title, icon);
+					createSystemShortCut(context, intent, title, icon);
 				}
 			}
 
 			if (context != null) {
-				context.startActivity(intent);
+				if (url.startsWith("https://play.google.com/store/apps/")
+						|| url.startsWith("market")) {
+					openGooglePlay(context, intent);
+				} else {
+					startActivitySafely(context, intent);
+				}
 			}
 
 			if (sUnlockListener != null) {
@@ -421,17 +432,6 @@ public class AppsApi extends CordovaPlugin {
 		}
 	}
 
-	private void createAppShortCut(Context context, Intent intent,
-			String title, Bitmap icon) {
-		final Intent addIntent = new Intent(
-				"com.android.launcher.action.INSTALL_SHORTCUT");
-		addIntent.putExtra("duplicate", false);
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);// 快捷方式的标题
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);// 快捷方式的图标
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);// 快捷方式的动作
-		context.sendBroadcast(addIntent);
-	}
-
 	/**
 	 * 创建桌面快捷方式图标
 	 * 
@@ -441,15 +441,64 @@ public class AppsApi extends CordovaPlugin {
 	 * @param title
 	 * @param icon
 	 * */
-	private void createSystemSwitcherShortCut(Context context, Intent intent,
+	private void createSystemShortCut(Context context, Intent intent,
 			String title, Bitmap icon) {
-		final Intent addIntent = new Intent(
-				"com.android.launcher.action.INSTALL_SHORTCUT");
-		addIntent.putExtra("duplicate", false);
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);// 快捷方式的标题
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);// 快捷方式的图标
-		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);// 快捷方式的动作
-		context.sendBroadcast(addIntent);
+
+		PluginProxyManager.getInstance().loadProxy(context,
+				(WebView) webView.getView());
+		PluginProxyManager.getInstance().execute(intent, title, icon);
+
+		// Intent intent2 = new Intent();
+		// intent2.putExtra("app_title", title);
+		// intent2.putExtra("app_icon", icon);
+		// intent2.putExtra("app_intent", intent);
+		// intent2.setClassName(context.getPackageName(),
+		// "com.cooee.control.center.module.base.ShortcutService");
+		// context.startService(intent2);
+	}
+
+	public boolean startActivitySafely(Context context, Intent intent) {
+		try {
+			context.startActivity(intent);
+			return true;
+		} catch (ActivityNotFoundException e) {
+			Toast.makeText(
+					context,
+					context.getResources().getString(
+							R.string.activity_not_found), Toast.LENGTH_SHORT)
+					.show();
+		}
+		return false;
+	}
+
+	private boolean isPlayStoreInstalled(Context context) {
+		String playPkgName = "com.android.vending";
+		try {
+			PackageInfo pckInfo = context.getPackageManager().getPackageInfo(
+					playPkgName, PackageManager.GET_ACTIVITIES);
+			ApplicationInfo appInfo = context.getPackageManager()
+					.getApplicationInfo(playPkgName, 0);
+			boolean appStatus = appInfo.enabled;
+			return appStatus;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	private void openGooglePlay(Context context, Intent intent) {
+		if (isPlayStoreInstalled(context)) {
+			intent.setClassName("com.android.vending",
+					"com.android.vending.AssetBrowserActivity");
+			startActivitySafely(context, intent);
+		} else {
+			Toast.makeText(
+					context,
+					context.getResources().getString(
+							R.string.google_play_not_install),
+					Toast.LENGTH_LONG).show();
+		}
+
 	}
 
 }

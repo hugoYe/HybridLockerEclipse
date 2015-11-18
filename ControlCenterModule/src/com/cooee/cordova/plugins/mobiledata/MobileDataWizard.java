@@ -1,13 +1,7 @@
 package com.cooee.cordova.plugins.mobiledata;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.os.Build;
-import android.provider.Settings;
-import android.telephony.TelephonyManager;
-import android.util.Log;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -16,8 +10,18 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.os.Build;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+
+import com.cooee.cordova.plugins.UnlockListener;
 
 /**
  * Created by Hugo.ye on 2015/10/29.
@@ -27,32 +31,98 @@ public class MobileDataWizard extends CordovaPlugin {
 	private static final String TAG = "MobileDataWizard";
 
 	private static final String ACTION_IS_MOBILE_DATA_ENABLED = "isMobileDataEnabled";
-	private static final String ACTION_click_MOBILE_DATA = "clickMobileData";
+	private static final String ACTION_SET_MOBILE_DATA_ENABLED = "setMobileDataEnabled";
+	private static final String ACTION_ENTRY_MOBILE_DATA_SETTINGS = "entryMobileDataSettings";
 
+	private Context mContext;
 	private ConnectivityManager mConnectivityManager;
+
+	private static UnlockListener sUnlockListener;
+
+	public static void setOnUnlockListener(UnlockListener unlockListener) {
+		sUnlockListener = unlockListener;
+	}
+
+	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			final String action = intent.getAction();
+			Log.e(TAG, "action = " + action);
+			if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
+
+				try {
+					Method getMethod = mConnectivityManager.getClass()
+							.getMethod("getMobileDataEnabled");
+					getMethod.setAccessible(true);
+					boolean isEnabled = (Boolean) getMethod
+							.invoke(mConnectivityManager);
+					// sendJS("javascript:onMobileDataStateChanged(isEnabled);");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				try {
+					// 对于没有SIM卡的手机做相应的处理
+					TelephonyInfo telephonyInfo = TelephonyInfo
+							.getInstance(mContext);
+					if (telephonyInfo.isDualSIM()) {
+						boolean isSIM1Ready = telephonyInfo.isSIM1Ready();
+						boolean isSIM2Ready = telephonyInfo.isSIM2Ready();
+						if (isSIM1Ready || isSIM2Ready) {
+							return;
+						} else {
+							// sendJS("javascript:onMobileDataStateChanged(true);");
+						}
+					}
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+
+			}
+		}
+	};
 
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
 		if (cordova.getActivity() != null) {
-			this.mConnectivityManager = (ConnectivityManager) cordova
-					.getActivity().getSystemService(
-							Context.CONNECTIVITY_SERVICE);
+			this.mContext = cordova.getActivity();
 		} else if (cordova.getContext() != null) {
-			this.mConnectivityManager = (ConnectivityManager) cordova
-					.getContext()
-					.getSystemService(Context.CONNECTIVITY_SERVICE);
+			this.mContext = cordova.getContext();
 		}
+
+		this.mConnectivityManager = (ConnectivityManager) mContext
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
+		filter.addAction("android.intent.action.ANY_DATA_STATE");
+		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		filter.setPriority(1000);
+		mContext.registerReceiver(mReceiver, filter);
 	}
 
 	@Override
-	public boolean execute(String action, JSONArray data,
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+
+		mContext.unregisterReceiver(mReceiver);
+	}
+
+	@Override
+	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
 
 		if (action.equals(ACTION_IS_MOBILE_DATA_ENABLED)) {
-			return this.isMobileDataEnabled(callbackContext);
-		} else if (action.equals(ACTION_click_MOBILE_DATA)) {
-			this.clickMobileData();
+			this.isMobileDataEnabled(callbackContext);
+			return true;
+		} else if (action.equals(ACTION_SET_MOBILE_DATA_ENABLED)) {
+			this.setMobileDataEnabled(args);
+			return true;
+		} else if (action.equals(ACTION_ENTRY_MOBILE_DATA_SETTINGS)) {
+			this.entryMobileDataSettings();
 			return true;
 		}
 
@@ -64,12 +134,9 @@ public class MobileDataWizard extends CordovaPlugin {
 		try {
 			// 对于没有SIM卡的手机做相应的处理
 			TelephonyManager tm = null;
-			if (cordova.getActivity() != null) {
-				tm = (TelephonyManager) cordova.getActivity().getSystemService(
-						Context.TELEPHONY_SERVICE);
-			} else if (cordova.getContext() != null) {
-				tm = (TelephonyManager) cordova.getContext().getSystemService(
-						Context.TELEPHONY_SERVICE);
+			if (mContext != null) {
+				tm = (TelephonyManager) mContext
+						.getSystemService(Context.TELEPHONY_SERVICE);
 			}
 			if (tm == null
 					|| TelephonyManager.SIM_STATE_UNKNOWN == tm.getSimState()
@@ -93,18 +160,7 @@ public class MobileDataWizard extends CordovaPlugin {
 		return isEnabled;
 	}
 
-	public void clickMobileData() {
-		Log.e(TAG, "clickMobileData");
-		if (mConnectivityManager == null) {
-			return;
-		}
-		TelephonyInfo telephonyInfo = TelephonyInfo.getInstance(cordova
-				.getActivity());
-		boolean isSIM1Ready = telephonyInfo.isSIM1Ready();
-		boolean isSIM2Ready = telephonyInfo.isSIM2Ready();
-		if (!(isSIM1Ready || isSIM2Ready)) {
-			return;
-		}
+	public void entryMobileDataSettings() {
 		// 对于5.0以上的点击mobile 直接进入移动数据统计界面
 		if (Build.VERSION.SDK_INT > 20) {
 			try {
@@ -113,32 +169,52 @@ public class MobileDataWizard extends CordovaPlugin {
 						"com.android.settings.Settings$DataUsageSummaryActivity"));
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 						| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				if (cordova.getActivity() != null) {
-					cordova.getActivity().startActivity(intent);
-				} else if (cordova.getContext() != null) {
-					cordova.getContext().startActivity(intent);
+				if (mContext != null) {
+					mContext.startActivity(intent);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				if (mContext != null) {
+					mContext.startActivity(new Intent(
+							Settings.ACTION_DATA_ROAMING_SETTINGS));
+				}
 			}
-			return;
+
+			if (sUnlockListener != null) {
+				sUnlockListener.onUnlock();
+			}
 		}
-		// 对于5.0以下的点击mobile 直接设置移动数据
-		try {
-			Method getMethod = mConnectivityManager.getClass().getMethod(
-					"getMobileDataEnabled");
-			getMethod.setAccessible(true);
-			boolean isEnabled = (Boolean) getMethod
-					.invoke(mConnectivityManager);
-			setMobileDataEnabled(!isEnabled);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void setMobileDataEnabled(boolean state) {
+	/**
+	 * js中设置数据流量的开关
+	 * 
+	 * @param state
+	 *            [boolean] (args.getString(0)) : 数据流量开关状态
+	 * 
+	 * */
+	public void setMobileDataEnabled(JSONArray args) {
+		if (mConnectivityManager == null) {
+			return;
+		}
+		TelephonyInfo telephonyInfo = TelephonyInfo.getInstance(mContext);
+		boolean isSIM1Ready = telephonyInfo.isSIM1Ready();
+		boolean isSIM2Ready = telephonyInfo.isSIM2Ready();
+		if (!(isSIM1Ready || isSIM2Ready)) {
+			return;
+		}
+
+		if (Build.VERSION.SDK_INT > 20) {
+			entryMobileDataSettings();
+			return;
+		}
+
+		// 对于5.0以下的点击mobile 直接设置移动数据
 		try {
+
+			boolean state = args.getBoolean(0);
+
 			final Class conmanClass = Class.forName(mConnectivityManager
 					.getClass().getName());
 			final Field iConnectivityManagerField = conmanClass
@@ -157,35 +233,23 @@ public class MobileDataWizard extends CordovaPlugin {
 		}
 	}
 
-	/**
-	 * 长按进入移动流量设置界面
-	 */
-	public void longClickMobileData() {
-		// 对于5.0以上的点击mobile 直接进入移动数据设置界面
-		if (Build.VERSION.SDK_INT >= 21) {
-			if (cordova.getActivity() != null) {
-				cordova.getActivity().startActivity(
-						new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
-			} else if (cordova.getContext() != null) {
-				cordova.getContext().startActivity(
-						new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
-			}
-			return;
+	private void sendJS(final String js) {
+		if (cordova.getActivity() != null) {
+			cordova.getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					webView.loadUrl(js);
+				}
+			});
+		} else if (cordova.getCordovaWrap() != null) {
+			cordova.getCordovaWrap().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					webView.loadUrl(js);
+				}
+			});
 		}
-		// 对于5.0以下的点击mobile 直接进入移动数据统计界面
-		try {
-			Intent intent = new Intent(Intent.ACTION_MAIN);
-			intent.setComponent(new ComponentName("com.android.settings",
-					"com.android.settings.Settings$DataUsageSummaryActivity"));
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-					| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			if (cordova.getActivity() != null) {
-				cordova.getActivity().startActivity(intent);
-			} else if (cordova.getContext() != null) {
-				cordova.getContext().startActivity(intent);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 	}
+
 }

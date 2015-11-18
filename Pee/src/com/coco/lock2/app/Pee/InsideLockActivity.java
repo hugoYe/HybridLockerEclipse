@@ -1,18 +1,17 @@
 package com.coco.lock2.app.Pee;
 
-
 import java.lang.reflect.Method;
-
-import com.coco.lock2.local.app.base.IWrap;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.os.Handler.Callback;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.WindowManager;
+
+import com.cooee.control.center.module.base.IWrap;
 
 public class InsideLockActivity extends Activity {
 

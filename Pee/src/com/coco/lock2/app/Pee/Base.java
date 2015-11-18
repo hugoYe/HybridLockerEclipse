@@ -43,6 +43,10 @@ public abstract class Base {
 		}
 	}
 
+	public void onDestroy(){
+		
+	}
+	
 	public void InitUI(int w,int h)
 	{
 		

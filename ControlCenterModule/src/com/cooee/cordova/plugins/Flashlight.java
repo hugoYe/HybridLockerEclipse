@@ -1,15 +1,16 @@
 package com.cooee.cordova.plugins;
 
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaPlugin;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class Flashlight extends CordovaPlugin {
 
@@ -19,6 +20,7 @@ public class Flashlight extends CordovaPlugin {
 	private static final String ACTION_SWITCH_ON = "switchOn";
 	private static final String ACTION_SWITCH_OFF = "switchOff";
 
+	private CallbackContext mCallbackContext;
 	private static Boolean capable;
 	private boolean releasing;
 	private Camera mCamera;
@@ -27,6 +29,7 @@ public class Flashlight extends CordovaPlugin {
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
 		Log.d(TAG, "Plugin Called: " + action);
+		mCallbackContext = callbackContext;
 		try {
 			if (action.equals(ACTION_SWITCH_ON)) {
 				// When switching on immediately after checking for isAvailable,
@@ -62,6 +65,15 @@ public class Flashlight extends CordovaPlugin {
 			callbackContext.error(e.getMessage());
 			return false;
 		}
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+
+		toggleTorch(false, mCallbackContext);
+		releaseCamera();
 	}
 
 	private boolean isCapable() {

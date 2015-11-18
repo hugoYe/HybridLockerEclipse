@@ -21,7 +21,7 @@ cordova.define("com.cooee.cordova.plugins.mobiledata.MobileDataWizard", function
 var MobileDataWizard = {
 
     /**
-     *  Gets 'true' or 'false' if WiFi is enabled or disabled
+     *  Gets 'true' or 'false' if MobileData is enabled or disabled
      * @param 	win	callback function
      * @param 	fail
      */
@@ -40,9 +40,24 @@ var MobileDataWizard = {
         );
     },
 
-    clickMobileData: function() {
-        cordova.exec(null, null, 'MobileDataWizard', 'clickMobileData', []);
-    }
+	/**
+     *  设置数据流量开关状态
+     * @param state(boolean)
+     * 
+     */
+	setMobileDataEnabled : function(state) {
+		cordova.exec(null, null, 'MobileDataWizard', 'setMobileDataEnabled', [state]);
+	},
+	
+	/**
+     *  进入数据流量设置界面进行设置，针对5.0以上版本
+     * @param state(boolean)
+     * 
+     */
+	entryMobileDataSettings : function() {
+		cordova.exec(null, null, 'MobileDataWizard', 'entryMobileDataSettings', []);
+	}
+
 };
 
 module.exports = MobileDataWizard;

@@ -14,23 +14,27 @@
  */
 package com.cooee.cordova.plugins;
 
-import org.apache.cordova.*;
-
 import java.util.List;
 
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.wifi.WifiManager;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiEnterpriseConfig;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
-import android.content.Context;
+import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.util.Log;
 
 public class WifiWizard extends CordovaPlugin {
@@ -48,38 +52,43 @@ public class WifiWizard extends CordovaPlugin {
 	private static final String GET_CONNECTED_SSID = "getConnectedSSID";
 	private static final String IS_WIFI_ENABLED = "isWifiEnabled";
 	private static final String SET_WIFI_ENABLED = "setWifiEnabled";
+	private static final String ACTION_ENTRY_WIFI_SETTINGS = "entryWifiSettings";
 
 	private WifiManager wifiManager;
 	private CallbackContext callbackContext;
+	private Context mContext;
+
+	private static UnlockListener sUnlockListener;
+
+	public static void setOnUnlockListener(UnlockListener unlockListener) {
+		sUnlockListener = unlockListener;
+	}
 
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
 		if (cordova.getActivity() != null) {
-			this.wifiManager = (WifiManager) cordova.getActivity()
-					.getSystemService(Context.WIFI_SERVICE);
+			mContext = cordova.getActivity();
+
 		} else if (cordova.getContext() != null) {
-			this.wifiManager = (WifiManager) cordova.getContext()
-					.getSystemService(Context.WIFI_SERVICE);
+			mContext = cordova.getContext();
+
 		}
+		this.wifiManager = (WifiManager) mContext
+				.getSystemService(Context.WIFI_SERVICE);
+
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-		if (cordova.getActivity() != null) {
-			cordova.getActivity().registerReceiver(mReceiver, filter);
-		} else if (cordova.getContext() != null) {
-			cordova.getContext().registerReceiver(mReceiver, filter);
-		}
+		mContext.registerReceiver(mReceiver, filter);
+
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 
-		if (cordova.getActivity() != null) {
-			cordova.getActivity().unregisterReceiver(mReceiver);
-		} else if (cordova.getContext() != null) {
-			cordova.getContext().unregisterReceiver(mReceiver);
-		}
+		mContext.unregisterReceiver(mReceiver);
+
 	}
 
 	@Override
@@ -113,6 +122,9 @@ public class WifiWizard extends CordovaPlugin {
 			return this.disconnect(callbackContext);
 		} else if (action.equals(GET_CONNECTED_SSID)) {
 			return this.getConnectedSSID(callbackContext);
+		} else if (action.equals(ACTION_ENTRY_WIFI_SETTINGS)) {
+			entryWifiSettings();
+			return true;
 		} else {
 			callbackContext.error("Incorrect action parameter: " + action);
 		}
@@ -394,6 +406,7 @@ public class WifiWizard extends CordovaPlugin {
 	 *            JSONArray with [0] == JSONObject
 	 * @return true
 	 */
+	@SuppressLint("NewApi")
 	private boolean getScanResults(CallbackContext callbackContext,
 			JSONArray data) {
 		List<ScanResult> scanResults = wifiManager.getScanResults();
@@ -576,6 +589,29 @@ public class WifiWizard extends CordovaPlugin {
 			callbackContext.error("Cannot enable wifi");
 			return false;
 		}
+	}
+
+	public void entryWifiSettings() {
+		try {
+			Intent intent = new Intent(Intent.ACTION_MAIN);
+			intent.setComponent(new ComponentName("com.android.settings",
+					"com.android.settings.Settings$WifiSettingsActivity"));
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+					| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			if (mContext != null) {
+				mContext.startActivity(intent);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (mContext != null) {
+				mContext.startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+			}
+		}
+
+		if (sUnlockListener != null) {
+			sUnlockListener.onUnlock();
+		}
+
 	}
 
 	private boolean validateData(JSONArray data) {

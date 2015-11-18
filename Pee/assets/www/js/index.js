@@ -51,6 +51,7 @@ function onBackKeyDown() {
 var maxHeight,startY,endY,dragLength= 0,translateY,height,HEIGHT;
 var HEIGHT=document.body.clientHeight;
 var resizeTimer = null;
+var maxApp=5;
 //应用点击事件
 var ACTION_CLICK_HEART_APP = "0037";
 $(function() {
@@ -106,7 +107,19 @@ $(function() {
 		});
 		event.preventDefault();
         event.stopPropagation();
-	});
+	})
+	$("#heart_app").bind("click",function(event){
+		var src=this.src;
+		var p="心动应用";
+		var url=null;
+		convertImgToBase64(src,function(base64Img) {
+			console.log("########### startShortcut 111");
+			var intent = "#Intent;launchFlags=0x10000000;component=com.coco.lock2.app.Pee/com.iLoong.launcher.MList.MainActivity;end";
+			console.log("########### startShortcut 222");
+			plugins.AppsApi.startShortcut(intent, 10009, true, p, base64Img);
+		});
+		event.stopPropagation();
+	})
 	$("a").bind('click',function(event){
 		//统计应用点击次数
     	plugins.EventStatistics.onEvent(ACTION_CLICK_HEART_APP);
@@ -260,7 +273,7 @@ function convertImgToBase64(url, callback, outputFormat) {
 
 //初始化app栏,并为每个app绑定openApp函数
 function bindWebFavoriteApp(data){
-	for (var i=0;i<data.app.length&&i<5;i++){
+	for (var i=0;i<data.app.length&&i<maxApp-1;i++){
         var intent = data.app[i].intent;
         var bitmap = data.app[i].bitmap;
         if(bitmap != null) {
@@ -373,12 +386,12 @@ function setWifiOff(){
 
 //开启流量
 function setMobileDataOn(){
-    plugins.MobileDataWizard.clickMobileData();
+    plugins.MobileDataWizard.setMobileDataEnabled(true);
 }
 
 //关闭流量
 function setMobileDataOff(){
-    plugins.MobileDataWizard.clickMobileData();
+    plugins.MobileDataWizard.setMobileDataEnabled(false);
 }
 
 //开启蓝牙

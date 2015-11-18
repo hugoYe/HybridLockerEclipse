@@ -373,12 +373,12 @@ function setWifiOff(){
 
 //开启流量
 function setMobileDataOn(){
-    plugins.MobileDataWizard.clickMobileData();
+    plugins.MobileDataWizard.setMobileDataEnabled(true);
 }
 
 //关闭流量
 function setMobileDataOff(){
-    plugins.MobileDataWizard.clickMobileData();
+    plugins.MobileDataWizard.setMobileDataEnabled(false);
 }
 
 //开启蓝牙

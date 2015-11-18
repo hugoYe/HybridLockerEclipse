@@ -1,8 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+
     <string name="app_name">HybridLocker</string>
     <string name="launcher_name">@string/app_name</string>
     <string name="activity_name">@string/launcher_name</string>
-    <string name="charging">Is Charging</string>
-    <string name="charged">Charged</string>
+    <string name="activity_not_found">App isn\'t installed.</string>
+    <string name="google_play_not_install">Google play can not be used</string>
+
 </resources>

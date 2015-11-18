@@ -617,31 +617,14 @@ android.support.v4.widget.ViewDragHelper:
     private static final int BASE_SETTLE_DURATION
     private static final int MAX_SETTLE_DURATION
     908:927:protected boolean canScroll(android.view.View,boolean,int,int,int,int)
+com.coco.lock2.app.Pee.Base:
+    22:24:protected void setRefresh(java.lang.Runnable,int)
 com.coco.lock2.app.Pee.BuildConfig
 com.coco.lock2.app.Pee.Child:
-    private static final java.lang.String TAG
-    private static final int space1
-    private static final int space2
-    private static final int DELAYTIME
-com.coco.lock2.app.Pee.Fire:
-    private static final int DELAYTIME
     private static final int space1
     private static final int space2
 com.coco.lock2.app.Pee.Lock4Screen:
     private static final java.lang.String TAG
-    private android.media.SoundPool soundPool
-    private java.util.HashMap soundPoolMap
-    private static final int DELAYTIME
-    89:103:private void delayhandle()
-com.coco.lock2.app.Pee.Lock4Screen$3
-com.coco.lock2.app.Pee.Note:
-    private static final int DELAYTIME
-com.coco.lock2.app.Pee.Prompt:
-    private static final java.lang.String TAG
-    private static final int DELAYTIME
-    private static final int EXPAND_X
-    private static final int EXPAND_Y
-    public static final int LEVEL
 com.coco.lock2.app.Pee.R
 com.coco.lock2.app.Pee.R$attr
 com.coco.lock2.app.Pee.R$color
@@ -657,53 +640,13 @@ com.coco.lock2.app.Pee.R$xml
 com.coco.lock2.app.Pee.TimeShow:
     private static final int space1
     private static final int space2
-    private static final int DELAYTIME
 com.coco.lock2.app.Pee.ViewWrap:
     private static final java.lang.String LOG_TAG
 com.coco.lock2.app.Pee.common.BaseView:
-    98:101:protected void gotoDialog()
-    104:108:protected void gotoMSG()
-    111:117:protected void gotoCamera()
-    120:126:protected void gotoBrowser()
-com.coco.lock2.app.Pee.common.DownloadService:
-    public static final java.lang.String DOWNLOAD_URL_KEY
-    public static final java.lang.String DOWNLOAD_FILE_NAME
-com.coco.lock2.app.Pee.common.LockSetting:
-    private static final java.lang.String LOG_TAG
-    public static final java.lang.String FIELD_TIMESTYLE
-    public static final java.lang.String FIELD_SOUND
-    public static final java.lang.String FIELD_VIBRATE
-com.coco.lock2.app.Pee.common.StaticClass:
-    public static final java.lang.String LOCKBOX_PACKAGE_NAME
-    public static final java.lang.String ACTION_CHECK_ICON
-com.coco.lock2.local.app.base.DeviceUtils:
-    private static final java.lang.String TAG
-com.coco.lock2.local.app.base.IWrap:
-    public static final int KERNEL_EXIT
-    public static final int KERNEL_RESET_LIGHT
-    public static final int REQUEST_KERNEL_SEND_SIMCARD_NAME
-    public static final int APP_LOGINFO
-    public static final int APP_REMOTE_CONTEXT
-    public static final int NOTIFY_APP_SIMCARD_NAME
-    public static final int APP_SETZORDER
-    public static final int NOTIFY_APP_SETKEYGUARDDONE
-    public static final int REQUEST_SCREEN_BITMAP
-    public static final int NOTITY_APP_SCREEN_BITMAP
-    public static final int NOTITY_APP_NOTIFICATION
-    public static final int REQUEST_FRAMEWORK_VERSION
-    public static final int NOTITY_APP_FRAMEWORK_VERSION
-    public static final int APP_FRAMEWORK_VERSION
-com.coco.lock2.local.app.base.LockViewContainer:
-    private static final int MSG_COPY_FILE_SUCCESS
-    private static final java.lang.String SP_KEY_COPY_FILE_SUCCESS
-    private static final java.lang.String SP_HTML_FILES_ROOT_DIR
-    private static final java.lang.String HTML_FILES_ROOT_DIR
-    private static final java.lang.String HTML_FILES_ROOT_DIR_NEW
-com.coco.lock2.local.app.base.LockWrapBase:
-    private static final java.lang.String LOG_TAG
-com.coco.lock2.local.app.base.Tools:
-    private static final int NUM_BUTTONS
-    private static final int MAX_RECENT_TASKS
+    85:88:protected void gotoDialog()
+    91:95:protected void gotoMSG()
+    98:104:protected void gotoCamera()
+    107:113:protected void gotoBrowser()
 com.cooee.app.simple.store.R
 com.cooee.app.simple.store.R$color
 com.cooee.app.simple.store.R$dimen
@@ -712,15 +655,79 @@ com.cooee.app.simple.store.R$id
 com.cooee.app.simple.store.R$layout
 com.cooee.app.simple.store.R$menu
 com.cooee.app.simple.store.R$string
-com.cooee.control.center.module.R
 com.cooee.control.center.module.R$color
 com.cooee.control.center.module.R$dimen
 com.cooee.control.center.module.R$drawable
 com.cooee.control.center.module.R$id
 com.cooee.control.center.module.R$layout
 com.cooee.control.center.module.R$menu
-com.cooee.control.center.module.R$string
+com.cooee.control.center.module.R$string:
+    public static final int action_settings
+    public static final int activity_name
+    public static final int app_name
+    public static final int cool_ml_MeIcon_cannot_uninstall
+    public static final int cool_ml_MeIcon_uninstall
+    public static final int cool_ml_MeIcon_uninstalling
+    public static final int cool_ml_app_name1
+    public static final int cool_ml_app_name2
+    public static final int cool_ml_app_name3
+    public static final int cool_ml_app_name4
+    public static final int cool_ml_confirm_canel
+    public static final int cool_ml_confirm_content
+    public static final int cool_ml_confirm_ok
+    public static final int cool_ml_cooee_download_jixu
+    public static final int cool_ml_cooee_download_quxiao
+    public static final int cool_ml_cooee_install_jixu
+    public static final int cool_ml_cooee_install_quxiao
+    public static final int cool_ml_disclaimer_desc
+    public static final int cool_ml_disclaimer_title
+    public static final int cool_ml_disclaimer_update
+    public static final int cool_ml_dl_failed
+    public static final int cool_ml_dl_failed_text
+    public static final int cool_ml_dl_ing
+    public static final int cool_ml_dl_ing_text
+    public static final int cool_ml_dl_installed
+    public static final int cool_ml_dl_installed_text
+    public static final int cool_ml_dl_stop
+    public static final int cool_ml_dl_stop_text
+    public static final int cool_ml_dl_sucess
+    public static final int cool_ml_dl_sucess_text
+    public static final int cool_ml_donwload_manager
+    public static final int cool_ml_donwloadorinstall_manager
+    public static final int cool_ml_download_failed
+    public static final int cool_ml_download_jixu
+    public static final int cool_ml_download_quxiao
+    public static final int cool_ml_dummy_button
+    public static final int cool_ml_dummy_content
+    public static final int cool_ml_install_file_not_exsit
+    public static final int cool_ml_install_jixu
+    public static final int cool_ml_install_manager
+    public static final int cool_ml_install_quxiao
+    public static final int cool_ml_loading_1
+    public static final int cool_ml_more_content
+    public static final int cool_ml_network_not_available
+    public static final int cool_ml_new_content
+    public static final int cool_ml_storage_not_available
+    public static final int hello_world
+    public static final int launcher_name
+    public static final int title_activity_main
 com.cooee.control.center.module.R$xml
+com.cooee.control.center.module.api.GdxLockWrapApi
+com.cooee.control.center.module.api.GdxLockWrapApi$1
+com.cooee.control.center.module.api.LockWrapApi:
+    private static final java.lang.String LOG_TAG
+com.cooee.control.center.module.base.DeviceUtils:
+    private static final java.lang.String TAG
+com.cooee.control.center.module.base.IWrap
+com.cooee.control.center.module.base.LockViewContainer:
+    private static final int MSG_COPY_FILE_SUCCESS
+    private static final java.lang.String SP_KEY_COPY_FILE_SUCCESS
+    private static final java.lang.String SP_HTML_FILES_ROOT_DIR
+    private static final java.lang.String HTML_FILES_ROOT_DIR
+    private static final java.lang.String HTML_FILES_ROOT_DIR_NEW
+com.cooee.control.center.module.base.Tools:
+    private static final int NUM_BUTTONS
+    private static final int MAX_RECENT_TASKS
 com.cooee.control.center.module.update.UpdateService:
     static final java.lang.String ACTION_DOWN_FINISH
 com.cooee.lock.statistics.Assets:
@@ -816,6 +823,15 @@ com.cooee.shell.shell.SdkActivityHullV5:
     public static final int COMPAT_STATE_NORMAL
     public static final int COMPAT_STATE_FINISH
     public static final int COMPAT_STATE_GOTO_GAME
+com.esotericsoftware.tablelayout.TableLayoutParser:
+    static final int tableLayout_start
+    static final int tableLayout_first_final
+    static final int tableLayout_error
+    static final int tableLayout_en_widgetSection
+    static final int tableLayout_en_stack
+    static final int tableLayout_en_main
+    static final int tableLayout_en_main_table
+    8:8:TableLayoutParser()
 com.iLoong.launcher.MList.ApkMangerActivity$DownLoadCallBack:
     private com.iLoong.launcher.MList.DownloadApkItem DownLoadCallBack
 cool.sdk.MicroEntry.MicroEntry:

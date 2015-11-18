@@ -34,7 +34,11 @@ BluetoothStatus.isBlueEnabled =function(win,fail) {
                 },
                 fail, 'BluetoothStatus', 'isBlueEnabled', []
             );
-}
+};
+
+BluetoothStatus.entryBluetoothSettings = function() {
+    exec(null, null, "BluetoothStatus", "entryBluetoothSettings", []);
+};
 
 BluetoothStatus.hasBT = false;
 BluetoothStatus.hasBTLE = false;

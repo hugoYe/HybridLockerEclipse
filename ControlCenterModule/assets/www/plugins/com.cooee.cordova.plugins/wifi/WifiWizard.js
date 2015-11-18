@@ -282,6 +282,10 @@ var WifiWizard = {
             return;
         }
         cordova.exec(win, fail, 'WifiWizard', 'setWifiEnabled', [enabled]);
+    },
+    
+    entryWifiSettings : function() {
+    	cordova.exec(null, null, 'WifiWizard', 'entryWifiSettings', []);
     }
 };
 

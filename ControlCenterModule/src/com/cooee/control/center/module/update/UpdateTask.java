@@ -19,7 +19,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
-import com.coco.lock2.local.app.base.FileUtils;
+import com.cooee.control.center.module.base.FileUtils;
 
 public class UpdateTask {
 
@@ -42,7 +42,7 @@ public class UpdateTask {
 				updateFile();
 			}
 		} else {
-			if (judgeUpdate(24 * 60 * 60 * 1000)) {
+			if (judgeUpdate(6 * 60 * 60 * 1000)) {
 				checkUpdate();
 			}
 		}
@@ -56,12 +56,10 @@ public class UpdateTask {
 	// 检查是否更新
 	private boolean judgeUpdate(long duration) {
 		Long time = sharedPrefer.getLong("update_time", 0);
-		if (time.equals("")) {
+		if (System.currentTimeMillis() - time > duration) {
+			editor.putLong("update_time",
+					System.currentTimeMillis()).commit();
 			return true;
-		} else {
-			if (System.currentTimeMillis() - time > duration) {
-				return true;
-			}
 		}
 		return false;
 	}
@@ -125,6 +123,9 @@ public class UpdateTask {
 			if (updateManager.isUpdate()) {
 				Log.v("UpdateManager", "doInBackground");
 				return true;
+			}else {
+				mContext.sendBroadcast(new Intent(
+						UpdateService.ACTION_DOWN_FINISH));
 			}
 			return false;
 		}

@@ -51,57 +51,35 @@ public class Assets {
 
 	public static JSONObject getConfig(String fileName) {
 		AssetManager assetManager = mContext.getAssets();
-
 		InputStream inputStream = null;
-
 		try {
-
 			inputStream = assetManager.open(fileName);
 			String config = readTextFile(inputStream);
 			JSONObject jObject;
 			try {
 				jObject = new JSONObject(config);
-
-				// JSONObject jRes = new
-				// JSONObject(jObject.getString("config"));
-
 				return jObject;
 			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
 		} catch (IOException e) {
 			Log.e("tag", e.getMessage());
 		}
-
 		return null;
 	}
 
 	private static String readTextFile(InputStream inputStream) {
-
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
 		byte buf[] = new byte[1024];
-
 		int len;
-
 		try {
-
 			while ((len = inputStream.read(buf)) != -1) {
-
 				outputStream.write(buf, 0, len);
-
 			}
 			outputStream.close();
-
 			inputStream.close();
-
 		} catch (IOException e) {
-
 		}
-
 		return outputStream.toString();
-
 	}
 }
