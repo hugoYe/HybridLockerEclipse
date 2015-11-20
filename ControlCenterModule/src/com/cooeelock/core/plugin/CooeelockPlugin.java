@@ -1,4 +1,4 @@
-package com.cooee.cordova.plugins;
+package com.cooeelock.core.plugin;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -29,19 +29,27 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.webkit.WebView;
 import cool.sdk.common.CoolHttpClient;
 import cool.sdk.common.CoolHttpClient.ResultEntity;
 import cool.sdk.common.JsonUtil;
-import dalvik.system.DexClassLoader;
 
-public class LauncherPlugin extends CordovaPlugin {
-	public static final String PREFS_KEY = "h5_plugin";
+public class CooeelockPlugin extends CordovaPlugin {
+
+	private final String TAG = "CooeelockPlugin";
+
+	private final String PREFS_KEY = "h5_plugin";
+
+	private final String ACTION_GET_PREFS = "getPrefs";
+	private final String ACTION_PUT_PREFS = "putPrefs";
+	private final String ACTION_TOAST = "toast";
+
 	public final String ACTION_START_ACTIVITY = "startActivity";
 	public final String ACTION_SEARCH = "search";
 	public final String ACTION_START_URL = "startUrl";
@@ -49,89 +57,133 @@ public class LauncherPlugin extends CordovaPlugin {
 	public final String ACTION_CHECK_VERSION = "checkServerVersion";
 	public final String ACTION_GET_CURRENT_LANGUAGE = "getCurrentLanguage";
 	public final String ACTION_GET_TOUTIAO_ACCESS_TOKEN_PARAMS = "getTouTiaoAccessTokenParams";
-	public final String ACTION_GET_PREFS = "getPrefs";
-	public final String ACTION_PUT_PREFS = "putPrefs";
-	public final String ACTION_TOAST = "toast";
 
 	@Override
-	public boolean execute(String action, final JSONArray args,
+	public boolean execute(final String action, final JSONArray args,
 			final CallbackContext callbackContext) throws JSONException {
-		final String params = args.getString(0);
-		int handle = -1;// PluginProxyManager.getInstance().execute(action,
-						// params);
-		if (handle == -1) {
-			if (action.equals(ACTION_START_ACTIVITY)) {
-				handleStartActivity(params);
-				return true;
-			}
-			if (action.equals(ACTION_SEARCH)) {
-				handleSearch(params);
-				return true;
-			}
-			if (action.equals(ACTION_START_URL)) {
-				handleStartUrl(params);
-				return true;
-			}
-			if (action.equals(ACTION_DOWNLOAD_PLUGIN)) {
-				handleDownloadPlugin(params);
-				return true;
-			}
-			if (action.equals(ACTION_CHECK_VERSION)) {
-				handleCheckVersion(params);
-				return true;
-			}
-			if (action.equals(ACTION_GET_CURRENT_LANGUAGE)) {
-				JSONObject r = new JSONObject();
-				r.put("language", Locale.getDefault().toString());
-				callbackContext.success(r);
-				return true;
-			}
-			if (action.equals(ACTION_GET_TOUTIAO_ACCESS_TOKEN_PARAMS)) {
-				handleGetTouTiaoAccessTokenParams();
-				return true;
-			}
-			if (action.equals(ACTION_GET_PREFS)) {
-				Activity act = cordova.getActivity();
-				SharedPreferences pref = act.getSharedPreferences(PREFS_KEY,
-						Context.MODE_PRIVATE);
-				String value = pref.getString(params, "");
-				if (value.equals("")) {
-					callbackContext.success("");
-				} else {
-					JSONObject r = new JSONObject();
-					r.put(params, value);
-					Log.d("web", "key,value=" + r.toString());
-					callbackContext.success(value);
-				}
-				return true;
-			}
-			if (action.equals(ACTION_PUT_PREFS)) {
-				Activity act = cordova.getActivity();
-				SharedPreferences pref = act.getSharedPreferences(PREFS_KEY,
-						Context.MODE_PRIVATE);
-				JSONObject obj = new JSONObject(params);
-				String key = obj.getString("key");
-				String value = obj.getString("value");
-				Log.d("web", "key,value=" + key + "," + value);
-				pref.edit().putString(key, value).commit();
-				return true;
-			}
-			if (action.equals(ACTION_TOAST)) {
-				final Activity activity = cordova.getActivity();
-				activity.runOnUiThread(new Runnable() {
 
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						// Toast.makeText(activity, R.string.internet_err,
-						// Toast.LENGTH_SHORT).show();
-					}
-				});
-				return true;
+		final String params = args.getString(0);
+
+		Log.e(TAG,
+				"######## action = " + action + ", args = " + args.toString());
+
+		cordova.getThreadPool().execute(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				// Intent intent = new Intent();
+				// intent.setClassName(cordova.getContext().getPackageName(),
+				// "com.cooeelock.core.plugin.PluginExecuteService");
+				// intent.putExtra("action", action);
+				//
+				// cordova.getContext().startService(intent);
+				final int handle = PluginProxyManager.getInstance().execute(
+						action, args);
 			}
-		} else
+		});
+
+		if (action.equals(ACTION_START_ACTIVITY)) {
+			handleStartActivity(params);
 			return true;
+		}
+		if (action.equals(ACTION_SEARCH)) {
+			handleSearch(params);
+			return true;
+		}
+		if (action.equals(ACTION_START_URL)) {
+			handleStartUrl(params);
+			return true;
+		}
+		if (action.equals(ACTION_DOWNLOAD_PLUGIN)) {
+			handleDownloadPlugin(params);
+			return true;
+		}
+		if (action.equals(ACTION_CHECK_VERSION)) {
+			handleCheckVersion(params);
+			return true;
+		}
+		if (action.equals(ACTION_GET_CURRENT_LANGUAGE)) {
+			JSONObject r = new JSONObject();
+			r.put("language", Locale.getDefault().toString());
+			callbackContext.success(r);
+			return true;
+		}
+		if (action.equals(ACTION_GET_TOUTIAO_ACCESS_TOKEN_PARAMS)) {
+			handleGetTouTiaoAccessTokenParams();
+			return true;
+		}
+		if (action.equals(ACTION_GET_PREFS)) {
+			Activity act = cordova.getActivity();
+			SharedPreferences pref = act.getSharedPreferences(PREFS_KEY,
+					Context.MODE_PRIVATE);
+			String value = pref.getString(params, "");
+			if (value.equals("")) {
+				callbackContext.success("");
+			} else {
+				JSONObject r = new JSONObject();
+				r.put(params, value);
+				Log.d("web", "key,value=" + r.toString());
+				callbackContext.success(value);
+			}
+			return true;
+		}
+		if (action.equals(ACTION_PUT_PREFS)) {
+			Activity act = cordova.getActivity();
+			SharedPreferences pref = act.getSharedPreferences(PREFS_KEY,
+					Context.MODE_PRIVATE);
+			JSONObject obj = new JSONObject(params);
+			String key = obj.getString("key");
+			String value = obj.getString("value");
+			Log.d("web", "key,value=" + key + "," + value);
+			pref.edit().putString(key, value).commit();
+			return true;
+		}
+		if (action.equals(ACTION_TOAST)) {
+			final Activity activity = cordova.getActivity();
+			activity.runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					// Toast.makeText(activity, R.string.internet_err,
+					// Toast.LENGTH_SHORT).show();
+				}
+			});
+			return true;
+		}
+
 		return false;
+	}
+
+	private class JsonArrayParcelable implements Parcelable {
+
+		public final Parcelable.Creator<JsonArrayParcelable> CREATOR = new Creator<JsonArrayParcelable>() {
+
+			@Override
+			public JsonArrayParcelable[] newArray(int size) {
+				// TODO Auto-generated method stub
+				return new JsonArrayParcelable[size];
+			}
+
+			@Override
+			public JsonArrayParcelable createFromParcel(Parcel source) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+
+		@Override
+		public int describeContents() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	private void handleGetTouTiaoAccessTokenParams() {
@@ -412,19 +464,19 @@ public class LauncherPlugin extends CordovaPlugin {
 						@Override
 						public void run() {
 							if (isProxyValid(unzipDir, activity)) {
-								File dir = new File(
-										PluginProxyManager.DIR_PROXY);
-								if (deleteFile(dir)
-										&& new File(unzipDir).renameTo(dir)) {
-									String url = PluginProxyManager
-											.getInstance()
-											.loadProxy(
-													activity,
-													(WebView) LauncherPlugin.this.webView
-															.getView());
-									// update
-									loadUrl(url);
-								}
+								// File dir = new File(
+								// PluginProxyManager.DIR_PROXY);
+								// if (deleteFile(dir)
+								// && new File(unzipDir).renameTo(dir)) {
+								// String url = PluginProxyManager
+								// .getInstance()
+								// .loadProxy(
+								// activity,
+								// (WebView) LauncherPlugin.this.webView
+								// .getView());
+								// // update
+								// loadUrl(url);
+								// }
 							}
 							deleteFile(new File(unzipDir));
 						}
@@ -435,24 +487,24 @@ public class LauncherPlugin extends CordovaPlugin {
 	}
 
 	public boolean isProxyValid(String proxyDir, Activity activity) {
-		File jarFile = new File(proxyDir + PluginProxyManager.JAR_NAME);
-		if (jarFile.exists()) {
-			DexClassLoader cl = new DexClassLoader(jarFile.toString(),
-					proxyDir, null, activity.getClassLoader());
-			Class<?> c;
-			try {
-				c = cl.loadClass("com.cooee.cordova.plugin.PluginProxy");
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
-			}
-		}
-		String url = proxyDir + PluginProxyManager.URL_NAME;
-		File urlFile = new File(url);
-		if (urlFile.exists()) {
-			return true;
-		}
+		// File jarFile = new File(proxyDir + PluginProxyManager.JAR_NAME);
+		// if (jarFile.exists()) {
+		// DexClassLoader cl = new DexClassLoader(jarFile.toString(),
+		// proxyDir, null, activity.getClassLoader());
+		// Class<?> c;
+		// try {
+		// c = cl.loadClass("com.cooee.cordova.plugin.PluginProxy");
+		// } catch (ClassNotFoundException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// return false;
+		// }
+		// }
+		// String url = proxyDir + PluginProxyManager.URL_NAME;
+		// File urlFile = new File(url);
+		// if (urlFile.exists()) {
+		// return true;
+		// }
 		return false;
 	}
 
@@ -461,7 +513,7 @@ public class LauncherPlugin extends CordovaPlugin {
 
 			@Override
 			public void run() {
-				LauncherPlugin.this.webView.loadUrlIntoView(s, true);
+				CooeelockPlugin.this.webView.loadUrlIntoView(s, true);
 			}
 		});
 	}
@@ -485,7 +537,7 @@ public class LauncherPlugin extends CordovaPlugin {
 	}
 
 	public static File downloadFile(String serverUrl) {
-		String dirPath = PluginProxyManager.DIR_ROOT;
+		String dirPath = "";// PluginProxyManager.DIR_ROOT;
 		File dir = new File(dirPath);
 		dir.mkdirs();
 		File file = new File(dirPath + System.currentTimeMillis());

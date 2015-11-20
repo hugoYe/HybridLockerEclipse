@@ -135,9 +135,8 @@ abstract public class LockWrapApi implements IWrap, UnlockListener {
 	@Override
 	public void onUnlock() {
 		Intent intent = new Intent();
-		intent.setClassName(context,
-				"com.cooee.lock.statistics.StaticService");
-		context.stopService( intent );
+		intent.setClassName(context, "com.cooee.lock.statistics.StaticClass");
+		context.stopService(intent);
 		unLock();
 	}
 

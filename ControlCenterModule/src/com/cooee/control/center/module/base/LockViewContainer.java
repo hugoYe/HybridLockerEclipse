@@ -27,6 +27,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.cooee.cordova.plugins.TouchEventPrevent;
 import com.cooee.statistics.StatisticsBaseNew;
 import com.cooee.statistics.StatisticsExpandNew;
+import com.cooeelock.core.plugin.PluginProxyManager;
 
 final public class LockViewContainer extends FrameLayout implements IBaseView {
 
@@ -333,6 +334,29 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 
 		mInputAdapter = input;
 
+		String destDir = "";
+		if (mRemoteContext != null) {
+			destDir = mRemoteContext.getFilesDir().getAbsolutePath();
+		} else {
+			destDir = mContext.getFilesDir().getAbsolutePath();
+		}
+
+		try {
+			FileUtils.copyAssetDirToFiles(destDir, mContext, "h5");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (mRemoteContext != null) {
+			PluginProxyManager.getInstance().loadProxy(mRemoteContext);
+		} else {
+			PluginProxyManager.getInstance().loadProxy(mContext);
+		}
+
+		// Intent it = new Intent();
+		// it.setClassName(mContext.getPackageName(),
+		// "com.cooeelock.core.plugin.PluginProxyLoadService");
+		// mContext.startService(it);
 		// 创建控制中心的webview
 		createWebview();
 

@@ -3,7 +3,9 @@ package com.cooee.cordova.plugins;
 import java.util.ArrayList;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,8 +19,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.cooee.control.center.module.R;
@@ -41,6 +43,12 @@ public class AppsApi extends CordovaPlugin {
 
 	public static void setOnUnlockListener(UnlockListener unlockListener) {
 		sUnlockListener = unlockListener;
+	}
+
+	@Override
+	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+		// TODO Auto-generated method stub
+		super.initialize(cordova, webView);
 	}
 
 	@Override
@@ -444,17 +452,17 @@ public class AppsApi extends CordovaPlugin {
 	private void createSystemShortCut(Context context, Intent intent,
 			String title, Bitmap icon) {
 
-		PluginProxyManager.getInstance().loadProxy(context,
-				(WebView) webView.getView());
-		PluginProxyManager.getInstance().execute(intent, title, icon);
-
-		// Intent intent2 = new Intent();
-		// intent2.putExtra("app_title", title);
-		// intent2.putExtra("app_icon", icon);
-		// intent2.putExtra("app_intent", intent);
+		Intent intent2 = new Intent();
+		Bundle extras = new Bundle();
+		intent2.putExtras(extras);
+		intent2.putExtra("app_title", title);
+		intent2.putExtra("app_icon", icon);
+		intent2.putExtra("app_intent", intent);
 		// intent2.setClassName(context.getPackageName(),
 		// "com.cooee.control.center.module.base.ShortcutService");
-		// context.startService(intent2);
+		intent2.setClassName(context.getPackageName(),
+				"com.cooee.cordova.plugins.PluginService");
+		context.startService(intent2);
 	}
 
 	public boolean startActivitySafely(Context context, Intent intent) {

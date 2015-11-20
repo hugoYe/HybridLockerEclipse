@@ -260,6 +260,8 @@ function convertImgToBase64(url, callback, outputFormat) {
 
 //初始化app栏,并为每个app绑定openApp函数
 function bindWebFavoriteApp(data){
+	var ul=document.getElementById("app");
+	ul.innerHTML="";
 	for (var i=0;i<data.app.length&&i<5;i++){
         var intent = data.app[i].intent;
         var bitmap = data.app[i].bitmap;
@@ -267,7 +269,6 @@ function bindWebFavoriteApp(data){
             var appimg = document.createElement("img");
             var div=document.createElement("div");
             var li=document.createElement("li");
-            var ul=document.getElementById("app");
             if (i==4){
                 li.className="app_item last";
             }else {

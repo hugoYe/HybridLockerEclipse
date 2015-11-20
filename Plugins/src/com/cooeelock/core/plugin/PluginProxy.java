@@ -1,54 +1,56 @@
-package com.cooee.cordova.plugins;
+package com.cooeelock.core.plugin;
+
+import org.json.JSONArray;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
-import android.webkit.WebView;
 
-import com.cooee.control.center.module.base.PluginTest;
+import com.cooeelock.plugin.example.PluginTest;
 
 public class PluginProxy implements IPluginProxy {
 
-	private static final String TAG = "PluginProxy";
+	private final String TAG = "PluginProxy";
 
+	/**
+	 * 锁屏apk自身的上下文环境
+	 * */
+	private Context mRemoteContext;
+
+	/**
+	 * 插件本身的上下文环境
+	 * */
 	private Context mContext;
-	private WebView view;
 
+	/**
+	 * @param context
+	 *            锁屏自身的服务PluginProxyLoadService传过来的上下文环境
+	 * */
 	@Override
-	public void init(Context context, WebView view) {
-		this.mContext = context;
-		this.view = view;
-	}
+	public void init(Context context) {
+		this.mRemoteContext = context;
 
-	@Override
-	public int execute(Intent intent, String title, Bitmap icon) {
-		// TODO Auto-generated method stub
-		Log.e(TAG, "####### execute !!!!!!");
-
-		PluginTest test = new PluginTest();
-		test.print(mContext.getPackageName(), title, intent);
-
-		Context myContext = null;
 		try {
-			myContext = mContext.createPackageContext("com.cooee.plugins",
-					Context.CONTEXT_INCLUDE_CODE
+			mContext = mRemoteContext.createPackageContext(
+					"com.cooeelock.plugins", Context.CONTEXT_INCLUDE_CODE
 							| Context.CONTEXT_IGNORE_SECURITY);
 		} catch (NameNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
 
-		Intent intent2 = new Intent();
-		intent2.putExtra("app_title", title);
-		intent2.putExtra("app_icon", icon);
-		intent2.putExtra("app_intent", intent);
-		intent2.setClassName(myContext.getPackageName(),
-				"com.cooee.control.center.module.base.ShortcutService");
-		myContext.startService(intent2);
+	@Override
+	public int execute(String action, JSONArray args) {
+		// TODO Auto-generated method stub
+		Log.e(TAG, "####### action = " + action + ", args = " + args.toString());
+		Log.e(TAG, "####### 我是插件真实执行者！！！ ");
+
+		PluginTest.print(action, args);
+
 		return -1;
 	}
 
@@ -131,4 +133,5 @@ public class PluginProxy implements IPluginProxy {
 	public void onPageFinishedLoading() {
 		// TODO Auto-generated method stub
 	}
+
 }

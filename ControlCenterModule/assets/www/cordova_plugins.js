@@ -82,6 +82,13 @@ module.exports = [
             "plugins.EventStatistics"
         ]
     },
+    {
+        "file": "plugins/com.cooeelock.core.plugin/CooeelockPlugin.js",
+        "id": "cooeelock-plugin.CooeelockPlugin",
+        "clobbers": [
+            "plugins.CooeelockPlugin"
+        ]
+    },
 ];
 module.exports.metadata = 
 // TOP OF METADATA

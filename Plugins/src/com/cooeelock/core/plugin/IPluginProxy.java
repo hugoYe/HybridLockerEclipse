@@ -1,15 +1,15 @@
-package com.cooee.cordova.plugins;
+package com.cooeelock.core.plugin;
+
+import org.json.JSONArray;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.webkit.WebView;
 
 public interface IPluginProxy {
 
-	public void init(Context context, WebView view);
+	public void init(Context context);
 
 	/**
 	 * Executes the request.
@@ -28,7 +28,7 @@ public interface IPluginProxy {
 	 *            The callback context used when calling back into JavaScript.
 	 * @return -1:not handle,0:handle failed,1:handle success.
 	 */
-	public int execute(Intent intent, String title, Bitmap icon);
+	public int execute(String action, final JSONArray args);
 
 	/**
 	 * Called when the system is about to start resuming a previous activity.

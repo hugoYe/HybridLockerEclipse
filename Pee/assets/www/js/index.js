@@ -113,10 +113,12 @@ $(function() {
 		var p="心动应用";
 		var url=null;
 		convertImgToBase64(src,function(base64Img) {
+		
 			console.log("########### startShortcut 111");
 			var intent = "#Intent;launchFlags=0x10000000;component=com.coco.lock2.app.Pee/com.iLoong.launcher.MList.MainActivity;end";
+			plugins.CooeelockPlugin.test(intent, 10009, p);
 			console.log("########### startShortcut 222");
-			plugins.AppsApi.startShortcut(intent, 10009, true, p, base64Img);
+			//plugins.AppsApi.startShortcut(intent, 10009, true, p, base64Img);
 		});
 		event.stopPropagation();
 	})
