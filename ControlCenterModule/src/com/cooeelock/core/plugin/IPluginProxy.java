@@ -2,14 +2,11 @@ package com.cooeelock.core.plugin;
 
 import org.json.JSONArray;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 
 public interface IPluginProxy {
-
-	public void init(Context context);
 
 	/**
 	 * Executes the request.
@@ -36,7 +33,7 @@ public interface IPluginProxy {
 	 * @param multitasking
 	 *            Flag indicating if multitasking is turned on for app
 	 */
-	public void onPause(boolean multitasking);
+	public void onPause(Boolean multitasking);
 
 	/**
 	 * Called when the activity will start interacting with the user.
@@ -44,7 +41,7 @@ public interface IPluginProxy {
 	 * @param multitasking
 	 *            Flag indicating if multitasking is turned on for app
 	 */
-	public void onResume(boolean multitasking);
+	public void onResume(Boolean multitasking);
 
 	/**
 	 * Called when the activity is becoming visible to the user.
@@ -68,7 +65,8 @@ public interface IPluginProxy {
 
 	public void onLauncherLoadFinish();
 
-	public void onActivityResult(int requestCode, int resultCode, Intent intent);
+	public void onActivityResult(Integer requestCode, Integer resultCode,
+			Intent intent);
 
 	/**
 	 * Hook for blocking the loading of external resources.

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -23,10 +24,9 @@ public class UpdateManager {
 	 */
 	public boolean isUpdate() {
 		SharedPreferences sharedPrefer = mContext.getSharedPreferences(
-				"Update", Context.MODE_WORLD_READABLE
-						+ Context.MODE_WORLD_WRITEABLE);
+				"Update", Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPrefer.edit();
-		int curVersion = sharedPrefer.getInt("version", 0);
+		int curVersion = sharedPrefer.getInt("version", 2);
 		HttpURLConnection conn = null;
 		InputStream inStream = null;
 		try {

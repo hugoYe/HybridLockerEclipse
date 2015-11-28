@@ -23,11 +23,10 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 
-import com.badlogic.gdx.InputAdapter;
+import com.coco.lock.favorites.FavoritesModel;
 import com.cooee.cordova.plugins.TouchEventPrevent;
 import com.cooee.statistics.StatisticsBaseNew;
 import com.cooee.statistics.StatisticsExpandNew;
-import com.cooeelock.core.plugin.PluginProxyManager;
 
 final public class LockViewContainer extends FrameLayout implements IBaseView {
 
@@ -45,7 +44,6 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 	private CordovaWrap mCordovaWrap;
 	private WebView mWebView;
 	private View mLockView;
-	private InputAdapter mInputAdapter;
 
 	public LockViewContainer(Context context, Context remoteContext) {
 		super(context);
@@ -59,24 +57,13 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 		// TODO Auto-generated method stub
 
 		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-			if (mInputAdapter != null) {
-				mInputAdapter.touchDown((int) ev.getX(), (int) ev.getY(), 0, 0);
-			} else {
-				mLockView.onTouchEvent(ev);
-			}
+			mLockView.onTouchEvent(ev);
 		}
+
 		if (TouchEventPrevent.preventWebTouchEvent) {
-			if (mInputAdapter != null) {
-				if (ev.getAction() == MotionEvent.ACTION_MOVE) {
-					mInputAdapter.touchDragged((int) ev.getX(),
-							(int) ev.getY(), 0);
-				} else if (ev.getAction() == MotionEvent.ACTION_UP) {
-					mInputAdapter.touchUp((int) ev.getX(), (int) ev.getY(), 0,
-							0);
-				}
-			} else {
-				mLockView.onTouchEvent(ev);
-			}
+
+			mLockView.onTouchEvent(ev);
+
 			if (ev.getAction() == MotionEvent.ACTION_UP) {
 				TouchEventPrevent.preventWebTouchEvent = false;
 			}
@@ -153,6 +140,7 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 			}
 		}
 		addView(mWebView);
+		
 	}
 
 	/**
@@ -327,38 +315,16 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 		}
 	}
 
-	public void setupViews(View customView, InputAdapter input) {
+	public void setupViews(View customView) {
 		// 先布局锁屏界面
 		mLockView = customView;
 		addView(customView);
 
-		mInputAdapter = input;
-
-		String destDir = "";
-		if (mRemoteContext != null) {
-			destDir = mRemoteContext.getFilesDir().getAbsolutePath();
-		} else {
-			destDir = mContext.getFilesDir().getAbsolutePath();
-		}
-
-		try {
-			FileUtils.copyAssetDirToFiles(destDir, mContext, "h5");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (mRemoteContext != null) {
-			PluginProxyManager.getInstance().loadProxy(mRemoteContext);
-		} else {
-			PluginProxyManager.getInstance().loadProxy(mContext);
-		}
-
-		// Intent it = new Intent();
-		// it.setClassName(mContext.getPackageName(),
-		// "com.cooeelock.core.plugin.PluginProxyLoadService");
-		// mContext.startService(it);
 		// 创建控制中心的webview
 		createWebview();
+
+		// 启动常用应用服务
+		startFavoritesService();
 
 		// 加入统计代码
 		startStatisticsService();
@@ -366,6 +332,14 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 		// 开启服务进行html站点更新
 		startUpdateService();
 
+	}
+
+	private void startFavoritesService() {
+
+		Intent intent = new Intent();
+		intent.setClassName(mContext.getPackageName(),
+				FavoritesModel.FAVORITES_SERVICE_NEME);
+		mContext.startService(intent);
 	}
 
 	/**

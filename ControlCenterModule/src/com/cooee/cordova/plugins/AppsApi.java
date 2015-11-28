@@ -12,19 +12,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.coco.lock.favorites.AppInfo;
+import com.coco.lock.favorites.FavoritesModel;
+import com.coco.lock.favorites.api.FavoritesApi;
 import com.cooee.control.center.module.R;
-import com.cooee.control.center.module.base.AppInfo;
 import com.cooee.control.center.module.base.Tools;
 
 public class AppsApi extends CordovaPlugin {
@@ -40,17 +43,36 @@ public class AppsApi extends CordovaPlugin {
 	private CallbackContext mCallbackContext;
 
 	private static UnlockListener sUnlockListener;
-
+	
+	private Context mContext;
+	FavoritesApi mFavorites = null;
+	
 	public static void setOnUnlockListener(UnlockListener unlockListener) {
 		sUnlockListener = unlockListener;
 	}
 
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-		// TODO Auto-generated method stub
 		super.initialize(cordova, webView);
-	}
+		if (cordova.getActivity() != null) {
+			mContext = cordova.getActivity();
 
+		} else if (cordova.getContext() != null) {
+			mContext = cordova.getContext();
+
+		}
+		
+		//注册常用数据库读取完成广播
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(FavoritesModel.ACTION_LOAD_FAVOTITE_SUCCESS);
+		mContext.registerReceiver(mFavoriteReceiver, filter);
+		
+		//获取常用信息的提供类
+		mFavorites = new FavoritesApi(mContext);
+		mFavorites.init();
+
+	}
+	
 	@Override
 	public boolean execute(String action, final JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
@@ -75,6 +97,20 @@ public class AppsApi extends CordovaPlugin {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void onDestroy() {
+		Log.i(TAG, "AppsApi onDestroy");
+		if( mFavoriteReceiver != null )
+		{
+			mContext.unregisterReceiver( mFavoriteReceiver );
+			mFavoriteReceiver = null;
+		}
+		if (mFavorites != null){
+			mFavorites.onDestroy();
+		}
+		super.onDestroy();
 	}
 
 	// Thanks to
@@ -375,7 +411,7 @@ public class AppsApi extends CordovaPlugin {
 				final JSONObject object = new JSONObject();// 创建一个总的对象，这个对象对整个json串
 				JSONArray jsonarray = new JSONArray();// json数组，里面包含的内容为pet的所有对象
 				Log.i(TAG, "######## bindWebFavoriteApp---context = " + ctx);
-				ArrayList<AppInfo> list = Tools.recentTasks(ctx);
+				ArrayList<AppInfo> list = mFavorites.getFavoriteApp();
 				Log.i(TAG,
 						"######## bindWebFavoriteApp,list.size = "
 								+ list.size());
@@ -401,6 +437,8 @@ public class AppsApi extends CordovaPlugin {
 						Log.i(TAG,
 								"######## bindWebFavoriteApp--- exception111 = "
 										+ e.toString());
+						e.printStackTrace();
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
@@ -451,17 +489,11 @@ public class AppsApi extends CordovaPlugin {
 	 * */
 	private void createSystemShortCut(Context context, Intent intent,
 			String title, Bitmap icon) {
-
 		Intent intent2 = new Intent();
-		Bundle extras = new Bundle();
-		intent2.putExtras(extras);
 		intent2.putExtra("app_title", title);
 		intent2.putExtra("app_icon", icon);
 		intent2.putExtra("app_intent", intent);
-		// intent2.setClassName(context.getPackageName(),
-		// "com.cooee.control.center.module.base.ShortcutService");
-		intent2.setClassName(context.getPackageName(),
-				"com.cooee.cordova.plugins.PluginService");
+		intent2.setClassName(context.getPackageName(), "com.cooee.control.center.module.base.ShortcutService");
 		context.startService(intent2);
 	}
 
@@ -508,5 +540,12 @@ public class AppsApi extends CordovaPlugin {
 		}
 
 	}
+	private BroadcastReceiver mFavoriteReceiver = new BroadcastReceiver() {
 
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.i(TAG, "mFavoriteReceiver onReceive bindWebFavoriteApp");
+			bindWebFavoriteApp();
+		}
+	};
 }

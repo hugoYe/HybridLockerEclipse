@@ -1,0 +1,13 @@
+com.cooeelock.plugin.example.PluginBroadcast:
+    public static final java.lang.String ACTION_SYSTEM_DATA
+com.cooeelock.plugin.example.PluginTest
+com.cooeeui.lock.plugins.BuildConfig
+com.cooeeui.lock.plugins.R
+com.cooeeui.lock.plugins.R$attr
+com.cooeeui.lock.plugins.R$dimen
+com.cooeeui.lock.plugins.R$drawable
+com.cooeeui.lock.plugins.R$id
+com.cooeeui.lock.plugins.R$layout
+com.cooeeui.lock.plugins.R$menu
+com.cooeeui.lock.plugins.R$string
+com.cooeeui.lock.plugins.R$style

@@ -83,10 +83,17 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.cooeelock.core.plugin/CooeelockPlugin.js",
-        "id": "cooeelock-plugin.CooeelockPlugin",
+        "file": "plugins/com.cooeelock.core.plugin/ApkPlugin.js",
+        "id": "cooeelock-plugin.ApkPlugin",
         "clobbers": [
-            "plugins.CooeelockPlugin"
+            "plugins.ApkPlugin"
+        ]
+    },
+    {
+        "file": "plugins/com.cooeelock.core.plugin/JarPlugin.js",
+        "id": "cooeelock-plugin.JarPlugin",
+        "clobbers": [
+            "plugins.JarPlugin"
         ]
     },
 ];

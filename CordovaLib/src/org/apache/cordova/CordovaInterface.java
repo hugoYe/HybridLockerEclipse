@@ -18,11 +18,11 @@
  */
 package org.apache.cordova;
 
+import java.util.concurrent.ExecutorService;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-
-import java.util.concurrent.ExecutorService;
 
 /**
  * The Activity interface that is implemented by CordovaActivity. It is used to
@@ -62,6 +62,8 @@ public interface CordovaInterface {
 
 	// added by Hugo.ye begin
 	public abstract Context getContext();
+
+	public abstract Context getRemoteContext();
 
 	public abstract CordovaWrap getCordovaWrap();
 

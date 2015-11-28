@@ -86,7 +86,6 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:supportsRtl="true" >
 
@@ -107,11 +106,32 @@
             android:exported="true" />
 		<!-- 控制中心更新服务注册   end -->
 		
+		<!-- 用于锁屏APK插件下载其他apk的服务  begin -->    
+        <service
+            android:name="com.cooeelock.core.plugin.DownloadService"
+            android:enabled="true"
+            android:exported="true" />
+        <!-- 用于锁屏APK插件下载其他apk的服务  end --> 
+        
+        <!-- 用于锁屏JAR插件执行的服务  begin -->     
+        <service
+            android:name="com.cooeelock.core.plugin.JarExecuteService"
+            android:enabled="true"
+            android:exported="true" />
+        <!-- 用于锁屏JAR插件执行的服务  end -->    
+		
+		
 		<!-- 创建快捷方式服务注册   begin -->
 		<service android:name="com.cooee.control.center.module.base.ShortcutService"
 		    android:enabled="true"
             android:exported="true" />
 		<!-- 创建快捷方式服务注册   end -->
+		
+		<!-- 开关闪光灯服务注册   begin -->
+		<service android:name="com.cooee.control.center.module.base.FlashlightService"
+		    android:enabled="true"
+            android:exported="true" />
+		<!-- 开关闪光灯服务注册   end -->
 		
 		<!-- 开机广播注册   begin -->
         <receiver android:name="com.cooee.control.center.module.base.BootCompletedReceiver" >

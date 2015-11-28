@@ -185,13 +185,8 @@ public class CordovaWrap {
 	}
 
 	protected CordovaInterfaceImpl makeCordovaInterface() {
-		// Context context = null;
-		// if (mRemoteContext != null) {
-		// context = mRemoteContext;
-		// } else {
-		// context = mContext;
-		// }
-		return new CordovaInterfaceImpl(mContext, this) {
+
+		return new CordovaInterfaceImpl(mContext, mRemoteContext, this) {
 			@Override
 			public Object onMessage(String id, Object data) {
 				// Plumb this to CordovaActivity.onMessage for backwards

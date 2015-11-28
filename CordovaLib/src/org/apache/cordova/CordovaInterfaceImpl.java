@@ -19,14 +19,14 @@
 
 package org.apache.cordova;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Default implementation of CordovaInterface.
@@ -36,6 +36,7 @@ public class CordovaInterfaceImpl implements CordovaInterface {
 	protected Activity activity;
 	protected Context context; // added by Hugo.ye
 	protected CordovaWrap cordovaWrap; // added by Hugo.ye
+	protected Context remoteContext; // added by Hugo.ye
 	protected ExecutorService threadPool;
 	protected PluginManager pluginManager;
 
@@ -54,16 +55,19 @@ public class CordovaInterfaceImpl implements CordovaInterface {
 	}
 
 	// added by Hugo.ye begin
-	public CordovaInterfaceImpl(Context context, CordovaWrap cordovaWrap) {
-		this(context, cordovaWrap, Executors.newCachedThreadPool());
+	public CordovaInterfaceImpl(Context context, Context remoteContext,
+			CordovaWrap cordovaWrap) {
+		this(context, remoteContext, cordovaWrap, Executors
+				.newCachedThreadPool());
 	}
 
-	public CordovaInterfaceImpl(Context context, CordovaWrap cordovaWrap,
-			ExecutorService threadPool) {
+	public CordovaInterfaceImpl(Context context, Context remoteContext,
+			CordovaWrap cordovaWrap, ExecutorService threadPool) {
 		if (context instanceof Activity) {
 			this.activity = (Activity) context;
 		} else {
 			this.context = context;
+			this.remoteContext = remoteContext;
 			this.cordovaWrap = cordovaWrap;
 		}
 
@@ -104,6 +108,12 @@ public class CordovaInterfaceImpl implements CordovaInterface {
 	// added by Hugo.ye begin
 	public Context getContext() {
 		return context;
+	}
+
+	@Override
+	public Context getRemoteContext() {
+		// TODO Auto-generated method stub
+		return remoteContext;
 	}
 
 	public CordovaWrap getCordovaWrap() {

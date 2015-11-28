@@ -5,6 +5,8 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
@@ -34,19 +36,30 @@ public class Flashlight extends CordovaPlugin {
 			if (action.equals(ACTION_SWITCH_ON)) {
 				// When switching on immediately after checking for isAvailable,
 				// the release method may still be running, so wait a bit.
-				while (releasing) {
-					Thread.sleep(10);
+				// while (releasing) {
+				// Thread.sleep(10);
+				// }
+				// mCamera = Camera.open();
+				// if (Build.VERSION.SDK_INT >= 11) { // honeycomb
+				// // required for (at least) the Nexus 5
+				// mCamera.setPreviewTexture(new SurfaceTexture(0));
+				// }
+				// toggleTorch(true, callbackContext);
+				if (this.cordova.getActivity() != null) {
+					startFlashlightService(this.cordova.getActivity(), true);
+				} else if (this.cordova.getContext() != null) {
+					startFlashlightService(this.cordova.getContext(), true);
 				}
-				mCamera = Camera.open();
-				if (Build.VERSION.SDK_INT >= 11) { // honeycomb
-					// required for (at least) the Nexus 5
-					mCamera.setPreviewTexture(new SurfaceTexture(0));
-				}
-				toggleTorch(true, callbackContext);
+
 				return true;
 			} else if (action.equals(ACTION_SWITCH_OFF)) {
-				toggleTorch(false, callbackContext);
-				releaseCamera();
+				// toggleTorch(false, callbackContext);
+				// releaseCamera();
+				if (this.cordova.getActivity() != null) {
+					startFlashlightService(this.cordova.getActivity(), false);
+				} else if (this.cordova.getContext() != null) {
+					startFlashlightService(this.cordova.getContext(), false);
+				}
 				return true;
 			} else if (action.equals(ACTION_AVAILABLE)) {
 				if (capable == null) {
@@ -67,14 +80,14 @@ public class Flashlight extends CordovaPlugin {
 		}
 	}
 
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-
-		toggleTorch(false, mCallbackContext);
-		releaseCamera();
+	private void startFlashlightService(Context context, boolean b) {
+		Intent intent = new Intent();
+		intent.putExtra("open_flash", b);
+		intent.setClassName(context.getPackageName(),
+				"com.cooee.control.center.module.base.FlashlightService");
+		context.startService(intent);
 	}
+
 
 	private boolean isCapable() {
 		PackageManager packageManager = null;
@@ -93,21 +106,6 @@ public class Flashlight extends CordovaPlugin {
 			}
 		}
 		return false;
-	}
-
-	private void toggleTorch(boolean switchOn, CallbackContext callbackContext) {
-		final Camera.Parameters mParameters = mCamera.getParameters();
-		if (isCapable()) {
-			mParameters
-					.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH
-							: Camera.Parameters.FLASH_MODE_OFF);
-			mCamera.setParameters(mParameters);
-			mCamera.startPreview();
-			callbackContext.success();
-		} else {
-			callbackContext
-					.error("Device is not capable of using the flashlight. Please test with flashlight.available()");
-		}
 	}
 
 	private void releaseCamera() {

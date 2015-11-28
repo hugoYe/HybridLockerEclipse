@@ -15,6 +15,8 @@ import com.cooee.cordova.plugins.UnlockListener;
 import com.cooee.cordova.plugins.WifiWizard;
 import com.cooee.cordova.plugins.camera.CameraLauncher;
 import com.cooee.cordova.plugins.mobiledata.MobileDataWizard;
+import com.cooeelock.core.plugin.ApkPlugin;
+import com.cooeelock.core.plugin.JarPlugin;
 
 abstract public class LockWrapApi implements IWrap, UnlockListener {
 
@@ -74,10 +76,12 @@ abstract public class LockWrapApi implements IWrap, UnlockListener {
 		BluetoothStatus.setOnUnlockListener(this);
 		WifiWizard.setOnUnlockListener(this);
 		MobileDataWizard.setOnUnlockListener(this);
+		ApkPlugin.setOnUnlockListener(this);
+		JarPlugin.setOnUnlockListener(this);
 
 		mCustomLockView = createLockView();
 		mLockView = new LockViewContainer(context, remoteContext);
-		mLockView.setupViews(mCustomLockView, null);
+		mLockView.setupViews(mCustomLockView);
 	}
 
 	@Override
@@ -134,9 +138,15 @@ abstract public class LockWrapApi implements IWrap, UnlockListener {
 
 	@Override
 	public void onUnlock() {
+		// 关闭统计服务
 		Intent intent = new Intent();
 		intent.setClassName(context, "com.cooee.lock.statistics.StaticClass");
 		context.stopService(intent);
+		// 关闭闪光灯服务
+		Intent intent1 = new Intent();
+		intent1.setClassName(context,
+				"com.cooee.control.center.module.base.FlashlightService");
+		context.stopService(intent1);
 		unLock();
 	}
 

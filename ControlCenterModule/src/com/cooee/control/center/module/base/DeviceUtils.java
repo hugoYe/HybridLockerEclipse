@@ -105,7 +105,8 @@ public class DeviceUtils {
 	public static int getScreenPixelsHeight(Context context) {
 
 		if (context != null) {
-			int height = context.getResources().getDisplayMetrics().heightPixels;
+			DisplayMetrics dm = context.getResources().getDisplayMetrics();
+			int height = Math.max(dm.widthPixels, dm.heightPixels);
 			return height;
 		}
 		return -1;

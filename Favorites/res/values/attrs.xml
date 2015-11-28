@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- XML attributes used by default_workspace.xml begin -->
+    <declare-styleable name="Default">
+        <attr name="packageName" format="string"/>
+    </declare-styleable>
+    <!-- XML attributes used by default_workspace.xml end -->
+
+</resources>

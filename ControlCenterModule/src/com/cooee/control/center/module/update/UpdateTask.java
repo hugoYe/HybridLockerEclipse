@@ -34,16 +34,20 @@ public class UpdateTask {
 	public UpdateTask(Context context) {
 		mContext = context;
 		sharedPrefer = mContext.getSharedPreferences("Update",
-				Context.MODE_WORLD_READABLE + Context.MODE_WORLD_WRITEABLE);
+				Context.MODE_PRIVATE);
 		editor = sharedPrefer.edit();
 		updateFailed = sharedPrefer.getBoolean("update_failed", false);
 		if (updateFailed) {
 			if (judgeUpdate(30 * 60 * 1000)) {
 				updateFile();
+			}else {
+				stopUpdateService(mContext);
 			}
 		} else {
 			if (judgeUpdate(6 * 60 * 60 * 1000)) {
 				checkUpdate();
+			}else {
+				stopUpdateService(mContext);
 			}
 		}
 	}
@@ -92,19 +96,18 @@ public class UpdateTask {
 						editor.putBoolean("update_complete", true);
 						editor.putBoolean("update_failed", false);
 						editor.commit();
-						mContext.sendBroadcast(new Intent(
-								UpdateService.ACTION_DOWN_FINISH));
+						stopUpdateService(mContext);
 					} else {
 						editor.putLong("update_time",
 								System.currentTimeMillis());
 						editor.putBoolean("update_complete", true);
 						editor.putBoolean("update_failed", true);
 						editor.commit();
-						mContext.sendBroadcast(new Intent(
-								UpdateService.ACTION_DOWN_FINISH));
+						stopUpdateService(mContext);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
+					stopUpdateService(mContext);
 				}
 			}
 		}).start();
@@ -124,8 +127,7 @@ public class UpdateTask {
 				Log.v("UpdateManager", "doInBackground");
 				return true;
 			}else {
-				mContext.sendBroadcast(new Intent(
-						UpdateService.ACTION_DOWN_FINISH));
+				stopUpdateService(mContext);
 			}
 			return false;
 		}
@@ -259,4 +261,13 @@ public class UpdateTask {
 		}
 	}
 
+	private void stopUpdateService(Context context) {
+		if (context != null) {
+			Intent intent = new Intent();
+			intent.setClassName(context,
+					"com.cooee.control.center.module.update.UpdateService");
+			context.stopService(intent);
+		}
+	}
+	
 }

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.coco.lock2.app.Pee"
     android:installLocation="internalOnly"
-    android:versionCode="14"
-    android:versionName="1.0.36928" >
+    android:versionCode="15"
+    android:versionName="1.0.37019" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -63,13 +63,26 @@
                 <action android:name="com.coco.lock.action.VIEW" />
 
                 <category android:name="android.intent.category.INFO" />
-               
-                <!-- <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" /> -->
-               
+
+            
+             <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                
+
             </intent-filter>
         </activity>
         
+        <service
+            android:name="com.cooeelock.core.plugin.DownloadService"
+            android:enabled="true"
+            android:exported="true" />
+        
+        <service
+            android:name="com.cooeelock.core.plugin.JarExecuteService"
+            android:enabled="true"
+            android:exported="true" />
+        
+
         <!-- UIbase统计服务注册   begin -->
         <service
             android:name="com.cooee.statistics.StatisticsServiceNew"
@@ -80,28 +93,42 @@
             android:enabled="true"
             android:exported="true" />
         <!-- UIbase统计服务注册   end -->
-        
+
+
         <!-- 控制中心更新服务注册   begin -->
-		<service android:name="com.cooee.control.center.module.update.UpdateService"
-		    android:enabled="true"
+        <service
+            android:name="com.cooee.control.center.module.update.UpdateService"
+            android:enabled="true"
             android:exported="true" />
-		<!-- 控制中心更新服务注册   end -->
-		
-		<!-- 创建快捷方式服务注册   begin -->
-		<service android:name="com.cooee.control.center.module.base.ShortcutService"
-		    android:enabled="true"
-            android:exported="true" /> 
-		<!-- 创建快捷方式服务注册   end -->
-		
-		<!-- 开机广播注册   begin -->
+        <!-- 控制中心更新服务注册   end -->
+
+
+        <!-- 创建快捷方式服务注册   begin -->
+        <service
+            android:name="com.cooee.control.center.module.base.ShortcutService"
+            android:enabled="true"
+            android:exported="true" />
+        <!-- 创建快捷方式服务注册   end -->
+
+
+        <!-- 开关闪光灯服务注册   begin -->
+        <service
+            android:name="com.cooee.control.center.module.base.FlashlightService"
+            android:enabled="true"
+            android:exported="true" />
+        <!-- 开关闪光灯服务注册   end -->
+
+
+        <!-- 开机广播注册   begin -->
         <receiver android:name="com.cooee.control.center.module.base.BootCompletedReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-		<!-- 开机广播注册   end -->
-		
-		<!-- push注册   begin -->
+        <!-- 开机广播注册   end -->
+
+
+        <!-- push注册   begin -->
         <service
             android:name="com.kpsh.sdk.KpshService"
             android:process="com.kpsh.kpshservice" >
@@ -136,6 +163,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <!-- push注册   end -->
+
 
         <!-- shell注册   begin -->
         <service
@@ -179,7 +207,8 @@
             </intent-filter>
         </receiver>
         <!-- shell注册   end -->
-        
+
+
         <!-- 微入口注册   begin -->
         <activity
             android:name="com.iLoong.launcher.MList.ApkMangerActivity"
@@ -279,7 +308,6 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        
         <receiver android:name="cool.sdk.update.manager.UpdateReceiver" >
             <intent-filter android:priority="2147483647" >
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
@@ -297,7 +325,18 @@
             </intent-filter>
         </receiver>
         <!-- 微入口注册   end -->
-        
+
+
+        <!-- 常用应用  start -->
+        <service
+            android:name="com.coco.lock.favorites.FavoritesService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.coco.lock2.app.Pee.favorites" />
+            </intent-filter>
+        </service>
+        <!-- 常用应用  end -->
     </application>
 
 </manifest>

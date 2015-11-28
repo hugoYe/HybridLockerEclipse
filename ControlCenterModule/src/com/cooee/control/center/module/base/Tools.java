@@ -1,6 +1,14 @@
 /***/
 package com.cooee.control.center.module.base;
 
+import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -19,13 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.text.format.DateFormat;
 import android.util.Base64;
 
-import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
+import com.coco.lock.favorites.AppInfo;
 
 /**
  * @author gaominghui 2015年6月20日

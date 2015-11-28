@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ 
 var app = {
     // Application Constructor
     initialize: function() {
@@ -41,6 +42,20 @@ var app = {
 
 };
 app.initialize();
+
+// 对话框及toast提示框 
+function showDialog(){
+	$(".fullMask").css({"display":"block"});
+}
+function closeDislog(){
+	$(".fullMask").css({"display":"none"});
+}
+
+function showTip(){
+	$(".tip_box").fadeIn(300);
+	window.setTimeout("$('.tip_box').fadeOut(300);",1000);
+}
+// 对话框及toast提示框 
 
 // Handle the back button
 function onBackKeyDown() {
@@ -71,6 +86,10 @@ $(function() {
 		$(this).css({"-webkit-transform":"scale3d(1.1,1.1,1)"});
 		event.stopPropagation();
 	})
+	$("#app .app_item img").bind('touchmove',function(event){
+		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
+		event.stopPropagation();
+	})
 	$("#app .app_item img").bind('touchend',function(event){
 		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
 		event.stopPropagation();
@@ -79,6 +98,10 @@ $(function() {
 	//状态栏图标点击动画
 	$("#state .state_item div img").bind('touchstart',function(event){
 		$(this).css({"-webkit-transform":"scale3d(1.1,1.1,1)"});
+		event.stopPropagation();
+	})
+	$("#state .state_item div img").bind('touchmove',function(event){
+		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
 		event.stopPropagation();
 	})
     $("#state .state_item div img").bind('touchend',function(event){
@@ -262,6 +285,7 @@ function convertImgToBase64(url, callback, outputFormat) {
 function bindWebFavoriteApp(data){
 	var ul=document.getElementById("app");
 	ul.innerHTML="";
+
 	for (var i=0;i<data.app.length&&i<5;i++){
         var intent = data.app[i].intent;
         var bitmap = data.app[i].bitmap;

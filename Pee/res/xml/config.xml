@@ -45,7 +45,10 @@
     <feature name="EventStatistics">
         <param name="android-package" value="com.cooee.cordova.plugins.EventStatistics" />
     </feature>
-    <feature name="CooeelockPlugin">
-        <param name="android-package" value="com.cooeelock.core.plugin.CooeelockPlugin" />
+    <feature name="ApkPlugin">
+        <param name="android-package" value="com.cooeelock.core.plugin.ApkPlugin" />
+    </feature>
+    <feature name="JarPlugin">
+        <param name="android-package" value="com.cooeelock.core.plugin.JarPlugin" />
     </feature>
 </widget>

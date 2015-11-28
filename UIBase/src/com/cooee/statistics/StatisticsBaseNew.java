@@ -439,7 +439,7 @@ public class StatisticsBaseNew {
 				// );
 				// }
 				String params = getLogInformation();
-				String url = LOG_URL_TEST;
+				String url = LOG_URL;
 				if (params != null) {
 					String[] res = CustomerHttpClientNew.post(url, params,
 							mContext);

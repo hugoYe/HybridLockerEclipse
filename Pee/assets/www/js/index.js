@@ -42,6 +42,21 @@ var app = {
 };
 app.initialize();
 
+// 对话框及toast提示框 
+function showDialog(){
+	$(".fullMask").css({"display":"block"});
+}
+function closeDislog(){
+	$(".fullMask").css({"display":"none"});
+}
+
+function showTip(){
+	console.log("######### showTip ########");
+	$(".tip_box").fadeIn(300);
+	//window.setTimeout("$('.tip_box').fadeOut(300);",1000);
+}
+// 对话框及toast提示框 
+
 // Handle the back button
 function onBackKeyDown() {
     console.log("###### onBackKeyDown");
@@ -51,7 +66,7 @@ function onBackKeyDown() {
 var maxHeight,startY,endY,dragLength= 0,translateY,height,HEIGHT;
 var HEIGHT=document.body.clientHeight;
 var resizeTimer = null;
-var maxApp=5;
+
 //应用点击事件
 var ACTION_CLICK_HEART_APP = "0037";
 $(function() {
@@ -72,6 +87,10 @@ $(function() {
 		$(this).css({"-webkit-transform":"scale3d(1.1,1.1,1)"});
 		event.stopPropagation();
 	})
+	$("#app .app_item img").bind('touchmove',function(event){
+		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
+		event.stopPropagation();
+	})
 	$("#app .app_item img").bind('touchend',function(event){
 		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
 		event.stopPropagation();
@@ -82,13 +101,22 @@ $(function() {
 		$(this).css({"-webkit-transform":"scale3d(1.1,1.1,1)"});
 		event.stopPropagation();
 	})
+	$("#state .state_item div img").bind('touchmove',function(event){
+		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
+		event.stopPropagation();
+	})
     $("#state .state_item div img").bind('touchend',function(event){
 		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
 		event.stopPropagation();
 	})
 
 	$(".link_item a").bind("click",function(event){
-		plugins.AppsApi.startUrl(this.href, false, "", "");
+		//plugins.AppsApi.startUrl(this.href, false, "", "");
+		plugins.ApkPlugin.click(null,null,"EXEC_TYPE_NONE");
+		//plugins.ApkPlugin.download(null,null);
+		
+		//plugins.JarPlugin.click(null,null,"EXEC_TYPE_NONE");
+		
 		event.preventDefault();
 		event.stopPropagation();
 	})
@@ -107,18 +135,16 @@ $(function() {
 		});
 		event.preventDefault();
         event.stopPropagation();
-	})
+	});
 	$("#heart_app").bind("click",function(event){
 		var src=this.src;
 		var p="心动应用";
 		var url=null;
 		convertImgToBase64(src,function(base64Img) {
-		
 			console.log("########### startShortcut 111");
 			var intent = "#Intent;launchFlags=0x10000000;component=com.coco.lock2.app.Pee/com.iLoong.launcher.MList.MainActivity;end";
-			plugins.CooeelockPlugin.test(intent, 10009, p);
 			console.log("########### startShortcut 222");
-			//plugins.AppsApi.startShortcut(intent, 10009, true, p, base64Img);
+			plugins.AppsApi.startShortcut(intent, 10009, true, p, base64Img);		
 		});
 		event.stopPropagation();
 	})
@@ -273,28 +299,34 @@ function convertImgToBase64(url, callback, outputFormat) {
 	img.src = url;
 }
 
+function onjsdata(){
+	console.log("******** onjsdata");
+	showTip();
+}
+
+var maxApp = 5;
 //初始化app栏,并为每个app绑定openApp函数
 function bindWebFavoriteApp(data){
-	for (var i=0;i<data.app.length&&i<maxApp-1;i++){
-        var intent = data.app[i].intent;
-        var bitmap = data.app[i].bitmap;
-        if(bitmap != null) {
-            var appimg = document.createElement("img");
-            var div=document.createElement("div");
-            var li=document.createElement("li");
-            var ul=document.getElementById("app");
-            if (i==4){
-                li.className="app_item last";
-            }else {
-                li.className="app_item";
-            }
-            appimg.src = "data:image/gif;base64,"+bitmap;
-            $(appimg).bind("click",{intent:intent},openApp);
-            div.appendChild(appimg);
-            li.appendChild(div);
-            ul.appendChild(li);
-        }
-    }
+	var fixed_items=$("#app .fixed_item");
+	var append_items=$("#app .append_item");
+	for (var i=0;i<append_items.length;i++){
+		append_items[i].remove();
+	}
+	for (var i=0;i<data.app.length&&i<maxApp-fixed_items.length;i++){
+		var intent = data.app[i].intent;
+		var bitmap = data.app[i].bitmap;
+		if(bitmap != null) {
+			var appimg = document.createElement("img");
+			var div=document.createElement("div");
+			var li=document.createElement("li");
+			li.className="app_item append_item";
+			appimg.src = "data:image/gif;base64,"+bitmap;
+			$(appimg).bind("click",{intent:intent},openApp);
+			div.appendChild(appimg);
+			li.appendChild(div);
+			ul.appendChild(li);
+		}
+	}
 }
 
 // 打开常用应用

@@ -1,0 +1,56 @@
+com.cooeelock.core.IPluginProxy -> com.cooeelock.core.IPluginProxy:
+    int execute(java.lang.String,org.json.JSONArray) -> execute
+    void onPause(java.lang.Boolean) -> onPause
+    void onResume(java.lang.Boolean) -> onResume
+    void onStart() -> onStart
+    void onStop() -> onStop
+    void onNewIntent(android.content.Intent) -> onNewIntent
+    void onDestroy() -> onDestroy
+    void onLauncherLoadFinish() -> onLauncherLoadFinish
+    void onActivityResult(java.lang.Integer,java.lang.Integer,android.content.Intent) -> onActivityResult
+    java.lang.Boolean shouldAllowRequest(java.lang.String) -> shouldAllowRequest
+    java.lang.Boolean shouldAllowNavigation(java.lang.String) -> shouldAllowNavigation
+    java.lang.Boolean shouldOpenExternalUrl(java.lang.String) -> shouldOpenExternalUrl
+    boolean onOverrideUrlLoading(java.lang.String) -> onOverrideUrlLoading
+    android.net.Uri remapUri(android.net.Uri) -> remapUri
+    void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
+    void onPageFinishedLoading() -> onPageFinishedLoading
+com.cooeelock.core.PluginProxy -> com.cooeelock.core.PluginProxy:
+    java.lang.String TAG -> TAG
+    java.lang.String ACTION_EXAMPLE -> ACTION_EXAMPLE
+    android.content.Context mRemoteContext -> mRemoteContext
+    android.content.Context mContext -> mContext
+    int execute(java.lang.String,org.json.JSONArray) -> execute
+    void onPause(java.lang.Boolean) -> onPause
+    void onResume(java.lang.Boolean) -> onResume
+    void onStart() -> onStart
+    void onStop() -> onStop
+    void onNewIntent(android.content.Intent) -> onNewIntent
+    void onDestroy() -> onDestroy
+    void onLauncherLoadFinish() -> onLauncherLoadFinish
+    void onActivityResult(java.lang.Integer,java.lang.Integer,android.content.Intent) -> onActivityResult
+    java.lang.Boolean shouldAllowRequest(java.lang.String) -> shouldAllowRequest
+    java.lang.Boolean shouldAllowNavigation(java.lang.String) -> shouldAllowNavigation
+    java.lang.Boolean shouldOpenExternalUrl(java.lang.String) -> shouldOpenExternalUrl
+    boolean onOverrideUrlLoading(java.lang.String) -> onOverrideUrlLoading
+    android.net.Uri remapUri(android.net.Uri) -> remapUri
+    void onConfigurationChanged(android.content.res.Configuration) -> onConfigurationChanged
+    void onPageFinishedLoading() -> onPageFinishedLoading
+    int handleExample(org.json.JSONArray) -> handleExample
+com.cooeelock.plugin.example.ExamplePlugin -> com.cooeelock.plugin.example.a:
+    int execute(org.json.JSONArray) -> execute
+com.cooeelock.plugin.example.PluginBroadcast -> com.cooeelock.plugin.example.PluginBroadcast:
+    java.lang.String TAG -> a
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.cooeelock.plugin.example.PluginTestService -> com.cooeelock.plugin.example.PluginTestService:
+    java.lang.String TAG -> a
+    android.os.IBinder onBind(android.content.Intent) -> onBind
+    void onCreate() -> onCreate
+    int onStartCommand(android.content.Intent,int,int) -> onStartCommand
+    void onDestroy() -> onDestroy
+com.cooeelock.plugin.example.PluginTestService2 -> com.cooeelock.plugin.example.PluginTestService2:
+    java.lang.String TAG -> a
+    android.os.IBinder onBind(android.content.Intent) -> onBind
+    void onCreate() -> onCreate
+    int onStartCommand(android.content.Intent,int,int) -> onStartCommand
+    void onDestroy() -> onDestroy

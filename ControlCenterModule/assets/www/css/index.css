@@ -43,6 +43,7 @@ body {
   font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
   text-transform:uppercase;
 }
+
 #background {
   width: 100%;
   height: 100%;
@@ -212,3 +213,57 @@ a {
   text-decoration: none;
   color: #fff;
 }
+
+/* 对话框及toast提示框 */
+.fullMask {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index:999;
+}
+.fullMask .dialog {
+  width: 60%;
+  height: 15%;
+  border: 1px solid #ddd;
+  background: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+}
+.fullMask .dialog p {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.fullMask .dialog .btn_list {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  padding: 0px 10px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.fullMask .dialog .btn {
+  width: 30%;
+  text-align: center;
+}
+.tip_box {
+  color: #fff;
+  position: absolute;
+  background: #444;
+  line-height: 20px;
+  bottom: 30px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  display: none;
+  z-index:999;
+}
+function showDialog(){
+	$(".fullMask").css({"display":"block"});
+}
+/* 对话框及toast提示框 */
