@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">他来了请闭眼</string>
+    <string name="list_name">他来了请闭眼</string>
+    <string name="charging">正在充電</string>
+    <string name="battery_full">已充滿</string>
+    <string name="battery_low">請連接充電器</string>
+
+</resources>

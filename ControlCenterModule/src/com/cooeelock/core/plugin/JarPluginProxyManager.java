@@ -33,6 +33,7 @@ final public class JarPluginProxyManager implements IPluginProxy {
 	private Object obj;
 	private Class<?> mProxyClass;
 	private Constructor<?> mProxyConstructor;
+	private Method methodCopyFinish;
 	private Method methodExecute;
 	private Method methodOnPause;
 	private Method methodOnResume;
@@ -90,6 +91,8 @@ final public class JarPluginProxyManager implements IPluginProxy {
 				Log.e(TAG, "######## loadClassType 333");
 				mProxyConstructor = mProxyClass
 						.getDeclaredConstructor(Context.class);
+				methodCopyFinish = mProxyClass.getDeclaredMethod("copyFinish",
+						Boolean.class);
 				methodExecute = mProxyClass.getDeclaredMethod("execute",
 						String.class, JSONArray.class);
 				methodOnPause = mProxyClass.getDeclaredMethod("onPause",
@@ -120,10 +123,14 @@ final public class JarPluginProxyManager implements IPluginProxy {
 						"onConfigurationChanged", Configuration.class);
 				methodOnPageFinishedLoading = mProxyClass
 						.getDeclaredMethod("onPageFinishedLoading");
+
 				Log.e(TAG, "######## loadClassType success !!");
+				return true;
+			} else {
+				Log.e(TAG, "######## jarFile is not exist !");
+				return false;
 			}
 
-			return true;
 		} catch (ClassNotFoundException e) {
 			Log.e(TAG, "######## loadClassType error = " + e);
 			e.printStackTrace();
@@ -162,7 +169,7 @@ final public class JarPluginProxyManager implements IPluginProxy {
 			return false;
 		}
 	}
-
+	
 	public boolean loadProxy(Context context) {
 
 		if (mLoadSuccessed) {
@@ -208,6 +215,20 @@ final public class JarPluginProxyManager implements IPluginProxy {
 		return -1;
 	}
 
+	public void copyFinish(Boolean multitasking){
+		if (methodCopyFinish != null) {
+			try {
+				methodCopyFinish.invoke(obj, multitasking);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	@Override
 	public void onPause(Boolean multitasking) {
 		// TODO Auto-generated method stub

@@ -4,18 +4,23 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.R;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.cooee.cordova.plugins.UnlockListener;
 
@@ -24,12 +29,12 @@ public class ApkPlugin extends CordovaPlugin {
 	private final String TAG = "ApkPlugin";
 
 	private final String ACTION_DOWNLOAD_APK = "downLoadApk";
-
+	private final String ACTION_UNLOCK = "unlock";
 	private final int EXECUTE_RESULT_NOT_HANDLE = -1;
 	private final int EXECUTE_RESULT_HANDLE_FAIL = 0;
 	private final int EXECUTE_RESULT_HANDLE_SUCCESS = 1;
 
-	private final String ACTION_JS_DATA = "com.cooeelock.core.plugin.jsdata";
+	private final String ACTION_JS_DATA = "com.cooeelock.core.apkplugin.jsdata";
 
 	private Context mContext;
 
@@ -50,6 +55,7 @@ public class ApkPlugin extends CordovaPlugin {
 			if (action.equals(ACTION_JS_DATA)) {
 				Log.e(TAG, "########  " + intent.getStringExtra("key_js_data"));
 				sendJS(intent.getStringExtra("key_js_data"));
+				deleteJsData(context);
 			}
 
 			boolean unlock = intent.getBooleanExtra("key_unlock", false);
@@ -79,6 +85,39 @@ public class ApkPlugin extends CordovaPlugin {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ACTION_JS_DATA);
 		mContext.registerReceiver(mJsdataReceiver, filter);
+
+		Log.v("###********######", getJsData(mContext));
+	}
+
+	private void deleteJsData(Context context) {
+		ContentResolver resolver = context.getContentResolver();
+		Uri contentUri = Uri.parse("content://"+context.getPackageName()+".plugin/apkplugin");
+		resolver.delete(contentUri, null, null);
+	}
+	
+	private String getJsData(Context context) {
+		String data = "";
+		Cursor csr = null;
+		try {
+			ContentResolver resolver = context.getContentResolver();
+			Uri contentUri = Uri.parse("content://"+context.getPackageName()+".plugin/apkplugin");
+			Log.v("###********######", "contentUri"+contentUri.toString());
+			csr = resolver.query(contentUri, null, null, null, null);
+			Log.v("###********######", "csr = "+csr.getCount());
+			if (csr != null) {
+				while (csr.moveToNext()) {
+					data = csr.getString(csr.getColumnIndexOrThrow("data"));
+				}
+			}
+		} catch (Exception e) {
+			Log.v("###********######", "Exception!!!!!!!!!!");
+			e.printStackTrace();
+		} finally {
+			if (csr != null) {
+				csr.close();
+			}
+		}
+		return data;
 	}
 
 	@Override
@@ -88,13 +127,17 @@ public class ApkPlugin extends CordovaPlugin {
 		mCallbackContext = callbackContext;
 
 		Log.e(TAG, "########  " + args.toString());
-
+		Log.v("###********######", getJsData(mContext));
+		
+		if (action.equals(ACTION_UNLOCK)) {
+			if (sUnlockListener != null) {
+				sUnlockListener.onUnlock();
+			}
+			return true;
+		}
+		
 		if (action.equals(ACTION_DOWNLOAD_APK)) {
-			Toast.makeText(mContext, "下载apk", Toast.LENGTH_LONG).show();
-			Intent it = new Intent();
-			it.setClassName(mContext.getPackageName(),
-					"com.cooeelock.core.plugin.DownloadService");
-			mContext.startService(it);
+			startDownApkService(mContext, args);
 			return true;
 		}
 
@@ -105,16 +148,19 @@ public class ApkPlugin extends CordovaPlugin {
 			// 下载apk
 			Log.i(TAG, "######## 需要下载apk !!!!!!");
 			sendJS("javascript:showTip();");
-
 			return false;
 		}
 
 		if (isPluginApkNeedUpdate(version)) {
 			// 更新apk
 			Log.i(TAG, "######## 更新apk !!!!!!");
+			startDownApkService(mContext, args);
 			return false;
 		}
-
+		String jsData = getJsData(mContext);
+		if (jsData != null && !jsData.equals("")) {
+			sendJS(getJsData(mContext));
+		}
 		boolean loadRst = false;
 		if (cordova.getActivity() != null) {
 			loadRst = ApkPluginProxyManager.getInstance().loadProxy(
@@ -163,7 +209,7 @@ public class ApkPlugin extends CordovaPlugin {
 			return true;
 		} else {
 			handleExecute(action, args);
-
+			
 			// test
 			// Intent intent = null;
 			// try {
@@ -208,6 +254,58 @@ public class ApkPlugin extends CordovaPlugin {
 
 	}
 
+	private int getCurVersionCode()
+	{
+		PackageInfo info;
+		try
+		{
+			Context c = mContext.createPackageContext(ApkPluginProxyManager.PLUGINS_PACKAGE_NAME,
+					Context.CONTEXT_INCLUDE_CODE
+							| Context.CONTEXT_IGNORE_SECURITY);
+			info = c.getPackageManager().getPackageInfo( c.getPackageName() , 0 );
+			return Integer.parseInt(String.valueOf( info.versionCode ));
+		}
+		catch( NameNotFoundException e )
+		{
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	/*
+	 * 
+	 * @param url [String] (args.getString(0)) : 下载链接
+	 * 
+	 * @param package [String] (args.getString(1)) : 下载apk的包名
+	 * 
+	 * @param name [String] (args.getString(2)) : 下载apk名
+	 */
+	private void startDownApkService(Context context, final JSONArray args) {
+		Intent intent = null;
+		try {
+			String url = args.getString(0);
+			String packagename = args.getString(1);
+			String apkname = args.getString(2);
+
+			try {
+				intent = new Intent();
+				intent.putExtra("down_url", url);
+				intent.putExtra("packageName", packagename);
+				intent.putExtra("apkName", apkname);
+				intent.setClassName(mContext.getPackageName(),
+						"com.cooeelock.core.plugin.DownloadService");
+				context.startService(intent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} catch (JSONException ex) {
+			mCallbackContext.sendPluginResult(new PluginResult(
+					PluginResult.Status.JSON_EXCEPTION));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private static boolean isPluginAPKInstalled(Context context,
 			String packageName) {
 		try {
@@ -222,15 +320,14 @@ public class ApkPlugin extends CordovaPlugin {
 	}
 
 	private boolean isPluginApkNeedUpdate(int version) {
-		// if (version > 0) {
-		// return true;
-		// }
-
+		if (version > getCurVersionCode()) {
+			return true;
+		}
 		return false;
 	}
 
 	private void handleExecute(final String action, final JSONArray args) {
-
+		ApkPluginProxyManager.getInstance().setLockAuthority(mContext.getPackageName());
 		mHandleRst = ApkPluginProxyManager.getInstance().execute(action, args);
 
 		switch (mHandleRst) {

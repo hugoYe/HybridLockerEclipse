@@ -28,6 +28,7 @@ import com.coco.lock.favorites.AppInfo;
 import com.coco.lock.favorites.FavoritesModel;
 import com.coco.lock.favorites.api.FavoritesApi;
 import com.cooee.control.center.module.R;
+import com.cooee.control.center.module.api.LockWrapApi;
 import com.cooee.control.center.module.base.Tools;
 
 public class AppsApi extends CordovaPlugin {
@@ -39,6 +40,7 @@ public class AppsApi extends CordovaPlugin {
 	public final String ACTION_START_SHORTCUT = "startShortcut";
 	public final String ACTION_START_BROWSER_URL = "startUrl";
 	public final String ACTION_BIND_FAVORITE_APP = "bindFavoriteApp";
+	public final String ACTION_RESET_LIGHT = "resetLight";
 
 	private CallbackContext mCallbackContext;
 
@@ -78,7 +80,9 @@ public class AppsApi extends CordovaPlugin {
 			CallbackContext callbackContext) throws JSONException {
 
 		mCallbackContext = callbackContext;
-
+		if (action.equals(ACTION_RESET_LIGHT)) {
+			LockWrapApi.resetLight();
+		}
 		if (action.equals(ACTION_CHECK_AVAILABILITY)) {
 			String uri = args.getString(0);
 			this.checkAvailability(uri, callbackContext);

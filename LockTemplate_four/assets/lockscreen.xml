@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Screen>
+  <!-- 解锁震动 -->
+  <UnlockShock shock="true" />
+  <!-- 背景 -->
+  <!-- 		align对齐方式，top：与屏幕顶边对齐，center：屏幕垂直居中，bottom：与屏幕底边对齐 -->
+  <Background align="top" systemWallpaper="false" />
+  <!-- 时间 -->
+  <!--
+		time_horizontal_align水平对齐方式，left：与屏幕左对齐，center：屏幕水平居中，right：与屏幕右对齐
+	    time_vertical_align垂直对齐方式，top：与屏幕顶对齐，bottom：与屏幕底对齐
+		time_x，time_y自定义绘制位置
+		horizontal_align十二小时制时am、pm水平对齐方式，相对屏幕
+		vertical_align十二小时制时am、pm垂直对齐方式，相对屏幕
+		x，y十二小时制时am、pm自定义绘制位置
+    -->
+  <Time useImage="true" time_horizontal_align="center" time_vertical_align="top" time_x="7" time_y="294" time_fontSize="100" time_color="#ff0080ff" horizontal_align="" vertical_align="top" x="530" y="300" fontSize="32" color="#ff0080ff" />
+  <!-- 日期 -->
+  <!--
+		horizontal_align水平对齐方式，left：与屏幕左对齐，center：屏幕水平居中，right：与屏幕右对齐
+		vertical_align垂直对齐方式，top：与屏幕顶对齐，center：屏幕垂直居中，bottom：与屏幕底对齐
+		dis日期与星期间距
+       	x，y日期自定义绘制位置
+    -->
+  <Date useImage="false" dis="10" horizontal_align="center" vertical_align="top" x="20" y="407" fontSize="26" color="#ffffdd7a" />
+  <!-- 充电时文字 -->
+  <!--
+       horizontal_align水平对齐方式，left：与屏幕左对齐，center：屏幕水平居中，right：与屏幕右对齐
+		   vertical_align垂直对齐方式，top：与屏幕顶对齐，bottom：与屏幕底对齐
+		   x，y绘制位置
+		   color字体颜色 
+    -->
+  <Text horizontal_align="center" vertical_align="top" x="0" y="450" color="#ffffdd7a" fontSize="25">
+  </Text>
+  <Phone color="#ffffdd7a" fontSize="30">
+    <!-- 未接电话 -->
+    <Misscall vertical_align="top" x="250" y="488" />
+    <!-- 未读短信 -->
+    <Unread vertical_align="top" x="400" y="488" />
+  </Phone>
+  <!--
+        enter是否要入口
+    	style锁屏方式上下左右任意方向		1上
+		2下
+		3左
+		4右
+		5任意方向
+		6入口在目标处（解锁图标和入口重叠）
+		7入口在起始处（解锁图标无需和解锁重叠）
+    -->
+  <Unlocker style="6" enter="true">
+    <NormalState>
+      <Image horizontal_align="center" x="0" y="275" />
+    </NormalState>
+    <PressedState>
+      <LockAnim delayMillis="0" horizontal_align="center" num="0" src="lockanim1" type="00" vertical_align="bottom" x="0" y="275" />
+    </PressedState>
+    <!--
+             锁屏入口
+			 num入口个数
+        -->
+    <Enter num="4">
+      <!--
+  				 num一个帧动画图片张数
+				 src图片名
+				 src2 到达目标后需要切换的图片
+				 x，y帧动画位置，y为图片上边到屏幕底边的距离
+				 type显示类型，0：一直存在，1：操作时出现   当style为7时候 此处值必须为0
+				 dir  1上2下3左4右
+				 alignment坐标按照-->
+      <EnterImage src="enter_unlock" className="" packageName="" type="1" x="330" y="55" dir="2" alignment="1" />
+      <EnterLockAnim horizontal_align="" vertical_align="bottom" num="1" delayMillis="0" src="unlockanim1" x="330" y="55" type="00" />
+      <EnterImage src="enter_camera" className="" packageName="" type="1" x="330" y="569" dir="1" alignment="1" />
+      <EnterLockAnim horizontal_align="" vertical_align="bottom" num="1" delayMillis="0" src="cameraanim1" x="330" y="569" type="00" />
+      <EnterImage src="enter_message" className="" packageName="" type="1" x="73" y="312" dir="3" alignment="1" />
+      <EnterLockAnim horizontal_align="" vertical_align="bottom" num="1" delayMillis="0" src="msganim1" x="73" y="312" type="00" />
+      <EnterImage src="enter_phone" className="" packageName="" type="1" x="587" y="312" dir="4" alignment="1" />
+      <EnterLockAnim horizontal_align="" vertical_align="bottom" num="1" delayMillis="0" src="phoneanim1" x="587" y="312" type="00" />
+    </Enter>
+    <!--
+         帧动画
+			 num帧动画个数
+        -->
+    <FrameAnimation num="0">
+      <!-- Image节点个数为num值 -->
+      <!--
+           num一个帧动画图片张数
+				 delayMillis间隔时间
+				 src图片名
+				 x，y帧动画位置，y为图片上边到屏幕底边的距离
+				 type帧动画类型，0：一直播放，1：操作时隐藏，2：操作时播放
+            -->
+    </FrameAnimation>
+    <!-- 桌面 -->
+    <!-- 			dis移动到解锁处拖动的距离 -->
+    <EndPoint dis="257">
+    </EndPoint>
+  </Unlocker>
+  <!-- 依次为时间、日期、充电、解锁元素、帧动画、来电信息的层次 -->
+  <Seqencing num="9">
+    <Layer index="0" type="time" name="" />
+    <Layer index="1" type="date" name="" />
+    <Layer index="2" type="charging" name="" />
+    <Layer index="3" type="incoming" name="" />
+    <Layer index="4" type="enter" name="enter_unlock" />
+    <Layer index="5" type="enter" name="enter_camera" />
+    <Layer index="6" type="enter" name="enter_message" />
+    <Layer index="7" type="enter" name="enter_phone" />
+    <Layer index="8" type="unlock" name="" />
+  </Seqencing>
+</Screen>

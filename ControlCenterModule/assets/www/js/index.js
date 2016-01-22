@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- 
 var app = {
     // Application Constructor
     initialize: function() {
@@ -28,6 +27,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        console.log("###### plugins.deviceready.onEvent begin");
         document.addEventListener("backbutton", onBackKeyDown, false);
     },
     // deviceready Event Handler
@@ -35,464 +35,275 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        // 初始化快捷方式开关
-        initShortcut();
-        $("#button_th").css({"display":"block"});
+        plugins.JarPlugin.startJarplugin();
+				console.log("###### plugins.JarPlugin.startJarplugin");
+	      init();
     },
 
 };
 app.initialize();
 
-// 对话框及toast提示框 
-function showDialog(){
-	$(".fullMask").css({"display":"block"});
-}
-function closeDislog(){
-	$(".fullMask").css({"display":"none"});
-}
-
-function showTip(){
-	$(".tip_box").fadeIn(300);
-	window.setTimeout("$('.tip_box').fadeOut(300);",1000);
-}
-// 对话框及toast提示框 
-
 // Handle the back button
 function onBackKeyDown() {
     console.log("###### onBackKeyDown");
-    slideDown();
+    slideUp();
 }
 
-var maxHeight,startY,endY,dragLength= 0,translateY,height,HEIGHT;
-var HEIGHT=document.body.clientHeight;
-var resizeTimer = null;
-//应用点击事件
-var ACTION_CLICK_HEART_APP = "0037";
-$(function() {
-    $("#background").bind('touchstart',function(){console.log("touchstart!");plugins.TouchEventPrevent.preventTouchSelf();});
-    translateY=0;
-	//为浏览器绑定事件，当浏览器窗口大小发生变化时执行doResize函数
-	$(window).resize(function(){
-       		resizeTimer = resizeTimer ? null : setTimeout(doResize,0);
-    });
-	$("#state_wifi").bind('click', changeWifiState);
-	$("#state_mobiledata").bind('click', changeMobileDataState);
-	$("#state_bluetooth").bind('click', changeBluetoothState);
-	$("#state_light").bind('click', changeFlashLightState);
-	$("#state_camera").bind('click', openCamera);
+var maxHeight,startY,endY,startX,endX,dragLength= 0,horizonLength=0;
+var translateX,translateY,newTranslateX,newTranslateY,height,contentHeight;
+var keyArr=[],country,pageNum= 0,currentPage=1;
+var longTouch;
+var topArea;
+var colorArr=["a","b","c","d","e","f","g","h"];
+var ring,ringRight;
+var ACTION_LOAD_SUCCESS = "0037";
+var ACTION_CLICK_KEYWORD = "0036";
 
-	//app图标点击动画
-	$("#app .app_item img").bind('touchstart',function(event){
-		$(this).css({"-webkit-transform":"scale3d(1.1,1.1,1)"});
-		event.stopPropagation();
-	})
-	$("#app .app_item img").bind('touchmove',function(event){
-		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
-		event.stopPropagation();
-	})
-	$("#app .app_item img").bind('touchend',function(event){
-		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
-		event.stopPropagation();
-	})
-
-	//状态栏图标点击动画
-	$("#state .state_item div img").bind('touchstart',function(event){
-		$(this).css({"-webkit-transform":"scale3d(1.1,1.1,1)"});
-		event.stopPropagation();
-	})
-	$("#state .state_item div img").bind('touchmove',function(event){
-		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
-		event.stopPropagation();
-	})
-    $("#state .state_item div img").bind('touchend',function(event){
-		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
-		event.stopPropagation();
-	})
-
-	$(".link_item a").bind("click",function(event){
-		plugins.AppsApi.startUrl(this.href, false, "", "");
-		event.preventDefault();
-		event.stopPropagation();
-	})
-	$(".link_table a").bind("click",function(event){
-		plugins.AppsApi.startUrl(this.href, false, "", "");
-		event.preventDefault();
-		event.stopPropagation();
-	})
-	// 节操游戏链接，需要创建桌面快捷方式图标
-	$("#game a").unbind("click").bind("click",function(event){
-		var src=$(this).siblings().attr("src");
-		var p=$(this).html();
-		var url=$(this).attr("href");
-		convertImgToBase64(src,function(base64Img) {
-			plugins.AppsApi.startUrl(url, true, p, base64Img);
-		});
-		event.preventDefault();
-        event.stopPropagation();
+function init() {
+	$("#background").bind('touchstart', function () {
+		console.log("touchstart!");
+		plugins.TouchEventPrevent.preventTouchSelf();
 	});
-	$("a").bind('click',function(event){
-		//统计应用点击次数
-    	plugins.EventStatistics.onEvent(ACTION_CLICK_HEART_APP);
-    	event.stopPropagation();
-    })
+	$("#background").bind('click',function(event){
+		plugins.AppsApi.resetLight();
+		event.stopPropagation();
+	})
+	topArea = $(".top-area");
+	ring = $(".ring");
+	ring.bind({
+		'touchstart': dragStart,
+		'touchmove': drag,
+		'touchend': dragEnd
+	});
+	translateX = 0;
+	getData();
+	$(".refresh").bind('click', refreshData);
+}
 
-	//为控制中心图标绑定事件
-	$("#button_th").bind('touchstart', dragStart);
-	$("#button_th").bind('touchmove', drag);
-	$("#button_th").bind('touchend',dragEnd);
-})
+
 
 //开始拖动时执行的函数
 function dragStart(event){
 	event.preventDefault();
-	height=$('#slide').height();
-    maxHeight=height;
+	$("body").css({'background':"rgba(0,0,0,0.5)"});
+	startX=event.originalEvent.targetTouches[0].pageX;
 	$("#background").unbind('touchstart');
-	$('#button_th').css({'opacity':0});
 	startY=event.originalEvent.targetTouches[0].pageY;
-	if (translateY!=maxHeight) {
-		translateY=HEIGHT-event.originalEvent.targetTouches[0].pageY;
-		$("#slide").css({
-			"transition-duration":"50ms",
-			"-webkit-transform": "translate3d(0,"+"-"+translateY+"px"+",0)"
+	dragLength=0;
+	horizonLength=0;
+	plugins.AppsApi.resetLight();
+	if (Math.abs(translateY)==maxHeight){
+		longTouch=window.setTimeout("ring.unbind('touchstart');ring.unbind('touchmove');ring.unbind('touchend');ring.bind({'touchmove':horizonMove});ring.bind({'touchend':horizonEnd});",500);
+		topArea.css({
+			"transition-duration":"0ms",
+			"-webkit-transform": "translate3d(0,"+translateY+"px"+",0)"
 		});
 	}else {
-		$("#slide").css({
+		topArea.css({
 			"transition-duration":"0ms",
-			"-webkit-transform": "translate3d(0,"+"-"+translateY+"px"+",0)"
+			"-webkit-transform": "translate3d(0,-70px,0)"
 		});
 	}
+	newTranslateY=translateY;
 	event.stopPropagation();
 }
 
 //拖动时执行的函数
 function drag(event){
 	endY=event.originalEvent.targetTouches[0].pageY;
-	$("#slide").css({"transition-duration":"0ms"});
-	dragLength=startY-endY;
-	var newTranslateY=translateY+dragLength;
-	if (newTranslateY<=maxHeight){
-		$("#slide").css({
-			"-webkit-transform": "translate3d(0,"+"-"+newTranslateY+"px"+",0)"
-		});
-		translateY=newTranslateY;
+	if(Math.abs(newTranslateY-translateY)>2){
+		clearTimeout(longTouch);
 	}
-	startY=endY;
+	topArea.css({"transition-duration":"0ms"});
+	dragLength=endY-startY;
+	if (translateY+dragLength<=0){
+		topArea.css({
+			"-webkit-transform": "translate3d(0,"+(translateY+dragLength)+"px"+",0)"
+		});
+		newTranslateY=translateY+dragLength;
+	}
 	event.stopPropagation();
 }
 
-//控制中心打开事件
-var ACTION_OPEN_CONTROL_CENTER = "0036";
 //拖动结束时执行的函数
 function dragEnd(event){
-	$("#slide").css({
-		"transition-duration":"150ms",
+	clearTimeout(longTouch);
+	translateY=newTranslateY;
+	topArea.css({
+		"transition-duration":"150ms"
 	});
-	if(translateY<=height*0.25){
+	if(dragLength>=0||Math.abs(translateY)<70){
 		slideDown();
 	}else {
 		slideUp();
-		//统计控制中心打开次数
-		plugins.EventStatistics.onEvent(ACTION_OPEN_CONTROL_CENTER);
 	}
 	event.stopPropagation();
 }
 
 //控制中心完全出来后重新为触摸区域绑定的拖动结束后执行的函数
 function upDragEnd(event){
-
-	$("#slide").css({
-		"transition-duration":"150ms",
+	translateY=newTranslateY;
+	topArea.css({
+		"transition-duration":"150ms"
 	});
-	if (dragLength>0){
+	if (dragLength<=0||Math.abs(translateY)<70){
 		slideUp();
-	}else {
+	}else{
 		slideDown();
 	}
 	event.stopPropagation();
 }
 
-//控制中心上移动画
-function slideUp(){
-	$('#button_th').css({'display':'none','opacity':0});
-    //点击背景后将控制中心收起
-    $("#background").click(function(){
-        console.log("click background!!!");
-        slideDown();
-    });
-	$("#button_th").unbind('touchstart');
-	$("#button_th").unbind('touchmove');
-	$("#button_th").unbind('touchend');
-	$(".touch_item").unbind('touchstart');
-	$(".touch_item").unbind('touchmove');
-	$(".touch_item").unbind('touchend');
-	$(".touch_item").bind('touchstart',dragStart);
-	$(".touch_item").bind('touchmove',drag);
-	$(".touch_item").bind('touchend',upDragEnd);
-	$("#app .app_item img").bind('touchstart',function(event){
-		$(this).css({"-webkit-transform":"scale3d(1.1,1.1,1)"});
-		event.stopPropagation();
+
+function horizonMove(event){
+	endX=event.originalEvent.targetTouches[0].pageX;
+	horizonLength=(endX-startX)*2;
+	newTranslateX=translateX+horizonLength;
+	ring.css({
+		"-webkit-transform":"scale(0.5)"+" "+"translate3d("+newTranslateX+"px"+",0,0)"
 	})
-	$("#app .app_item img").bind('touchend',function(event){
-		$(this).css({"-webkit-transform":"scale3d(1,1,1)"});
-		event.stopPropagation();
-	})
-	$("#slide").css({
-		"-webkit-transform":"translate3d(0,-100%,0)",
-	});
-	$("img.touch").css({"-webkit-transform":"rotateZ(0deg)"});
-	translateY=maxHeight;
+	translateX=newTranslateX;
+	startX=endX;
+	event.stopPropagation();
 }
 
-//控制中心下移动画
-function slideDown(){
-	window.setTimeout("$('#button_th').css({'display':'block','opacity':1});",150);
-	$("#background").unbind('click');
+function horizonEnd(event){
+	$("body").css({'background':"rgba(0,0,0,0)"});
 	$("#background").bind('touchstart',function(){console.log("touchstart!");plugins.TouchEventPrevent.preventTouchSelf();});
-	$(".touch_item").unbind('touchstart');
-	$(".touch_item").unbind('touchmove');
-	$(".touch_item").unbind('touchend');
-	$("#button_th").unbind('touchstart');
-	$("#button_th").unbind('touchmove');
-	$("#button_th").unbind('touchend');
-	$("#button_th").bind('touchstart',dragStart);
-	$("#button_th").bind('touchmove',drag);
-	$("#button_th").bind('touchend',dragEnd);
-	$("#slide").css({
-		"-webkit-transform":"translate3d(0,0%,0)",
+	ring.unbind('touchmove',horizonMove);
+	ring.unbind('touchend',horizonEnd);
+	ring.bind({'touchstart':dragStart,
+		'touchmove':drag,
+		'touchend':dragEnd
 	});
-	$("img.touch").css({"-webkit-transform":"rotateZ(180deg)"});
-	translateY=0;
-}
-
-function convertImgToBase64(url, callback, outputFormat) {
-	var canvas = document.createElement('CANVAS'),
-	ctx = canvas.getContext('2d'),
-	img = new Image;
-	img.crossOrigin = 'Anonymous';
-	img.onload = function(){
-		canvas.height = img.height;
-		canvas.width = img.width;
-		ctx.drawImage(img,0,0);
-		var dataURL = canvas.toDataURL(outputFormat || 'image/png');
-		callback.call(this, dataURL);
-		canvas = null;
-	};
-	img.src = url;
-}
-
-//初始化app栏,并为每个app绑定openApp函数
-function bindWebFavoriteApp(data){
-	var ul=document.getElementById("app");
-	ul.innerHTML="";
-
-	for (var i=0;i<data.app.length&&i<5;i++){
-        var intent = data.app[i].intent;
-        var bitmap = data.app[i].bitmap;
-        if(bitmap != null) {
-            var appimg = document.createElement("img");
-            var div=document.createElement("div");
-            var li=document.createElement("li");
-            if (i==4){
-                li.className="app_item last";
-            }else {
-                li.className="app_item";
-            }
-            appimg.src = "data:image/gif;base64,"+bitmap;
-            $(appimg).bind("click",{intent:intent},openApp);
-            div.appendChild(appimg);
-            li.appendChild(div);
-            ul.appendChild(li);
-        }
-    }
-}
-
-// 打开常用应用
-function openApp(event) {
-	console.log(event.data.intent);
-	plugins.AppsApi.startApp(event.data.intent);
+	localStorage.ringRight=ringRight-parseInt(translateX)/2;
 	event.stopPropagation();
 }
 
-//重置当前页面高度
-function doResize(){
-	HEIGHT=document.body.clientHeight;
-	height=$("#slide").height();
-    maxHeight = height;
+//热点上移动画
+function slideUp(){
+	$("body").css({'background':"rgba(0,0,0,0)"});
+	$("#background").bind('touchstart',function(){console.log("touchstart!");plugins.TouchEventPrevent.preventTouchSelf();});
+	topArea.css({
+		"-webkit-transform":"translate3d(0,-100%,0)"
+	});
+	window.setTimeout("topArea.css({'transition-duration':'0ms','animation':'swing-up-down 0.7s linear','-webkit-animation':'swing-up-down 0.7s linear'})",150);
+	window.setTimeout("topArea.css({'animation':'none','-webkit-animation':'none'})",700);
+	ring.unbind("touchend").bind("touchend",dragEnd);
+	translateY=-maxHeight;
 }
 
-function initShortcut() {
-	// 初始化常用app
-	plugins.AppsApi.bindFavoriteApp();
-
-	// 初始化控制中心快捷方式图标
-	wifiInit();
-	mobileDataInit();
-	bluetoothInit();
+//热点下移动画
+function slideDown(){
+	$("#background").unbind('touchstart');
+	topArea.css({
+		"-webkit-transform":"translate3d(0,-70px,0)"
+	});
+	window.setTimeout("topArea.css({'transition-duration':'0ms','animation':'swing-down-up 0.7s linear','-webkit-animation':'swing-down-up 0.7s linear'})",150);
+	window.setTimeout("topArea.css({'animation':'none','-webkit-animation':'none'})",700);
+	ring.unbind("touchend").bind("touchend",upDragEnd);
+	translateY=-70;
 }
 
-function wifiInit() {
-	var index;
-	var wifiImg=document.getElementById("state_wifi");
-	plugins.WifiWizard.isWifiEnabled(function(res) {
-		if(res) {
-			index=wifiImg.src.lastIndexOf("off");
-			if(index!=-1) {
-				wifiImg.src=wifiImg.src.slice(0,index)+"on.png";
-			}
-		} else {
-			index=wifiImg.src.lastIndexOf("on");
-			if(index!=-1){
-				wifiImg.src=wifiImg.src.slice(0,index)+"off.png";
-			}
+
+//获取热点数据
+function getData(){
+	$.ajax({
+		type:"GET",
+		url:"json/hotspot.json",
+		async:false,
+		success:function(data){
+			keyArr=JSON.parse(data)["keyword"];
+			country=JSON.parse(data)["geo_country"];
+		},
+		error:function(XMLHttpRequest, textStatus){
+			console.log(textStatus);
 		}
-	}, function(){});
+	})
+	initData();
 }
 
-function mobileDataInit() {
-	var index;
-	var netImg=document.getElementById("state_mobiledata");
-	plugins.MobileDataWizard.isMobileDataEnabled(function(res){
-		if (res){
-				index=netImg.src.lastIndexOf("off");
-				if(index!=-1){
-					netImg.src=netImg.src.slice(0,index)+"on.png";
-				}
-			} else {
-				index=netImg.src.lastIndexOf("on");
-				if(index!=-1){
-					netImg.src=netImg.src.slice(0,index)+"off.png";
-				}
+
+//初始化热点区域
+function initData(){
+	if (keyArr.length>0){
+		pageNum=Math.ceil(keyArr.length/8);
+		$(".hotspot .content").html("");
+		var subArr;
+		if (currentPage==pageNum){
+			subArr=keyArr.slice((currentPage-1)*8);
+		}else {
+			subArr=keyArr.slice((currentPage-1)*8,(currentPage-1)*8+8);
+		}
+		var colorArr=randomClass({data:{num:subArr.length}});
+		for (var i=0;i<subArr.length;i++){
+			$("<div></div>").html(subArr[i]).addClass("content-item "+colorArr[i]).appendTo(".hotspot .content");
+		}
+		var href=(country=='CN')?"http://m.baidu.com/s?from=1013461a&word=":"http://searchmobileonline.com/?pubid=204793810&q=";
+		$(".content-item").bind("click",function(event){
+			href=href+$(this).html();
+			plugins.AppsApi.startUrl(href, false, "", "");
+			plugins.EventStatistics.onEvent(ACTION_CLICK_KEYWORD);
+			event.stopPropagation();
+		})
+
+		try {
+			if(localStorage.ringRight){
+				ring.css("right",localStorage.ringRight+"px");
 			}
-	},function(){});
-}
+			ringRight=parseInt(ring.css("right"));
+		}catch(err){
+			console.log(err);
+		}
 
-function bluetoothInit() {
-	var index;
-    var blueImg=document.getElementById("state_bluetooth");
-    plugins.BluetoothStatus.isBlueEnabled(function(res){
-    	if (res){
-                index=blueImg.src.lastIndexOf("off");
-                if(index!=-1){
-                    blueImg.src=blueImg.src.slice(0,index)+"on.png";
-                }
-        	} else {
-        	    index=blueImg.src.lastIndexOf("on");
-        	    if(index!=-1){
-            	    blueImg.src=blueImg.src.slice(0,index)+"off.png";
-            	}
-        	}
-    },function(){});
-}
+		plugins.EventStatistics.onEvent(ACTION_LOAD_SUCCESS);
 
+		ring.css({"-webkit-transform":"scale(0.5) translate3d(0,0,0)","transition-duration":"150ms"});
+		window.setTimeout("ring.css({'transition-duration':'0ms','animation':'swing 3s ease-in-out 1','-webkit-animation':'swing 3s ease-in-out 1'})",150);
 
-//开启wifi
-function setWifiOn(){
-    plugins.WifiWizard.setWifiEnabled(true,function(res){},function(){});
-}
+		height=topArea.innerHeight();
+		contentHeight=topArea.height();
+		maxHeight=height;
+		translateY=-maxHeight;
 
-//关闭wifi
-function setWifiOff(){
-    plugins.WifiWizard.setWifiEnabled(false,function(res){},function(){});
-}
-
-//开启流量
-function setMobileDataOn(){
-    plugins.MobileDataWizard.setMobileDataEnabled(true);
-}
-
-//关闭流量
-function setMobileDataOff(){
-    plugins.MobileDataWizard.setMobileDataEnabled(false);
-}
-
-//开启蓝牙
-function setBluetoothOn(){
-    plugins.BluetoothStatus.enableBT();
-}
-
-//关闭蓝牙
-function setBluetoothOff(){
-    plugins.BluetoothStatus.disableBT();
-}
-
-//开启手电
-function setLightOn(){
-    plugins.flashlight.switchOn();
-}
-
-//关闭手电
-function setLightOff(){
-    plugins.flashlight.switchOff();
-}
-
-
-//改变wifi状态
-function changeWifiState(event){
-    var index;
-    if (this.src.lastIndexOf("on")!=-1){
-        index=this.src.lastIndexOf("on");
-        this.src=this.src.slice(0,index)+"off.png";
-        setWifiOff();
-    }else {
-        index=this.src.lastIndexOf("off");
-        this.src=this.src.slice(0,index)+"on.png";
-        setWifiOn();
-    }
-	event.stopPropagation();
-}
-
-//改变流量状态
-function changeMobileDataState(event){
-    var index;
-    if (this.src.lastIndexOf("on")!=-1){
-        setMobileDataOff();
-        index=this.src.lastIndexOf("on");
-        this.src=this.src.slice(0,index)+"off.png";
-    } else if(this.src.lastIndexOf("off")!=-1){
-        setMobileDataOn();
-        index=this.src.lastIndexOf("off");
-        this.src=this.src.slice(0,index)+"on.png";
-    }
-	event.stopPropagation();
-}
-
-//改变蓝牙状态
-function changeBluetoothState(event){
-    var index;
-
-    if (this.src.lastIndexOf("on")!=-1){
-        setBluetoothOff();
-        index=this.src.lastIndexOf("on");
-        this.src=this.src.slice(0,index)+"off.png";
-    } else if(this.src.lastIndexOf("off")!=-1){
-        setBluetoothOn();
-        index=this.src.lastIndexOf("off");
-        this.src=this.src.slice(0,index)+"on.png";
 	}
-	event.stopPropagation();
 }
 
-//改变手电状态
-function changeFlashLightState(event) {
-	var index;
-	if (this.src.lastIndexOf("on")!=-1) {
-		setLightOff();
-		index=this.src.lastIndexOf("on");
-		this.src=this.src.slice(0,index)+"off.png";
-	} else if (this.src.lastIndexOf("off")!=-1){
-		setLightOn();
-		index=this.src.lastIndexOf("off");
-		this.src=this.src.slice(0,index)+"on.png";
+//刷新数据
+function refreshData(event){
+	plugins.AppsApi.resetLight();
+	if (currentPage<pageNum){
+		currentPage++;
+	}else if(currentPage==pageNum){
+		currentPage=1;
 	}
-
+	var subArr;
+	if (currentPage==pageNum){
+		subArr=keyArr.slice((currentPage-1)*8);
+	}else {
+		subArr=keyArr.slice((currentPage-1)*8,(currentPage-1)*8+8);
+	}
+	var colorArr=randomClass({data:{num:subArr.length}});
+	$(".hotspot .content").html("");
+	for (var i=0;i<subArr.length;i++){
+		$("<div></div>").html(subArr[i]).addClass("content-item "+colorArr[i]).appendTo(".hotspot .content");
+	}
+	var href=(country=='CN')?"http://m.baidu.com/s?from=1013461a&word=":"http://searchmobileonline.com/?pubid=204793810&q=";
+	$(".content-item").bind("click",function(event){
+		href=href+$(this).html();
+		plugins.AppsApi.startUrl(href, false, "", "");
+		plugins.EventStatistics.onEvent(ACTION_CLICK_KEYWORD);
+		event.stopPropagation();
+	})
+	height=topArea.innerHeight();
+	contentHeight=topArea.height();
+	maxHeight=height;
 	event.stopPropagation();
 }
 
-// 打开照相机
-function openCamera(event){
-	console.log("######## openCamera");
-	navigator.camera.openCamera();
-	event.stopPropagation();
+//重排颜色列表
+function randomClass(event){
+	var newArr=colorArr.slice(0,event.data.num);
+	newArr.sort(function(){return 0.5-Math.random()});
+	return newArr;
 }
-

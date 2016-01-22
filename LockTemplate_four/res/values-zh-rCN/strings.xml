@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CoCo锁屏四点</string>
+    <string name="list_name">四点</string>
+    <string name="charging">正在充电</string>
+    <string name="battery_full">已充满</string>
+    <string name="battery_low">请连接充电器</string>
+    <string name="date_format">MM月dd日</string>
+    <string name="week_format">EEEE</string>
+
+</resources>

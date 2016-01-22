@@ -21,6 +21,7 @@ public class EventStatistics extends CordovaPlugin {
 	public boolean execute(String action, final JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
 		mCallbackContext = callbackContext;
+		Log.e(TAG, "EventStatistics onEvent-java222");
 		if (action.equals(ACTION_STATISTICS_EVENT)) {
 			onEvent(args);
 			return true;

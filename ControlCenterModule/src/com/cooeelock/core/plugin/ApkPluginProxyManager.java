@@ -29,6 +29,7 @@ final public class ApkPluginProxyManager implements IPluginProxy {
 	private Context mContext;
 	private Class<?> mProxyClass;
 	private Constructor<?> mProxyConstructor;
+	private Method methodSetLockAuthority;
 	private Method methodExecute;
 	private Method methodOnPause;
 	private Method methodOnResume;
@@ -80,6 +81,8 @@ final public class ApkPluginProxyManager implements IPluginProxy {
 					mContext.getClassLoader());
 			mProxyConstructor = mProxyClass.getDeclaredConstructor(
 					Context.class, Context.class);
+			methodSetLockAuthority = mProxyClass.getDeclaredMethod(
+					"setLockAuthority", String.class);
 			methodExecute = mProxyClass.getDeclaredMethod("execute",
 					String.class, JSONArray.class);
 			methodOnPause = mProxyClass.getDeclaredMethod("onPause",
@@ -151,6 +154,20 @@ final public class ApkPluginProxyManager implements IPluginProxy {
 		}
 	}
 
+	public void setLockAuthority(String packagename) {
+		if (methodSetLockAuthority != null) {
+			try {
+				methodSetLockAuthority.invoke(obj, packagename);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public boolean loadProxy(Context remoteContext) {
 
 		if (mLoadSuccessed) {

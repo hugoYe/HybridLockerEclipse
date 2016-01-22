@@ -2,6 +2,7 @@
 package com.cooee.control.center.module.base;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +25,10 @@ import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
+import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.Base64;
 
@@ -181,5 +186,43 @@ public class Tools {
 		time.put("date", strDate);
 		time.put("week", week);
 		return time;
+	}
+	
+	public static boolean getSdcardState(String path){
+		boolean sdcardState;
+		File file = new File(path);
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		if (Build.VERSION.SDK_INT >= 19) {
+			if (Environment.getStorageState(file).equals(
+					Environment.MEDIA_MOUNTED)) {
+				sdcardState = true;
+			} else {
+				sdcardState = false;
+			}
+		} else {
+			if (Environment.getExternalStorageState().equals(
+					Environment.MEDIA_MOUNTED)) {
+				sdcardState = true;
+			} else {
+				sdcardState = false;
+			}
+		}
+		return sdcardState;
+	}
+	
+	/**
+	 * 判断是否联网
+	 */
+	public static boolean isHaveInternet(final Context context) {
+		try {
+			ConnectivityManager manger = (ConnectivityManager) context
+					.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo info = manger.getActiveNetworkInfo();
+			return (info != null && info.isConnected());
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

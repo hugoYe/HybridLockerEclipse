@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hecametotheeyes</string>
+    <string name="list_name">Hecametotheeyes</string>
+    <string name="charging">Charging</string>
+    <string name="battery_full">The battery is charged</string>
+    <string name="battery_low">Please connect the charger</string>
+
+</resources>

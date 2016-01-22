@@ -1,7 +1,11 @@
 package com.cooeelock.plugin.example;
 
 import android.app.Service;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -34,11 +38,24 @@ public class PluginTestService extends Service {
 		it.putExtra("key_js_data", "javascript:onjsdata();");
 		sendBroadcast(it);
 
-		stopSelf();
+		String authority = intent.getStringExtra("AUTHORITY");
+		dataInsert(this,authority,"javascript:onjsdata();");
+		
+//		stopSelf();
 
 		return super.onStartCommand(intent, flags, startId);
 	}
 
+	public void dataInsert(Context context,String authority,String str) {
+		ContentResolver contentResolver = context
+				.getContentResolver();
+		Uri insertUri = Uri
+				.parse("content://" + authority + ".plugin/apkplugin");
+		ContentValues values = new ContentValues();
+		values.put("data", str);
+		contentResolver.insert(insertUri, values);
+	}
+	
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub

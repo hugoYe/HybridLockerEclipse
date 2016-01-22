@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config version="1.0">
+  <app className="com.coco.lock2.app.locktemplate.LockTemplateActivity">
+    <viewWrap className="com.coco.lock2.app.locktemplate.TempWrap" />
+    <thumb path="thumb.png" />
+    <preview path="preview" />
+    <reflection value="true" />
+    <setting className="" />
+    <author name="cooee" />
+    <updatetime value="2013-01-31" />
+    <introduction>他来了请闭眼</introduction>
+    <introductionEn>他来了请闭眼</introductionEn>
+  </app>
+</config>

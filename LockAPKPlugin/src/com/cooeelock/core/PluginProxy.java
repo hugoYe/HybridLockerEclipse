@@ -20,6 +20,8 @@ public class PluginProxy implements IPluginProxy {
 	private final String TAG = "PluginProxy";
 
 	private final String ACTION_EXAMPLE = "example";
+	
+	private String mLockAuthority;
 
 	/**
 	 * 系统锁屏apk的上下文环境
@@ -44,65 +46,70 @@ public class PluginProxy implements IPluginProxy {
 		this.mContext = context;
 	}
 
+	public void setLockAuthority(String authority){
+		mLockAuthority = authority;
+	}
+	
 	@Override
 	public int execute(String action, final JSONArray args) {
 		// TODO Auto-generated method stub
 		Log.i(TAG, "####### 我是插件真实执行者！！！ action =  " + action);
 
 		// 1.获取实时的广告View，传入，apk唯一id，广告位id，广告类型
-		AdBaseView mrsplashView = KmobManager.createRsplash(
-				"20151012061048241", mRemoteContext);
-		mrsplashView.addAdViewListener(new AdViewListener() {
+//		AdBaseView mrsplashView = KmobManager.createRsplash(
+//				"20151012061048241", mRemoteContext);
+//		mrsplashView.addAdViewListener(new AdViewListener() {
+//
+//			@Override
+//			public void onAdShow(String info) {
+//				Log.e(TAG, "######## AdViewListener onAdShow info " + info);
+//			}
+//
+//			@Override
+//			public void onAdReady(String space_id) {
+//				Log.e(TAG, "######## AdViewListener onAdReady space_id "
+//						+ space_id);
+//			}
+//
+//			@Override
+//			public void onAdFailed(String reason) {
+//				Toast.makeText(mRemoteContext, "获取广告失败", Toast.LENGTH_LONG)
+//						.show();
+//				Log.e(TAG, "######## AdViewListener onAdFailed reason "
+//						+ reason);
+//			}
+//
+//			@Override
+//			public void onAdClick(String arg0) {
+//				Log.e(TAG, "######## AdViewListener onAdClick arg0 " + arg0);
+//			}
+//
+//			@Override
+//			public void onAdClose(String info) {
+//			}
+//
+//			@Override
+//			public void onAdCancel(String info) {
+//			}
+//		});
+//
+//		String exectype = "none";
+//		int version = -1;
+//		try {
+//			exectype = args.getString(1);
+//			version = args.getInt(0);
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
-			@Override
-			public void onAdShow(String info) {
-				Log.e(TAG, "######## AdViewListener onAdShow info " + info);
-			}
-
-			@Override
-			public void onAdReady(String space_id) {
-				Log.e(TAG, "######## AdViewListener onAdReady space_id "
-						+ space_id);
-			}
-
-			@Override
-			public void onAdFailed(String reason) {
-				Toast.makeText(mRemoteContext, "获取广告失败", Toast.LENGTH_LONG)
-						.show();
-				Log.e(TAG, "######## AdViewListener onAdFailed reason "
-						+ reason);
-			}
-
-			@Override
-			public void onAdClick(String arg0) {
-				Log.e(TAG, "######## AdViewListener onAdClick arg0 " + arg0);
-			}
-
-			@Override
-			public void onAdClose(String info) {
-			}
-
-			@Override
-			public void onAdCancel(String info) {
-			}
-		});
-
-		String exectype = "none";
-		int version = -1;
-		try {
-			exectype = args.getString(1);
-			version = args.getInt(0);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		Log.i(TAG, "#######  action = " + action + ", exectype = " + exectype
-				+ ", version = " + version);
+//		Log.i(TAG, "#######  action = " + action + ", exectype = " + exectype
+//				+ ", version = " + version);
 
 		Intent it = new Intent();
 		it.setClassName(mContext.getPackageName(),
 				"com.cooeelock.plugin.example.PluginTestService");
+		it.putExtra("AUTHORITY", mLockAuthority);
 		mContext.startService(it);
 
 		if (action.equals(ACTION_EXAMPLE)) {

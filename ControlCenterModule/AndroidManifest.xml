@@ -47,12 +47,14 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <!-- kepush start -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- kepush end -->
-    
+
+
     <!-- shell 注册权限开始 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -66,9 +68,10 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- shell 注册权限结束 -->
-    
+
+
     <!-- 微入口  start -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -80,9 +83,9 @@
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> -->
     <!-- 微入口  end -->
-    
+
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
@@ -99,49 +102,65 @@
             android:enabled="true"
             android:exported="true" />
         <!-- UIbase统计服务注册   end -->
-        
+
+
         <!-- 控制中心更新服务注册   begin -->
-		<service android:name="com.cooee.control.center.module.update.UpdateService"
-		    android:enabled="true"
+        <service
+            android:name="com.cooee.control.center.module.update.UpdateService"
+            android:enabled="true"
             android:exported="true" />
-		<!-- 控制中心更新服务注册   end -->
-		
-		<!-- 用于锁屏APK插件下载其他apk的服务  begin -->    
+        <!-- 控制中心更新服务注册   end -->
+
+
+        <!-- 用于锁屏APK插件下载其他apk的服务  begin -->
         <service
             android:name="com.cooeelock.core.plugin.DownloadService"
             android:enabled="true"
             android:exported="true" />
-        <!-- 用于锁屏APK插件下载其他apk的服务  end --> 
-        
-        <!-- 用于锁屏JAR插件执行的服务  begin -->     
+        <!-- 用于锁屏APK插件下载其他apk的服务  end -->
+
+
+        <!-- 用于锁屏JAR插件执行的服务  begin -->
         <service
             android:name="com.cooeelock.core.plugin.JarExecuteService"
             android:enabled="true"
             android:exported="true" />
-        <!-- 用于锁屏JAR插件执行的服务  end -->    
-		
-		
-		<!-- 创建快捷方式服务注册   begin -->
-		<service android:name="com.cooee.control.center.module.base.ShortcutService"
-		    android:enabled="true"
+        <!-- 用于锁屏JAR插件执行的服务  end -->
+
+
+        <!-- 创建快捷方式服务注册   begin -->
+        <service
+            android:name="com.cooee.control.center.module.base.ShortcutService"
+            android:enabled="true"
             android:exported="true" />
-		<!-- 创建快捷方式服务注册   end -->
-		
-		<!-- 开关闪光灯服务注册   begin -->
-		<service android:name="com.cooee.control.center.module.base.FlashlightService"
-		    android:enabled="true"
+        <!-- 创建快捷方式服务注册   end -->
+
+
+        <!-- 开关闪光灯服务注册   begin -->
+        <service
+            android:name="com.cooee.control.center.module.base.FlashlightService"
+            android:enabled="true"
             android:exported="true" />
-		<!-- 开关闪光灯服务注册   end -->
-		
-		<!-- 开机广播注册   begin -->
+        <!-- 开关闪光灯服务注册   end -->
+
+
+        <!-- 开机广播注册   begin -->
         <receiver android:name="com.cooee.control.center.module.base.BootCompletedReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+                <!-- 注意！！ 这句必须要加，否则接收不到BroadCast -->
+            </intent-filter>
         </receiver>
-		<!-- 开机广播注册   end -->
-		
-		<!-- push注册   begin -->
+        <!-- 开机广播注册   end -->
+
+
+        <!-- push注册   begin -->
         <service
             android:name="com.kpsh.sdk.KpshService"
             android:process="com.kpsh.kpshservice" >
@@ -176,6 +195,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <!-- push注册   end -->
+
 
         <!-- shell注册   begin -->
         <service
@@ -219,8 +239,8 @@
             </intent-filter>
         </receiver>
         <!-- shell注册   end -->
-        
-        <!-- 微入口注册   begin -->
+        <!--
+        	微入口注册   begin
         <activity
             android:name="com.iLoong.launcher.MList.ApkMangerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -336,8 +356,28 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <!-- 微入口注册   end -->
+        	微入口注册   end
+        -->
         
+        <!-- 常用应用  start -->
+        <service
+            android:name="com.coco.lock.favorites.FavoritesService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.cooee.control.center.module.favorites" />
+            </intent-filter>
+        </service>
+        <!-- 常用应用  end -->
+        
+        <!-- 插件数据交互  start -->
+        <provider
+            android:name="com.cooeelock.core.plugin.PluginProvider"
+            android:authorities="com.cooee.control.center.module.plugin"
+            android:multiprocess="true" >
+        </provider>
+        <!-- 插件数据交互  end -->
+
     </application>
 
 </manifest>

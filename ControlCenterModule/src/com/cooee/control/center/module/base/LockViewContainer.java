@@ -6,13 +6,14 @@ import java.io.IOException;
 import org.apache.cordova.CordovaWrap;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +28,7 @@ import com.coco.lock.favorites.FavoritesModel;
 import com.cooee.cordova.plugins.TouchEventPrevent;
 import com.cooee.statistics.StatisticsBaseNew;
 import com.cooee.statistics.StatisticsExpandNew;
+import com.cooeelock.core.plugin.JarExecuteService;
 
 final public class LockViewContainer extends FrameLayout implements IBaseView {
 
@@ -44,17 +46,16 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 	private CordovaWrap mCordovaWrap;
 	private WebView mWebView;
 	private View mLockView;
+	private final String JAR_SERVICE_NAME = "com.cooeelock.core.plugin.JarExecuteService";
 
 	public LockViewContainer(Context context, Context remoteContext) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		mContext = context;
 		mRemoteContext = remoteContext;
 	}
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		// TODO Auto-generated method stub
 
 		if (ev.getAction() == MotionEvent.ACTION_DOWN) {
 			mLockView.onTouchEvent(ev);
@@ -111,6 +112,7 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 	};
 
 	private void loadWebview() {
+		Log.v("%&&**%**&*%*%", "loadWebview");
 		SharedPreferences sp;
 		if (mRemoteContext != null) {
 			sp = mRemoteContext.getSharedPreferences(mContext.getPackageName(),
@@ -125,10 +127,22 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 			mCordovaWrap.launchUrl = "file:///" + mRemoteContext.getFilesDir()
 					+ "/" + mContext.getPackageName() + "/" + htmlFilesDir
 					+ "/index.html";
+			File file = new File(mRemoteContext.getFilesDir() + "/"
+					+ mContext.getPackageName() + "/" + htmlFilesDir
+					+ "/index.html");
+			if (!file.exists()) {
+				return;
+			}
 		} else {
 			mCordovaWrap.launchUrl = "file:///" + mContext.getFilesDir() + "/"
 					+ htmlFilesDir + "/index.html";
+			File file = new File(mContext.getFilesDir() + "/" + htmlFilesDir
+					+ "/index.html");
+			if (!file.exists()) {
+				return;
+			}
 		}
+		Log.v("%&&**%**&*%*%", mCordovaWrap.launchUrl);
 		mWebView = (WebView) mCordovaWrap
 				.loadWebViewUrl(mCordovaWrap.launchUrl);
 		mWebView.setBackgroundColor(Color.TRANSPARENT);
@@ -140,13 +154,14 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 			}
 		}
 		addView(mWebView);
-		
+
 	}
 
 	/**
 	 * 创建webview
 	 * */
 	private void createWebview() {
+		Log.v("%&&**%**&*%*%", "createWebview");
 		mCordovaWrap = new CordovaWrap(mContext, mRemoteContext);
 		mCordovaWrap.onCreate(null);
 		SharedPreferences sp;
@@ -156,7 +171,7 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 		} else {
 			sp = PreferenceManager.getDefaultSharedPreferences(mContext);
 		}
-		File sdFile = new File(SDCARD_FILES_DIR + "/"
+		final File sdFile = new File(SDCARD_FILES_DIR + "/"
 				+ mContext.getPackageName() + "/" + updateFile);
 
 		// 首次启动将assets目录下的html站点文件拷贝到data/data/paceagename/files/...目录下
@@ -165,7 +180,6 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					try {
 						if (mRemoteContext != null) {
 							File dir = new File(mRemoteContext.getFilesDir()
@@ -181,6 +195,7 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 							FileUtils.copyAssetDirToFiles(destDir, mContext,
 									HTML_FILES_ROOT_DIR);
 						}
+
 						SharedPreferences sp;
 						if (mRemoteContext != null) {
 							sp = mRemoteContext.getSharedPreferences(
@@ -195,9 +210,9 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 						sp.edit()
 								.putString(SP_HTML_FILES_ROOT_DIR,
 										HTML_FILES_ROOT_DIR).commit();
+						copyJarAssetsToData();
 						mHandler.sendEmptyMessage(MSG_COPY_FILE_SUCCESS);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -251,7 +266,10 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 					}
 					sp.edit().putString(SP_HTML_FILES_ROOT_DIR, htmlFilesDir)
 							.commit();
-					File sdFile = new File(SDCARD_FILES_DIR);
+					sdFile.delete();
+					copyJarSdcardToData();
+					File sdFile = new File(SDCARD_FILES_DIR
+							+ mContext.getPackageName() + "/www");
 
 					if (sdFile.exists()) {
 						FileUtils.deleteFile(sdFile);
@@ -263,7 +281,25 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 		} else {
 			// 直接加载html站点文件
 			loadWebview();
+			Intent intent = new Intent();
+			intent.setClassName(mContext, JAR_SERVICE_NAME);
+			intent.setAction(JarExecuteService.ACTION_LOAD_WEBVIEW);
+			mContext.startService(intent);
 		}
+	}
+
+	private void copyJarAssetsToData() {
+		Intent intent = new Intent();
+		intent.setClassName(mContext, JAR_SERVICE_NAME);
+		intent.setAction(JarExecuteService.ACTION_COPY_JAR_ASSETS_TO_DATA);
+		mContext.startService(intent);
+	}
+
+	private void copyJarSdcardToData() {
+		Intent intent = new Intent();
+		intent.setClassName(mContext, JAR_SERVICE_NAME);
+		intent.setAction(JarExecuteService.ACTION_COPY_JAR_SDCARD_TO_DATA);
+		mContext.startService(intent);
 	}
 
 	/**
@@ -285,29 +321,10 @@ final public class LockViewContainer extends FrameLayout implements IBaseView {
 	@SuppressLint("NewApi")
 	private void startUpdateService() {
 		String path = SDCARD_FILES_DIR + mContext.getPackageName();
-		File file = new File(path);
-		if (!file.exists()) {
-			file.mkdirs();
-		}
-		boolean sdcardState;
-		if (Build.VERSION.SDK_INT >= 19) {
-			if (Environment.getStorageState(file).equals(
-					Environment.MEDIA_MOUNTED)) {
-				sdcardState = true;
-			} else {
-				sdcardState = false;
-			}
-		} else {
-			if (Environment.getExternalStorageState().equals(
-					Environment.MEDIA_MOUNTED)) {
-				sdcardState = true;
-			} else {
-				sdcardState = false;
-			}
-		}
-
 		// 开启服务进行html站点更新
-		if (IsHaveInternet(mContext) && sdcardState) {
+		if (IsHaveInternet(mContext) && Tools.getSdcardState(path)) {
+			Log.v("startUpdateService",
+					"##################startUpdateService!!!!!!!!!!!!!");
 			Intent intent = new Intent();
 			intent.setClassName(mContext.getPackageName(),
 					"com.cooee.control.center.module.update.UpdateService");

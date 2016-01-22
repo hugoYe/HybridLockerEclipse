@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config version="1.0">
+<app className="com.coco.lock2.app.locktemplate.LockTemplateActivity" >
+	<viewWrap className="com.coco.lock2.app.locktemplate.TempWrap" />
+    <thumb path="thumb.png" />
+    <preview path="preview" />
+    <reflection value="true"/>
+    <setting className="" />
+    <author name="cooee" />
+    <updatetime value="2013-01-31" />
+    <introduction>不用玫瑰、巧克力，一颗真心只为你;没有花言、没巧语，一个气球表真心：愿我们的爱，盛开在寒冬，飘溢出芬芳。CoCo锁屏情人节解锁主题，温暖两个人的心。</introduction>
+    <introductionEn>不用玫瑰、巧克力，一颗真心只为你;没有花言、没巧语，一个气球表真心：愿我们的爱，盛开在寒冬，飘溢出芬芳。CoCo锁屏情人节解锁主题，温暖两个人的心。</introductionEn>
+</app>
+</config>

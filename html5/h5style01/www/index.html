@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	      <link rel="stylesheet" href="css/swiper.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <!-- cordova demo begin -->
+        <!--
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready  网址导航</p>
+            </div>
+        </div>
+        -->
+        <!-- cordova demo end -->
+
+        <!--背景-->
+        <div id="background">
+        </div>
+        <!--半透明滑动块-->
+
+        <div id="slide">
+            <!--点击区域,点击后触发滑动事件-->
+            <div class="touch_item">
+                <img src="res/arrow.png"  class="touch" alt="arrow"/>
+            </div>
+            <div>
+                <!--状态栏-->
+                <ul id="state">
+                    <li class="state_item">
+                        <div>
+                            <img id="state_wifi" src="res/shortcut_wifi_off.png" alt=""/>
+                        </div>
+                    </li>
+                    <li class="state_item">
+                        <div>
+                            <img id="state_mobiledata" src="res/shortcut_net_off.png" alt=""/>
+                        </div>
+                    </li>
+                    <li class="state_item">
+                        <div>
+                            <img id="state_bluetooth" src="res/shortcut_blue_off.png" alt=""/>
+                        </div>
+                    </li>
+                    <li class="state_item">
+                        <div>
+                            <img id="state_light" src="res/shortcut_light_off.png" alt=""/>
+                        </div>
+                    </li>
+                    <li class="state_item last">
+                        <div>
+                            <img id="state_camera" src="res/shortcut_camera_off.png" alt=""/>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <!--app区域-->
+                <ul id="app">
+                </ul>
+            </div>
+            <div class="swiper-container">
+							<div class="swiper-wrapper">
+								<div class="link_app swiper-slide">
+									<ul class="link">
+										<li class="link_item">
+											<a href="http://6du.in/4L35lg">
+												<img src="res/ICON/tianqi.png" alt=""/>
+												<p>天气</p>
+											</a>
+										</li>
+										<li class="link_item">
+											<a href="http://6du.in/3u2_GR">
+												<img src="res/ICON/xiaohua.png" alt=""/>
+												<p>笑话</p>
+											</a>
+										</li>
+										<li class="link_item">
+											<a href="http://6du.in/3o1eje">
+												<img src="res/ICON/xingzuo.png" alt=""/>
+												<p>星座</p>
+											</a>
+										</li>
+										<li class="link_item">
+											<a href="http://6du.in/2i1aO4">
+												<img src="res/ICON/xiaoshuo.png" alt=""/>
+												<p>小说</p>
+											</a>
+										</li>
+										<li id="game" class="link_item">
+											<a href="http://open.egret.com/gamecenter/?channelId=18464">
+												<img src="res/ICON/youxi.png" alt=""/>
+												<p>节操游戏</p>
+											</a>
+										</li>
+									</ul>
+									<ul class="link">
+										<li class="link_item">
+											<a href="http://6du.in/1K2-fG">
+												<img src="res/ICON/bagua.png" id="bagua" alt=""/>
+												<p>八卦</p>
+											</a>
+										</li>
+										<li class="link_item">
+											<a href="http://6du.in/1Z1aay">
+												<img src="res/ICON/caipiao.png" alt=""/>
+												<p>彩票</p>
+											</a>
+										</li>
+										<li class="link_item">
+											<a href="http://6du.in/2D2zcu">
+												<img src="res/ICON/dongman.png" alt=""/>
+												<p>动漫</p>
+											</a>
+										</li>
+										<li class="link_item">
+											<a href="http://6du.in/3a11tO">
+												<img src="res/ICON/meinv.png" alt=""/>
+												<p>美女</p>
+											</a>
+										</li>
+										<li class="link_item">
+											<a href="http://6du.in/3l1YUA">
+												<img src="res/ICON/yeshi.png" alt=""/>
+												<p>野史</p>
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div class="link_block swiper-slide">
+									<table class="link_table">
+										<tr>
+											<td>
+												<a href="http://6du.in/3l1YRb">女性</a>
+												<img src="res/hot.png" alt="" class="hot"/>
+											</td>
+											<td>
+												<a href="http://6du.in/3l1YNO">情感</a>
+											</td>
+											<td>
+												<a href="http://6du.in/3x22EX">特价</a>
+												<img src="res/hot.png" alt="" class="hot"/>
+											</td>
+											<td class="lastcol">
+												<a href="http://6du.in/211-fs">美食</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<a href="http://6du.in/3e1Sjc">新闻</a>
+											</td>
+											<td>
+												<a href="http://6du.in/2Q2D-S">热搜</a>
+											</td>
+											<td>
+												<a href="http://6du.in/221feu">招聘</a>
+												<img src="res/hot.png" alt="" class="hot"/>
+											</td>
+											<td class="lastcol">
+												<a href="http://6du.in/2_1eIK">财经</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<a href="http://6du.in/281f5D">汽车</a>
+											</td>
+											<td>
+												<a href="http://6du.in/3A1xIm">附近</a>
+											</td>
+											<td>
+												<a href="http://6du.in/1VRvH">旅游</a>
+											</td>
+											<td class="lastcol">
+												<a href="http://6du.in/3v2r3p">新奇趣</a>
+											</td>
+										</tr>
+										<tr class="lastrow">
+											<td>
+												<a href="http://6du.in/3l1Y5D">重口味</a>
+											</td>
+											<td>
+												<a href="http://6du.in/241Fvi">军事</a>
+											</td>
+											<td>
+												<a href="http://6du.in/221adm">体育</a>
+											</td>
+											<td class="lastcol">
+												<a href="http://6du.in/3617yX">糗事百科</a>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							<div class="swiper-pagination"></div>
+						</div>
+        </div>
+        <div id="button_th">
+	          <div class="redDot"></div>
+            <img src="res/ICON.png" alt="button_th"/>
+        </div>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script src="js/jquery-1.11.3.min.js"></script>
+		<script src="js/swiper.jquery.min.js"></script>
+		<script src="js/link_slide.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+    </body>
+</html>

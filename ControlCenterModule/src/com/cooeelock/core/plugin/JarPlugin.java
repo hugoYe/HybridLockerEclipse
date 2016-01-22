@@ -1,57 +1,134 @@
 package com.cooeelock.core.plugin;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.coco.lock.favorites.AppInfo;
+import com.cooee.control.center.module.R.string;
+import com.cooee.control.center.module.base.FileUtils;
+import com.cooee.control.center.module.base.StaticClass;
+import com.cooee.control.center.module.base.ThreadUtil;
+import com.cooee.control.center.module.base.Tools;
 import com.cooee.cordova.plugins.UnlockListener;
 
 public class JarPlugin extends CordovaPlugin {
 
 	private final String TAG = "JarPlugin";
 
-	private final int EXECUTE_RESULT_NOT_HANDLE = -1;
-	private final int EXECUTE_RESULT_HANDLE_FAIL = 0;
-	private final int EXECUTE_RESULT_HANDLE_SUCCESS = 1;
-
-	private final String ACTION_JS_DATA = "com.cooeelock.core.jarplugin.jsdata";
+	private final String ACTION_SAVE_JSON_DATA = "com.cooeelock.save.jarplugin.jsondata";
+	private final String ACTION_SAVE_RES_DATA = "com.cooeelock.save.jarplugin.resdata";
+	private final String ACTION_GET_JSON_DATA = "com.cooeelock.get.jarplugin.jsondata";
+	private final String ACTION_GET_RES_DATA = "com.cooeelock.get.jarplugin.resdata";
 
 	private Context mContext;
 
-	private int mHandleRst;
-	private CallbackContext mCallbackContext;
-
+	private final String ACTION_UNLOCK = "unlock";
 	private static UnlockListener sUnlockListener;
 
 	private BroadcastReceiver mJsdataReceiver;
+	public final static String ACTION_COPY_JAR_SDCARD_TO_DATA = "com.cooee.copy.jar.sdcard.to.data";
+	public final static String ACTION_COPY_JAR_ASSETS_TO_DATA = "com.cooee.copy.jar.assets.to.data";
+	public final static String ACTION_COPY_JAR_TO_DATA_SUCCESS = "com.cooee.copy.jar.to.data.success";
+	public final static String ACTION_LOAD_WEBVIEW = "com.cooee.load.webview";
 
 	class JsdataBroadcastReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// TODO Auto-generated method stub
 			String action = intent.getAction();
-			Log.e(TAG, "######## action = " + action);
-			if (action.equals(ACTION_JS_DATA)) {
-				Log.e(TAG, "########  " + intent.getStringExtra("key_js_data"));
-				sendJS(intent.getStringExtra("key_js_data"));
-			}
-
-			boolean unlock = intent.getBooleanExtra("key_unlock", false);
-			if (unlock) {
-				if (sUnlockListener != null) {
-					sUnlockListener.onUnlock();
+			if (action.equals(ACTION_SAVE_JSON_DATA)) {
+				saveJsonData();
+			} else if (action.equals(ACTION_GET_JSON_DATA)) {
+				String jsData = intent.getStringExtra("js_data");
+				String jsDir = intent.getStringExtra("js_dir");
+				String spDir = intent.getStringExtra("sp_dir");
+				if (cordova.getRemoteContext() != null) {
+					SharedPreferences sp = cordova.getRemoteContext()
+							.getSharedPreferences(mContext.getPackageName(),
+									Context.MODE_PRIVATE);
+					String jsonDir = sp.getString(spDir, jsDir);
+					sendJS("javascript:" + jsData + "('" + jsonDir + "');");
+					Log.e(TAG, "########  jsonDir = " + jsonDir);
+				} else {
+					SharedPreferences sp = PreferenceManager
+							.getDefaultSharedPreferences(mContext);
+					String jsonDir = sp.getString(spDir, jsDir);
+					sendJS("javascript:" + jsData + "('" + jsonDir + "');");
+					Log.e(TAG, "########  jsonDir = " + jsonDir);
+				}
+			} else if (action.equals(StaticClass.ACTION_JAR_COPY_SUCCESS)) {
+				sendJS("javascript:copyJarSuccess();");
+			} else if (action.equals(ACTION_SAVE_RES_DATA)) {
+				saveResData(intent.getStringExtra("down_success"),
+						intent.getStringExtra("copy_path"));
+			} else if (action.equals(ACTION_GET_RES_DATA)) {
+				String jsData = intent.getStringExtra("res_data");
+				String jsDir = intent.getStringExtra("res_dir");
+				String spDir = intent.getStringExtra("res_sp");
+				int num;
+				if (cordova.getRemoteContext() != null) {
+					SharedPreferences sp = cordova.getRemoteContext()
+							.getSharedPreferences(mContext.getPackageName(),
+									Context.MODE_PRIVATE);
+					String jsonDir = sp.getString(spDir, jsDir);
+					File file = new File(cordova.getRemoteContext()
+							.getFilesDir()
+							+ "/"
+							+ mContext.getPackageName()
+							+ "/"
+							+ jsonDir);
+					if (file.exists()) {
+						num = file.list().length;
+					} else {
+						num = 0;
+					}
+					if (num > 0) {
+						sendJS("javascript:" + jsData + "('" + num + "','"
+								+ jsonDir + "');");
+					}
+					Log.e(TAG, "########  jsonDir = " + "javascript:" + jsData
+							+ "('" + num + "','" + jsonDir + "');");
+				} else {
+					SharedPreferences sp = PreferenceManager
+							.getDefaultSharedPreferences(mContext);
+					String jsonDir = sp.getString(spDir, jsDir);
+					File file = new File(mContext.getFilesDir() + "/" + jsonDir);
+					if (file.exists()) {
+						num = file.list().length;
+					} else {
+						num = 0;
+					}
+					if (num > 0) {
+						sendJS("javascript:" + jsData + "('" + num + "','"
+								+ jsonDir + "');");
+					}
+					Log.e(TAG, "########  jsonDir = " + "javascript:" + jsData
+							+ "('" + num + "','" + jsonDir + "');");
 				}
 			}
 		}
@@ -63,7 +140,6 @@ public class JarPlugin extends CordovaPlugin {
 
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-		// TODO Auto-generated method stub
 		super.initialize(cordova, webView);
 		if (cordova.getActivity() != null) {
 			mContext = cordova.getActivity();
@@ -71,67 +147,211 @@ public class JarPlugin extends CordovaPlugin {
 			mContext = cordova.getContext();
 		}
 
+		saveJsonData();
+
 		mJsdataReceiver = new JsdataBroadcastReceiver();
 		IntentFilter filter = new IntentFilter();
-		filter.addAction(ACTION_JS_DATA);
+		filter.addAction(ACTION_SAVE_JSON_DATA);
+		filter.addAction(ACTION_GET_JSON_DATA);
+		filter.addAction(ACTION_SAVE_RES_DATA);
+		filter.addAction(ACTION_GET_RES_DATA);
+		filter.addAction(StaticClass.ACTION_JAR_COPY_SUCCESS);
 		mContext.registerReceiver(mJsdataReceiver, filter);
+	}
+
+	private void saveResData(String successFile, final String savePath) {
+		final String sdFilesDir = Environment.getExternalStorageDirectory()
+				.getAbsolutePath() + "/h5lock/" + mContext.getPackageName();
+		final File sdFile = new File(sdFilesDir + "/" + successFile);
+		if (sdFile.exists()) {
+			ThreadUtil.execute(new Runnable() {
+
+				@Override
+				public void run() {
+					SharedPreferences sp;
+					String resFilesDir;
+					if (cordova.getRemoteContext() != null) {
+						sp = cordova.getRemoteContext()
+								.getSharedPreferences(
+										mContext.getPackageName(),
+										Context.MODE_PRIVATE);
+					} else {
+						sp = PreferenceManager
+								.getDefaultSharedPreferences(mContext);
+					}
+					String filesDir = sp.getString(savePath + "_dir", savePath);
+					if (filesDir.equals(savePath)) {
+						resFilesDir = savePath + "1";
+					} else {
+						resFilesDir = savePath;
+					}
+
+					if (cordova.getRemoteContext() != null) {
+						Log.v("update_complete", "true");
+						File dir = new File(cordova.getRemoteContext()
+								.getFilesDir()
+								+ "/"
+								+ mContext.getPackageName());
+						// 先删除原有目录下所有文件
+						FileUtils.deleteFile(new File(dir + "/" + filesDir));
+						dir.mkdirs();
+						String destDir = dir.getAbsolutePath() + "/"
+								+ resFilesDir;
+						String path = sdFilesDir + "/" + savePath;
+
+						FileUtils.copySDDirToFiles(path, destDir);
+					} else {
+						File dir = mContext.getFilesDir();
+						// 先删除原有目录下所有文件
+						FileUtils.deleteFile(new File(dir + "/" + filesDir));
+						String path = sdFilesDir + "/" + savePath;
+						String destDir = dir.getAbsolutePath() + "/"
+								+ resFilesDir;
+						FileUtils.copySDDirToFiles(path, destDir);
+					}
+					sp.edit().putString(savePath + "_dir", resFilesDir)
+							.commit();
+					sdFile.delete();
+					File sdDownFile = new File(sdFilesDir + "/" + savePath);
+					if (sdDownFile.exists()) {
+						FileUtils.deleteFile(sdDownFile);
+					}
+					sendJS("javascript:saveResDataSuccess();");
+				}
+			});
+		}
+	}
+
+	private void saveJsonData() {
+		ThreadUtil.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				String data = "";
+				String name = "";
+				String path = "";
+				String filesDir = "";
+				Cursor csr = null;
+				try {
+					ContentResolver resolver = mContext.getContentResolver();
+					Uri contentUri = Uri.parse("content://"
+							+ mContext.getPackageName() + ".plugin/jarplugin");
+					Log.v("###********######", "getJsData contentUri"
+							+ contentUri.toString());
+					csr = resolver.query(contentUri, null, null, null, null);
+					Log.v("###********######",
+							"getJsData csr = " + csr.getCount());
+					if (csr != null) {
+						if (csr.getCount() > 0) {
+							while (csr.moveToNext()) {
+								data = csr.getString(csr
+										.getColumnIndexOrThrow("data"));
+								name = csr.getString(csr
+										.getColumnIndexOrThrow("label"));
+								path = csr.getString(csr
+										.getColumnIndexOrThrow("path"));
+								File file = null;
+								SharedPreferences sp;
+								if (cordova.getRemoteContext() != null) {
+									sp = cordova.getRemoteContext()
+											.getSharedPreferences(
+													mContext.getPackageName(),
+													Context.MODE_PRIVATE);
+									String jsonDir = sp.getString(
+											path + "_dir", path);
+									if (jsonDir.equals(path)) {
+										filesDir = path + "1";
+									} else {
+										filesDir = path;
+									}
+									String filePath = cordova
+											.getRemoteContext().getFilesDir()
+											+ "/"
+											+ mContext.getPackageName()
+											+ "/"
+											+ sp.getString("html_dir", "www");
+									FileUtils.deleteFile(new File(filePath
+											+ "/" + jsonDir));
+									file = new File(filePath + "/" + filesDir
+											+ "/" + name + ".json");
+								} else {
+									sp = PreferenceManager
+											.getDefaultSharedPreferences(mContext);
+									String jsonDir = sp.getString(
+											path + "_dir", path);
+									if (jsonDir.equals(path)) {
+										filesDir = path + "1";
+									} else {
+										filesDir = path;
+									}
+									String filePath = mContext.getFilesDir()
+											+ "/"
+											+ sp.getString("html_dir", "www");
+									FileUtils.deleteFile(new File(filePath
+											+ "/" + jsonDir));
+									file = new File(filePath + "/" + filesDir
+											+ "/" + name + ".json");
+								}
+								Log.v("###********######",
+										"cordova.getRemoteContext() "
+												+ cordova.getRemoteContext());
+								Log.v("###********######",
+										"file " + file.toString());
+								if (!file.getParentFile().exists()) {// 判断父文件是否存在，如果不存在则创建
+									file.getParentFile().mkdirs();
+								}
+								PrintStream out = null; // 打印流
+								try {
+									out = new PrintStream(new FileOutputStream(
+											file)); // 实例化打印流对象
+									out.print(data); // 输出数据
+								} catch (FileNotFoundException e) {
+									e.printStackTrace();
+								} finally {
+									if (out != null) { // 如果打印流不为空，则关闭打印流
+										out.close();
+									}
+								}
+								sp.edit().putString(path + "_dir", filesDir)
+										.commit();
+							}
+							sendJS("javascript:saveJsonDataSuccess();");
+							resolver.delete(contentUri, null, null);
+						}
+					}
+				} catch (Exception e) {
+					Log.v("###********######", "Exception!!!!!!!!!!");
+					e.printStackTrace();
+				} finally {
+					if (csr != null) {
+						csr.close();
+					}
+				}
+			}
+		});
 	}
 
 	@Override
 	public boolean execute(final String action, final JSONArray args,
 			final CallbackContext callbackContext) throws JSONException {
 
-		mCallbackContext = callbackContext;
-
 		Log.e(TAG, "########  JSONArray = " + args.toString());
-
-		int version = args.getInt(0);
-		if (isJarPluginNeedUpdate(version)) {
-			// 更新apk
-			Log.i(TAG, "######## 更新Jar !!!!!!");
-			return false;
+		Log.e(TAG, "########  action = " + action);
+		if (action.equals(ACTION_UNLOCK)) {
+			if (sUnlockListener != null) {
+				sUnlockListener.onUnlock();
+			}
+			return true;
 		}
 
-		Log.e(TAG, "######## startService");
-
-		Intent it = new Intent();
+		Intent it = new Intent("com.cooee.start.service");
 		it.setClassName(mContext.getPackageName(),
 				"com.cooeelock.core.plugin.JarExecuteService");
-		it.putExtra("key_action", action);
-		it.putExtra("key_jsonarray", args.toString());
+		it.putExtra("jar_action", action);
+		it.putExtra("jar_args", args.toString());
 		mContext.startService(it);
 
-		if (sUnlockListener != null) {
-			sUnlockListener.onUnlock();
-		}
-
 		return true;
-	}
-
-	private boolean isJarPluginNeedUpdate(int version) {
-		// if (version > 0) {
-		// return true;
-		// }
-
-		return false;
-	}
-
-	private void handleExecute(final String action, final JSONArray args) {
-		mHandleRst = JarPluginProxyManager.getInstance().execute(action, args);
-
-		switch (mHandleRst) {
-		case EXECUTE_RESULT_NOT_HANDLE:
-			mCallbackContext.error(EXECUTE_RESULT_NOT_HANDLE);
-			break;
-
-		case EXECUTE_RESULT_HANDLE_FAIL:
-			mCallbackContext.error(EXECUTE_RESULT_HANDLE_FAIL);
-			break;
-
-		case EXECUTE_RESULT_HANDLE_SUCCESS:
-			mCallbackContext.success(EXECUTE_RESULT_HANDLE_SUCCESS);
-			break;
-		}
 	}
 
 	private void sendJS(final String js) {
@@ -159,7 +379,12 @@ public class JarPlugin extends CordovaPlugin {
 	 *            Flag indicating if multitasking is turned on for app
 	 */
 	public void onPause(boolean multitasking) {
-		JarPluginProxyManager.getInstance().onPause(multitasking);
+		Intent intent = new Intent("com.cooee.jar.onpause");
+		intent.setClassName(mContext.getPackageName(),
+				"com.cooeelock.core.plugin.JarExecuteService");
+		intent.putExtra("key_value", multitasking);
+		mContext.startService(intent);
+		// JarPluginProxyManager.getInstance().onPause(multitasking);
 	}
 
 	/**
@@ -169,35 +394,57 @@ public class JarPlugin extends CordovaPlugin {
 	 *            Flag indicating if multitasking is turned on for app
 	 */
 	public void onResume(boolean multitasking) {
-		JarPluginProxyManager.getInstance().onResume(multitasking);
+		Intent intent = new Intent("com.cooee.jar.onresume");
+		intent.setClassName(mContext.getPackageName(),
+				"com.cooeelock.core.plugin.JarExecuteService");
+		intent.putExtra("key_value", multitasking);
+		mContext.startService(intent);
+		// JarPluginProxyManager.getInstance().onResume(multitasking);
 	}
 
 	/**
 	 * Called when the activity is becoming visible to the user.
 	 */
 	public void onStart() {
-		JarPluginProxyManager.getInstance().onStart();
+		Intent intent = new Intent("com.cooee.jar.onstart");
+		intent.setClassName(mContext.getPackageName(),
+				"com.cooeelock.core.plugin.JarExecuteService");
+		mContext.startService(intent);
+		// JarPluginProxyManager.getInstance().onStart();
 	}
 
 	/**
 	 * Called when the activity is no longer visible to the user.
 	 */
 	public void onStop() {
-		JarPluginProxyManager.getInstance().onStop();
+		Intent intent = new Intent("com.cooee.jar.onstop");
+		intent.setClassName(mContext.getPackageName(),
+				"com.cooeelock.core.plugin.JarExecuteService");
+		mContext.startService(intent);
+		// JarPluginProxyManager.getInstance().onStop();
 	}
 
 	/**
 	 * Called when the activity receives a new intent.
 	 */
 	public void onNewIntent(Intent intent) {
-		JarPluginProxyManager.getInstance().onNewIntent(intent);
+		Intent intent1 = new Intent("com.cooee.jar.onnewintent");
+		intent1.setClassName(mContext.getPackageName(),
+				"com.cooeelock.core.plugin.JarExecuteService");
+		intent1.putExtra("key_value", intent);
+		mContext.startService(intent1);
+		// JarPluginProxyManager.getInstance().onNewIntent(intent);
 	}
 
 	/**
 	 * The final call you receive before your activity is destroyed.
 	 */
 	public void onDestroy() {
-		JarPluginProxyManager.getInstance().onDestroy();
+		Intent intent = new Intent("com.cooee.jar.ondestroy");
+		intent.setClassName(mContext.getPackageName(),
+				"com.cooeelock.core.plugin.JarExecuteService");
+		mContext.startService(intent);
+		// JarPluginProxyManager.getInstance().onDestroy();
 
 		if (mJsdataReceiver != null) {
 			mContext.unregisterReceiver(mJsdataReceiver);
@@ -205,8 +452,15 @@ public class JarPlugin extends CordovaPlugin {
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		JarPluginProxyManager.getInstance().onActivityResult(requestCode,
-				resultCode, intent);
+		Intent intent1 = new Intent("com.cooee.jar.onactivityresult");
+		intent1.setClassName(mContext.getPackageName(),
+				"com.cooeelock.core.plugin.JarExecuteService");
+		intent1.putExtra("key_value1", requestCode);
+		intent1.putExtra("key_value2", resultCode);
+		intent1.putExtra("key_value3", intent);
+		mContext.startService(intent1);
+		// JarPluginProxyManager.getInstance().onActivityResult(requestCode,
+		// resultCode, intent);
 	}
 
 	public Boolean shouldAllowRequest(String url) {

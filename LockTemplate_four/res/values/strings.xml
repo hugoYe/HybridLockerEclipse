@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CoCo Locker Valentine</string>
+    <string name="list_name">Valentine</string>
+    <string name="charging">Charging</string>
+    <string name="battery_full">The battery is charged</string>
+    <string name="battery_low">Please connect the charger</string>
+    <string name="date_format">MMMM d</string>
+    <string name="week_format">EEE</string>
+
+</resources>
