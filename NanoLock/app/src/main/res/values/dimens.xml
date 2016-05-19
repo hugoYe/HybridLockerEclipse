@@ -1,0 +1,53 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="unlock_distance_max">150dp</dimen>
+    <dimen name="unlock_distance">60dp</dimen>
+
+    <!-- systemui keyguard begin -->
+    <!-- The minimum amount the user needs to swipe to go to the camera / phone. -->
+    <dimen name="keyguard_min_swipe_amount">110dp</dimen>
+
+    <!-- The minimum background radius when swiping to a side for the camera / phone affordances. -->
+    <dimen name="keyguard_affordance_min_background_radius">30dp</dimen>
+
+    <!-- The size of the touch targets on the keyguard for the affordances. -->
+    <dimen name="keyguard_affordance_touch_target_size">120dp</dimen>
+
+    <!-- The grow amount for the camera and phone circles when hinting -->
+    <dimen name="hint_grow_amount_sideways">60dp</dimen>
+
+    <!-- TrustDrawable: Minimum inner radius of the breathing animation -->
+    <dimen name="trust_circle_inner_radius_visible_min">22dp</dimen>
+    <!-- TrustDrawable: Maximum inner radius of the breathing animation -->
+    <dimen name="trust_circle_inner_radius_visible_max">24dp</dimen>
+    <!-- TrustDrawable: Inner radius at the end of the exit animation -->
+    <dimen name="trust_circle_inner_radius_exit">38dp</dimen>
+    <!-- TrustDrawable: Inner radius at the beginning of the enter animation -->
+    <dimen name="trust_circle_inner_radius_enter">18dp</dimen>
+    <!-- TrustDrawable: Thickness of the circle -->
+    <dimen name="trust_circle_thickness">2dp</dimen>
+
+    <!-- The width/height of the phone/camera/unlock icon view on keyguard. -->
+    <dimen name="keyguard_affordance_height">56dp</dimen>
+    <dimen name="keyguard_affordance_width">56dp</dimen>
+
+    <!-- The width/height of the phone/camera/unlock icon drawable on keyguard. -->
+    <dimen name="keyguard_affordance_icon_height">24dp</dimen>
+    <dimen name="keyguard_affordance_icon_width">24dp</dimen>
+
+    <dimen name="keyguard_indication_margin_bottom">65dp</dimen>
+
+    <!-- Padding to be used on the bottom of the fingerprint icon on Keyguard so it better aligns
+         with the other icons. -->
+    <dimen name="fingerprint_icon_additional_padding">4dp</dimen>
+
+
+    <!-- systemui keyguard end -->
+</resources>

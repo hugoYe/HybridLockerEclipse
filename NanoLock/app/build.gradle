@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.cooeeui.lock.nanolock"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 6
+        versionName "0.0.6"
+        // dex突破65535的限制
+        multiDexEnabled true
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true    // 自动清除项目中无用资源
+            zipAlignEnabled true
+
+            // 输出apk名称为 ****_v1.0.apk
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = "NanoLock_v${defaultConfig.versionName}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:support-v4:22.1.1'
+    compile project(':controlcenter')
+}

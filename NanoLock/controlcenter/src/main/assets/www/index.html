@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="msapplication-tap-highlight" content="no">
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	<link rel="stylesheet" href="css/swiper.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<title>H5-controlCenter-2</title>
+</head>
+<body>
+
+
+<!--背景-->
+<div id="background">
+
+</div>
+<!--半透明滑动块-->
+
+<div id="slide">
+	<!--点击区域,点击后触发滑动事件-->
+	<div class="touch_item">
+		<img src="res/arrow.png"  class="touch" alt="arrow"/>
+	</div>
+	<div id="state_container">
+		<!--状态栏-->
+		<ul id="state">
+			<li class="state_item">
+				<div>
+					<img id="state_wifi" src="res/shortcut_wifi_off.png" alt=""/>
+				</div>
+			</li>
+			<li class="state_item">
+				<div>
+					<img id="state_mobiledata" src="res/shortcut_net_off.png" alt=""/>
+				</div>
+			</li>
+			<li class="state_item">
+				<div>
+					<img id="state_bluetooth" src="res/shortcut_blue_off.png" alt=""/>
+				</div>
+			</li>
+			<li class="state_item">
+				<div>
+					<img id="state_light" src="res/shortcut_light_off.png" alt=""/>
+				</div>
+			</li>
+			<li class="state_item">
+				<div>
+					<img id="state_camera" src="res/shortcut_camera_off.png" alt=""/>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<!--分隔线-->
+	<!--<div class="divider"></div>-->
+	<div id="app_container">
+		<!--app区域-->
+		<ul id="app">
+		</ul>
+	</div>
+	<div id="tool_container">
+		<!--状态栏-->
+		<ul id="tool">
+			<li class="tool_item">
+				<div>
+					<img src="res/replace_off.png" alt=""/>
+				</div>
+				<p class="name">Repalce</p>
+			</li>
+			<li class="tool_item">
+				<div>
+					<img src="res/share_off.png" alt=""/>
+				</div>
+				<p class="name">Share</p>
+			</li>
+			<li class="tool_item">
+				<div>
+					<img src="res/wallpaper_off.png" alt=""/>
+				</div>
+				<p class="name">Wallpaper</p>
+			</li>
+			<li class="tool_item">
+				<div>
+					<img src="res/set_off.png" alt=""/>
+				</div>
+				<p class="name">Set up</p>
+			</li>
+			<li class="tool_item">
+				<div>
+					<img src="res/gift_off.png" alt=""/>
+				</div>
+				<p class="name">Gift</p>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="button_th">
+	<div class="redDot"></div>
+	<img src="res/ICON.png" alt="button_th"/>
+</div>
+
+<script type="text/javascript" src="cordova.js"></script>
+        <script src="js/jquery-1.11.3.min.js"></script>
+		<script src="js/swiper.jquery.min.js"></script>
+		<script src="js/link_slide.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>

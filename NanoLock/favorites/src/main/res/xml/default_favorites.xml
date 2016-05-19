@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<default_favorites xmlns:launcher="http://schemas.android.com/apk/res-auto/com.coco.lock2.app.Pee">
+
+    <!-- 已按热门先后排序 -->
+    <favorite
+        label="qq"
+        launcher:packageName="com.tencent.mobileqq" />
+    <favorite
+        label="wechat"
+        launcher:packageName="com.tencent.mm" />
+    <favorite
+        label="qzone"
+        launcher:packageName="com.qzone" />
+    <favorite
+        label="weibo"
+        launcher:packageName="com.sina.weibog3" />
+    <favorite
+        label="taobao"
+        launcher:packageName="com.taobao.taobao" />
+    <favorite
+        label="UCMobile"
+        launcher:packageName="com.UCMobile" />
+    <favorite
+        label="AlipayGphone"
+        launcher:packageName="com.eg.android.AlipayGphone" />
+    <favorite
+        label="kugou"
+        launcher:packageName="com.kugou.android" />
+    <favorite
+        label="baidumap"
+        launcher:packageName="com.baidu.BaiduMap" />
+    <favorite
+        label="wifilocating"
+        launcher:packageName="com.snda.wifilocating" />
+    <favorite
+        label="youku"
+        launcher:packageName="com.youku.phone" />
+    <favorite
+        label="sinaweibo"
+        launcher:packageName="com.sina.weibo" />
+    <favorite
+        label="googlemap"
+        launcher:packageName="com.google.android.apps.maps" />
+    <favorite
+        label="tencentbrowser"
+        launcher:packageName="com.tencent.mtt" />
+    <favorite
+        label="qqmusic"
+        launcher:packageName="com.tencent.qqmusic" />
+    <favorite
+        label="qqcoolrun"
+        launcher:packageName="com.tencent.pao" />
+    <favorite
+        label="qqlive"
+        launcher:packageName="com.tencent.qqlive" />
+    <favorite
+        label="qqpimsecure"
+        launcher:packageName="com.tencent.qqpimsecure" />
+    <favorite
+        label="ttpod"
+        launcher:packageName="com.sds.android.ttpod" />
+    <favorite
+        label="googleplay"
+        launcher:packageName="com.android.vending" />
+    <favorite
+        label="mtxx"
+        launcher:packageName="com.mt.mtxx.mtxx" />
+    <favorite
+        label="aqiyi"
+        launcher:packageName="com.qiyi.video" />
+    <favorite
+        label="wps"
+        launcher:packageName="cn.wps.moffice_eng" />
+    <favorite
+        label="liebao"
+        launcher:packageName="com.cleanmaster.mguard_cn" />
+    <favorite
+        label="qqnews"
+        launcher:packageName="com.tencent.news" />
+    <favorite
+        label="gaodemap"
+        launcher:packageName="com.autonavi.minimap" />
+    <favorite
+        label="meituan"
+        launcher:packageName="com.baidu.tieba" />
+    <favorite
+        label="sohuvideo"
+        launcher:packageName="com.sohu.sohuvideo" />
+    <favorite
+        label="momo"
+        launcher:packageName="com.immomo.momo" />
+    <favorite
+        label="mjweather"
+        launcher:packageName="com.moji.mjweather" />
+    <favorite
+        label="storm"
+        launcher:packageName="com.storm.smart" />
+    <favorite
+        label="hlddz"
+        launcher:packageName="com.qqgame.hlddz" />
+    <favorite
+        label="jingdong"
+        launcher:packageName="com.jingdong.app.mall" />
+    <favorite
+        label="qsbk"
+        launcher:packageName="qsbk.app" />
+    <favorite
+        label="kuwo"
+        launcher:packageName="cn.kuwo.player" />
+    <favorite
+        label="chaton"
+        launcher:packageName="com.sec.chaton" />
+    <favorite
+        label="wangxin"
+        launcher:packageName="com.alibaba.mobileim" />
+    <favorite
+        label="changba"
+        launcher:packageName="com.changba" />
+    <favorite
+        label="iReaderFree"
+        launcher:packageName="com.chaozh.iReaderFree" />
+    <favorite
+        label="tudou"
+        launcher:packageName="com.tudou.android" />
+    <favorite
+        label="duowan"
+        launcher:packageName="com.duowan.mobile" />
+    <favorite
+        label="meiyancamera"
+        launcher:packageName="com.meitu.meiyancamera" />
+    <favorite
+        label="letv"
+        launcher:packageName="com.letv.android.client" />
+    <favorite
+        label="baiduvideo"
+        launcher:packageName="com.baidu.video" />
+    <favorite
+        label="baidubrowser"
+        launcher:packageName="com.baidu.browser.apps" />
+    <favorite
+        label="meipaimv"
+        launcher:packageName="com.meitu.meipaimv" />
+    <favorite
+        label="dianping"
+        launcher:packageName="com.dianping.v1" />
+    <favorite
+        label="camera360"
+        launcher:packageName="vStudio.Android.Camera360" />
+    <favorite
+        label="tianqitong"
+        launcher:packageName="sina.mobile.tianqitong" />
+    <favorite
+        label="qqmail"
+        launcher:packageName="com.tencent.androidqqmail" />
+    <favorite
+        label="qunar"
+        launcher:packageName="com.Qunar" />
+    <favorite
+        label="neteasenews"
+        launcher:packageName="com.netease.newsreader.activity" />
+    <favorite
+        label="xunlei"
+        launcher:packageName="com.xunlei.downloadprovider" />
+    <favorite
+        label="wuba"
+        launcher:packageName="com.wuba" />
+    <favorite
+        label="facebook"
+        launcher:packageName="com.facebook.katana" />
+    <favorite
+        label="lovebizhi"
+        launcher:packageName="com.lovebizhi.wallpaper" />
+    <favorite
+        label="pps"
+        launcher:packageName="tv.pps.mobile" />
+    <favorite
+        label="flipboard"
+        launcher:packageName="flipboard.cn" />
+    <favorite
+        label="qqweibo"
+        launcher:packageName="com.tencent.WBlog" />
+    <favorite
+        label="renren"
+        launcher:packageName="com.renren.mobile.android" />
+    <favorite
+        label="shuqi"
+        launcher:packageName="com.shuqi.controller" />
+    <favorite
+        label="jinshan"
+        launcher:packageName="com.ijinshan.kbatterydoctor" />
+    <favorite
+        label="yixin"
+        launcher:packageName="im.yixin" />
+    <favorite
+        label="ibuka"
+        launcher:packageName="cn.ibuka.manga.ui" />
+    <favorite
+        label="baiduyinyue"
+        launcher:packageName="com.ting.mp3.android" />
+    <favorite
+        label="mxplay"
+        launcher:packageName="com.mxtech.videoplayer" />
+    <favorite
+        label="line"
+        launcher:packageName="jp.naver.line.android" />
+    <favorite
+        label="qqdianchiguanjia"
+        launcher:packageName="com.tencent.powermanager" />
+    <favorite
+        label="shanchuan"
+        launcher:packageName="cn.andouya" />
+    <favorite
+        label="evernote"
+        launcher:packageName="com.evernote" />
+    <favorite
+        label="fetion"
+        launcher:packageName="cn.com.fetion" />
+    <favorite
+        label="sketchbookhd"
+        launcher:packageName="com.adsk.sketchbookhd.galaxy.oem" />
+    <favorite
+        label="bili"
+        launcher:packageName="tv.danmaku.bili" />
+    <favorite
+        label="dropbox"
+        launcher:packageName="com.dropbox.android" />
+    <favorite
+        label="xunleikankan"
+        launcher:packageName="com.xunlei.kankan" />
+    <favorite
+        label="xiecheng"
+        launcher:packageName="ctrip.android.view" />
+    <favorite
+        label="instagram"
+        launcher:packageName="com.instagram.android" />
+    <favorite
+        label="funshion"
+        launcher:packageName="com.funshion.video.mobile" />
+    <favorite
+        label="myoface"
+        launcher:packageName="com.miantan.myoface" />
+    <favorite
+        label="jiakao"
+        launcher:packageName="com.handsgo.jiakao.android" />
+    <favorite
+        label="baiduyun"
+        launcher:packageName="com.baidu.netdisk_ss" />
+    <favorite
+        label="kingsoft"
+        launcher:packageName="com.kingsoft" />
+    <favorite
+        label="launcher:packageName"
+        launcher:packageName="com.brianbaek.popstar" />
+    <favorite
+        label="nuomi"
+        launcher:packageName="com.nuomi" />
+    <favorite
+        label="jinshanbrowser"
+        launcher:packageName="com.ijinshan.browser_fast" />
+    <favorite
+        label="baozoumanhua"
+        launcher:packageName="com.baozoumanhua.android" />
+    <favorite
+        label="vipshop"
+        launcher:packageName="com.achievo.vipshop" />
+    <favorite
+        label="ximalayatingshu"
+        launcher:packageName="com.ximalaya.ting.android" />
+    <favorite
+        label="lanrentingshu"
+        launcher:packageName="bubei.tingshu" />
+    <favorite
+        label="didi"
+        launcher:packageName="com.sdu.didi.psnger" />
+    <favorite
+        label="zhihu"
+        launcher:packageName="com.zhihu.android" />
+    <favorite
+        label="neihanjoke"
+        launcher:packageName="com.ss.android.essay.joke" />
+    <favorite
+        label="zaker"
+        launcher:packageName="com.myzaker.ZAKER_Phone" />
+    <favorite
+        label="zhihu"
+        launcher:packageName="com.zhihu.android" />
+    <favorite
+        label="alibaba"
+        launcher:packageName="com.alibaba.wireless" />
+    <favorite
+        label="oupeng"
+        launcher:packageName="com.oupeng.browser" />
+    <favorite
+        label="youdao"
+        launcher:packageName="com.youdao.note" />
+
+</default_favorites>

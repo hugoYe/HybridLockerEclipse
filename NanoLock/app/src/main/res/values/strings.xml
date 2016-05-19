@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">NanoLock</string>
+
+    <!-- Content description of the camera button for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_camera_button">Camera</string>
+    <!-- Content description of the phone button for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_phone_button">Phone</string>
+    <!-- Content description of the phone button for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_voice_assist_button">Voice Assist</string>
+    <!-- Content description of the unlock button for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_unlock_button">Unlock</string>
+    <!-- Content description of the unlock button when fingerpint is on (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_unlock_button_fingerprint">Unlock button, waiting for fingerprint</string>
+    <!-- Accessibility action of the unlock button when fingerpint is on (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_unlock_without_fingerprint">Unlock without using your fingerprint</string>
+    <!-- Click action label for accessibility for the unlock button. [CHAR LIMIT=NONE] -->
+    <string name="unlock_label">unlock</string>
+    <!-- Click action label for accessibility for the phone button. [CHAR LIMIT=NONE] -->
+    <string name="phone_label">open phone</string>
+    <!-- Click action label for accessibility for the voice assist button. This is not shown on-screen and is an accessibility label for the icon which launches the voice assist from the lock screen.[CHAR LIMIT=NONE] -->
+    <string name="voice_assist_label">open voice assist</string>
+    <!-- Click action label for accessibility for the phone button. [CHAR LIMIT=NONE] -->
+    <string name="camera_label">open camera</string>
+
+</resources>

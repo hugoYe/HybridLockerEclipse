@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ControlCenter</string>
+    <string name="activity_not_found">App isn\'t installed.</string>
+    <string name="google_play_not_install">Google play can not be used</string>
+</resources>
